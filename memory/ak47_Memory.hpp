@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_Memory.hpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,16 +18,44 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47.h"
+#pragma once
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
-
 END_AK47_NAMESPACE
+
+// -----------------------------------------------------------------------------
+
+#if AK47_DYNAMIC_MEMORY && defined(__cplusplus)
+
+AVR_BEGIN_EXTERN_C
+
+void* operator new(size_t size)
+{
+    return malloc(size);
+}
+
+void operator delete(void* ptr) 
+{
+    if (ptr != 0)
+    {
+        free(ptr);
+    }
+}
+
+void* operator new[](size_t size)
+{
+    return malloc(size);
+}
+
+void operator delete[](void* ptr)
+{
+    if (ptr != 0)
+    {
+        free(ptr);
+    }
+}
+
+AVR_END_EXTERN_C
+
+#endif // AK47_DYNAMIC_MEMORY

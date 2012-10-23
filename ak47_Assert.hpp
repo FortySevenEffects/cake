@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_Assert.hpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,16 +18,25 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47.h"
+#pragma once
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
+void printDebug(const char* inString)
+{
+    if (inString != 0)
+    {
+        do
+        {
+            printDebugChar(*inString);
+        }
+        while (*inString++);
+    }
+}
+
+void printDebugChar(char inChar)
+{
+    
+}
 
 END_AK47_NAMESPACE

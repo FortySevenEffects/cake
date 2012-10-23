@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_Types.cpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,16 +18,29 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47.h"
+#include "ak47_Types.h"
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
+AVR_BEGIN_UNNAMED_NAMESPACE
+
+void checkTypesBitWidths()
+{
+    AVR_STATIC_ASSERT(sizeof(float32) == 4);
+    AVR_STATIC_ASSERT(sizeof(float64) == 4);
+    
+    AVR_STATIC_ASSERT(sizeof(int8)   == 1);
+    AVR_STATIC_ASSERT(sizeof(uint8)  == 1);
+    AVR_STATIC_ASSERT(sizeof(int16)  == 2);
+    AVR_STATIC_ASSERT(sizeof(uint16) == 2);
+    AVR_STATIC_ASSERT(sizeof(int32)  == 4);
+    AVR_STATIC_ASSERT(sizeof(uint32) == 4);
+    AVR_STATIC_ASSERT(sizeof(int64)  == 8);
+    AVR_STATIC_ASSERT(sizeof(uint64) == 8);
+    
+    AVR_STATIC_ASSERT(sizeof(byte) == 1);
+}
+
+AVR_END_UNNAMED_NAMESPACE
 
 END_AK47_NAMESPACE

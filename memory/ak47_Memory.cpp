@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_Memory.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,16 +18,10 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47.h"
+#include "ak47_Memory.h"
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
+
 
 END_AK47_NAMESPACE

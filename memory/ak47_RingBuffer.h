@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_RingBuffer.h
  *  \author     Francois Best
- *  \date       22/10/2012
+ *  \date       23/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -18,16 +18,38 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
+#pragma once
+
 #include "ak47.h"
+#include "ak47_Types.h"
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
+template <uint16 BufferSize, typename Type = byte>
+class RingBuffer
+{
+public:
+    explicit RingBuffer();
+    ~RingBuffer();
+    
+    inline void init();
+    
+public:
+    inline uint16 available() const;
+    
+public:
+    inline void push(Type inData);
+    inline Type pop();
+    inline void flush();
+    
+protected:
+    typedef volatile Type DataType;
+    
+    DataType mData[BufferSize];
+    const DataType* volatile mRead;
+    DataType* volatile  mWrite;
+};
 
 END_AK47_NAMESPACE
+
+#include "ak47_RingBuffer.hpp"

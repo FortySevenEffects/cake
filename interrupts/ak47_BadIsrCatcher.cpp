@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_BadIsrCatcher.cpp
  *  \author     Francois Best
- *  \date       22/10/2012
+ *  \date       23/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -19,15 +19,17 @@
  */
 
 #include "ak47.h"
+#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
-
 END_AK47_NAMESPACE
+
+// -----------------------------------------------------------------------------
+
+ISR(BADISR_vect) 
+{
+    // You have enabled an interrupt, but did not implement
+    // an ISR for it -> zombie interrupts come here to die.
+    AVR_ASSERT_FALSE();
+}

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       ak47_Namespace.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,16 +18,16 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47.h"
+#pragma once
 
-BEGIN_AK47_NAMESPACE
+// -----------------------------------------------------------------------------
 
-#ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
-#endif
+#define AK47_NAMESPACE                  ak47
+#define BEGIN_AK47_NAMESPACE            namespace AK47_NAMESPACE {
+#define END_AK47_NAMESPACE              }
+#define USING_AK47_NAMESPACE            using AK47_NAMESPACE
 
-END_AK47_NAMESPACE
+namespace AK47_NAMESPACE
+{
+    
+}
