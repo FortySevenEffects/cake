@@ -29,7 +29,7 @@
 #elif defined(NDEBUG) || defined(_NDEBUG)
 #   define AVR_RELEASE 1
 #else
-#   error No Debug/Release flags provided.
+//#   error No Debug/Release flags provided.
 #endif
 
 // -----------------------------------------------------------------------------
@@ -67,3 +67,9 @@ END_AK47_NAMESPACE
     private:                                                                    \
         Type (const Type&);                                                     \
         Type& operator= (const Type&);
+
+// -----------------------------------------------------------------------------
+
+#define AVR_TYPEDEF_FUNCTOR(ReturnType, Name, Arg)                              \
+    typedef ReturnType (*Name) (Arg);
+

@@ -22,5 +22,6 @@
 
 BEGIN_AK47_NAMESPACE
 
+Debug::PrintCallback Debug::mPrintCallback = 0;
 
 END_AK47_NAMESPACE

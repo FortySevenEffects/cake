@@ -22,21 +22,23 @@
 
 BEGIN_AK47_NAMESPACE
 
-void printDebug(const char* inString)
+void Debug::print(const char* inString)
 {
-    if (inString != 0)
+    if (inString != 0 && mPrintCallback != 0)
     {
         do
         {
-            printDebugChar(*inString);
+            mPrintCallback(*inString);
         }
         while (*inString++);
     }
 }
 
-void printDebugChar(char inChar)
+// -----------------------------------------------------------------------------
+
+void Debug::setDevice(PrintCallback inDevice)
 {
-    
+    mPrintCallback = inDevice;
 }
 
 END_AK47_NAMESPACE

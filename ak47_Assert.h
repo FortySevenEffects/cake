@@ -24,8 +24,18 @@
 
 BEGIN_AK47_NAMESPACE
 
-inline void printDebug(const char* inString);
-inline void printDebugChar(char inChar);
+class Debug
+{
+public:
+    typedef void (*PrintCallback)(char);
+    
+public:
+    static inline void print(const char* inString);
+    static inline void setDevice(PrintCallback inCallback);
+    
+private:
+    static PrintCallback mPrintCallback;
+};
 
 END_AK47_NAMESPACE
 
@@ -38,11 +48,11 @@ END_AK47_NAMESPACE
 #   include <stdlib.h>
 #   define avr_assert_break     abort()
 #else
-#   define avr_assert_break      
+#   define avr_assert_break     ((void)0)
 #endif
 
 #define avr_assertion_str       "Assert:"__FILE__":"AVR_STRINGIFY(__LINE__)
-#define avr_log_assertion       AK47_NAMESPACE::printDebug(avr_assertion_str)
+#define avr_log_assertion       AK47_NAMESPACE::Debug::print(avr_assertion_str)
 
 #ifdef NDEBUG
 #   define avr_assert(...)      ((void)0)

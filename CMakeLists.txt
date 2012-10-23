@@ -27,6 +27,7 @@ append(ak47_SOURCES
 
 append(ak47_DEFS
 	AVR_AK47=1
+	AVR_BREAK_ON_ASSERT=1
 )
 
 build_avr_library(ak47)
