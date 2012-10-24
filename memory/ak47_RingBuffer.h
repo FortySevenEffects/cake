@@ -35,7 +35,7 @@ public:
     inline void init();
     
 public:
-    inline uint16 available() const;
+    inline uint16 size() const;
     
 public:
     inline void push(Type inData);

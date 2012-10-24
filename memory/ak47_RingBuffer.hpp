@@ -44,7 +44,7 @@ void RingBuffer<BufferSize, Type>::init()
 // -----------------------------------------------------------------------------
 
 template <uint16 BufferSize, typename Type>
-uint16 RingBuffer<BufferSize, Type>::available() const
+uint16 RingBuffer<BufferSize, Type>::size() const
 {
     if (mRead < mWrite)
         return mWrite - mRead;
@@ -72,7 +72,7 @@ Type RingBuffer<BufferSize, Type>::pop()
 {
     // You should always check if there is available data
     // before calling pop..
-    AVR_ASSERT(available() > 0); 
+    AVR_ASSERT(size() > 0); 
     
     const DataType data = *mRead++;
     
