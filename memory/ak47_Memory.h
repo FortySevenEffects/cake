@@ -21,8 +21,14 @@
 #pragma once
 
 #include "ak47.h"
+#include "ak47_Types.h"
+#include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
+
+inline ak47::uint16 getFreeMemory();
+inline ak47::uint16 getHeapSize();
+inline ak47::uint16 getStackSize();
 
 END_AK47_NAMESPACE
 
