@@ -25,7 +25,7 @@
 
 BEGIN_AK47_NAMESPACE
 
-template <uint16 BufferSize, typename Type = byte>
+template <byte BufferSize, typename Type = byte>
 class RingBuffer
 {
 public:
@@ -35,7 +35,7 @@ public:
     inline void init();
     
 public:
-    inline uint16 size() const;
+    inline byte size() const;
     
 public:
     inline void push(Type inData);
@@ -48,6 +48,7 @@ protected:
     DataType mData[BufferSize];
     const DataType* volatile mRead;
     DataType* volatile  mWrite;
+    byte mSize;
 };
 
 END_AK47_NAMESPACE

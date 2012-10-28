@@ -22,44 +22,43 @@
 
 BEGIN_AK47_NAMESPACE
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 RingBuffer<BufferSize, Type>::RingBuffer()
     : mRead(mData)
     , mWrite(mData)
+    , mSize(0)
 {
 }
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 RingBuffer<BufferSize, Type>::~RingBuffer()
 {
 }
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 void RingBuffer<BufferSize, Type>::init()
 {
     mRead  = mData;
     mWrite = mData;
+    mSize = 0;
 }
 
 // -----------------------------------------------------------------------------
 
-template <uint16 BufferSize, typename Type>
-uint16 RingBuffer<BufferSize, Type>::size() const
+template <byte BufferSize, typename Type>
+byte RingBuffer<BufferSize, Type>::size() const
 {
-    if (mRead < mWrite)
-        return mWrite - mRead;
-    else if (mRead == mWrite)
-        return 0;
-    else 
-        return (BufferSize - (mRead - mWrite));
+    return mSize;
 }
 
 // -----------------------------------------------------------------------------
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 void RingBuffer<BufferSize, Type>::push(Type inData)
 {
     *mWrite++ = inData;
+    mSize++;
+    
     if (mWrite >= mData + BufferSize)
         mWrite = mData;
     
@@ -67,25 +66,26 @@ void RingBuffer<BufferSize, Type>::push(Type inData)
     AVR_ASSERT(mWrite != mRead);
 }
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 Type RingBuffer<BufferSize, Type>::pop()
 {
     // You should always check if there is available data
     // before calling pop..
-    AVR_ASSERT(size() > 0); 
+    AVR_ASSERT(size() != 0); 
     
     const DataType data = *mRead++;
-    
+    mSize--;
     if (mRead >= mData + BufferSize)
         mRead = mData;
 
     return data;
 }
 
-template <uint16 BufferSize, typename Type>
+template <byte BufferSize, typename Type>
 void RingBuffer<BufferSize, Type>::flush()
 {
     mWrite = mRead;
+    mSize = 0;
 }
 
 END_AK47_NAMESPACE
