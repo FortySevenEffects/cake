@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47_BadIsrCatcher.cpp
+ *  \file       ak47_I2C.h
  *  \author     Francois Best
- *  \date       23/10/2012
+ *  \date       27/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -18,18 +18,14 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
+#pragma once
+
 #include "ak47.h"
-#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
+
+
 END_AK47_NAMESPACE
 
-// -----------------------------------------------------------------------------
-
-ISR(BADISR_vect) 
-{
-    // You have enabled an interrupt, but did not implement an ISR for it.
-    // Zombie interrupts come here to die.
-    AVR_ASSERT_FALSE();
-}
+#include "io/ak47_I2C.hpp"

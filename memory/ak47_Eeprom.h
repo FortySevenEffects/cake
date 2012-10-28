@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47_BadIsrCatcher.cpp
+ *  \file       ak47_Eeprom.h
  *  \author     Francois Best
- *  \date       23/10/2012
+ *  \date       27/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -18,18 +18,34 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
+#pragma once
+
 #include "ak47.h"
-#include <avr/interrupt.h>
-
-BEGIN_AK47_NAMESPACE
-
-END_AK47_NAMESPACE
+#include "ak47_Types.h"
+#include <avr/eeprom.h>
 
 // -----------------------------------------------------------------------------
 
-ISR(BADISR_vect) 
+#define AVR_EEPROM_SECTION  __attribute__((section(".eeprom")))
+
+// -----------------------------------------------------------------------------
+
+BEGIN_AK47_NAMESPACE
+
+class Eeprom
 {
-    // You have enabled an interrupt, but did not implement an ISR for it.
-    // Zombie interrupts come here to die.
-    AVR_ASSERT_FALSE();
-}
+public:
+    static inline byte read(uint16 inAddress);
+    
+    static inline void write(uint16 inAddress, byte inData);
+    static inline void write(uint16 inAddress,
+                             const byte* inData,
+                             uint16 inSize);
+    
+public:
+    static const uint16 sEepromSize;
+};
+
+END_AK47_NAMESPACE
+
+#include "memory/ak47_Eeprom.hpp"
