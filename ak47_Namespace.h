@@ -25,7 +25,7 @@
 #define AK47_NAMESPACE                  ak47
 #define BEGIN_AK47_NAMESPACE            namespace AK47_NAMESPACE {
 #define END_AK47_NAMESPACE              }
-#define USING_AK47_NAMESPACE            using AK47_NAMESPACE
+#define USING_AK47_NAMESPACE            using namespace AK47_NAMESPACE
 
 namespace AK47_NAMESPACE
 {

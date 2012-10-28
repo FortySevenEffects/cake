@@ -59,7 +59,7 @@ END_AK47_NAMESPACE
 #else
 #   define avr_assert(condition)                                                \
 {                                                                               \
-    if (!condition)                                                             \
+    if (!(condition))                                                           \
     {                                                                           \
         avr_log_assertion;                                                      \
         avr_assert_break;                                                       \
