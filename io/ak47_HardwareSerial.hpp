@@ -50,6 +50,7 @@ inline void Uart<uart>::open<baud>()                                            
     UART_OPEN(uart, 14400)                                                      \
     UART_OPEN(uart, 19200)                                                      \
     UART_OPEN(uart, 28800)                                                      \
+    UART_OPEN(uart, 31250)                                                      \
     UART_OPEN(uart, 38400)                                                      \
     UART_OPEN(uart, 57600)                                                      \
     UART_OPEN(uart, 76800)                                                      \
