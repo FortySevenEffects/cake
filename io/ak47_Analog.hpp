@@ -37,9 +37,10 @@ inline void Adc::disable()
 inline uint16 Adc::read(byte inChannel)
 {
     // \todo Start conversion.
+    uint16 value = 0;
     AVR_BEGIN_ATOMIC_BLOCK
-    const uint16 value = sBufferredValue;
-    AVR_END_ATOMIC_BLOCK;
+    // \todo Read value
+    AVR_END_ATOMIC_BLOCK
     return value;
 }
 
