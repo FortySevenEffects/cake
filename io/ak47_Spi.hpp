@@ -22,6 +22,26 @@
 
 BEGIN_AK47_NAMESPACE
 
+inline void Spi::openMaster()
+{
+    
+}
 
+inline void Spi::openSlave()
+{
+    
+}
+
+inline void Spi::close()
+{
+    
+}
+
+// -----------------------------------------------------------------------------
+
+inline byte write(byte inData)
+{
+    return 0;
+}
 
 END_AK47_NAMESPACE

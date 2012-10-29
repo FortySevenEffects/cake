@@ -22,6 +22,27 @@
 
 BEGIN_AK47_NAMESPACE
 
+inline void I2c::openMaster()
+{
+}
 
+inline void I2c::openSlave()
+{
+}
+
+inline void I2c::close()
+{
+}
+
+// -----------------------------------------------------------------------------
+
+inline void I2c::write(byte inData)
+{
+}
+
+inline byte I2c::read()
+{
+    return 0;
+}
 
 END_AK47_NAMESPACE
