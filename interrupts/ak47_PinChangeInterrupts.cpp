@@ -32,7 +32,7 @@ PinChangeListener::~PinChangeListener()
 
 // -----------------------------------------------------------------------------
 
-#ifdef PCINT0_vect
+#if defined (PCINT0_vect) || defined (PCINT_vect)
 PortChangeListener<0> listener0;
 #endif
 
@@ -50,7 +50,7 @@ PortChangeListener<3> listener3;
 
 // -----------------------------------------------------------------------------
 
-#ifdef PCINT0_vect
+#if defined (PCINT0_vect) || defined (PCINT_vect)
 PortChangeListener<0>* getPortChangeListener0()
 {
     return &listener0;
@@ -79,6 +79,13 @@ PortChangeListener<3>* getPortChangeListener3()
 #endif
 
 // -----------------------------------------------------------------------------
+
+#ifdef PCINT_vect
+ISR(PCINT_vect)
+{
+    listener0.handlePortInterrupt();
+}
+#endif
 
 #ifdef PCINT0_vect
 ISR(PCINT0_vect)
@@ -110,6 +117,10 @@ ISR(PCINT3_vect)
 
 #ifdef PCINT4_vect
 #   error Implement more PCINT handlers.
+#endif
+
+#if defined (PCINT_vect)
+#   error Implement for this chip.
 #endif
 
 END_AK47_NAMESPACE
