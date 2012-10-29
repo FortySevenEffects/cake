@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47_Analog.hpp
+ *  \file       ak47_Atomic.cpp
  *  \author     Francois Best
- *  \date       27/10/2012
+ *  \date       29/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -18,29 +18,10 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#pragma once
+#include "interrupts/ak47_Atomic.h"
 
 BEGIN_AK47_NAMESPACE
 
-inline void Adc::enable()
-{
-    
-}
-
-inline void Adc::disable()
-{
-    
-}
-
-// -----------------------------------------------------------------------------
-
-inline uint16 Adc::read(byte inChannel)
-{
-    // \todo Start conversion.
-    AVR_BEGIN_ATOMIC_BLOCK
-    const uint16 value = sBufferredValue;
-    AVR_END_ATOMIC_BLOCK;
-    return value;
-}
+//static byte sContext = AVR_STD_CONTEXT;
 
 END_AK47_NAMESPACE

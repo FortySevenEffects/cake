@@ -21,10 +21,24 @@
 #pragma once
 
 #include "ak47.h"
+#include "ak47_Types.h"
+#include "interrupts/ak47_Atomic.h"
 
 BEGIN_AK47_NAMESPACE
 
+class Adc
+{
+public:
+    static inline void enable();
+    static inline void disable();
+    
+public:
+    static inline void start(byte inChannel);
+    static inline uint16 read(byte inChannel);
 
+private:
+    static uint16 sBufferredValue;
+};
 
 END_AK47_NAMESPACE
 

@@ -28,6 +28,9 @@ append(ak47_SOURCES
 	memory/ak47_RingBuffer.h
 	memory/ak47_RingBuffer.hpp
 
+	interrupts/ak47_Atomic.cpp
+	interrupts/ak47_Atomic.hpp
+	interrupts/ak47_Atomic.h
     interrupts/ak47_PinChangeInterrupts.cpp
     interrupts/ak47_PinChangeInterrupts.hpp
     interrupts/ak47_PinChangeInterrupts.h
@@ -53,7 +56,6 @@ append(ak47_SOURCES
 append(ak47_DEFS
 	AVR_AK47=1
 	AVR_BREAK_ON_ASSERT=1
-	NDEBUG
 )
 
 build_avr_library(ak47)
