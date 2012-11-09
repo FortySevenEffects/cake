@@ -8,9 +8,10 @@ append(ak47_SOURCES
     ak47_Namespace.h
     ak47_Types.cpp
     ak47_Types.h
-    ak47_Assert.cpp
-    ak47_Assert.hpp
     ak47_Assert.h
+    ak47_Debug.cpp
+    ak47_Debug.hpp
+    ak47_Debug.h
     
 	memory/ak47_Memory.cpp
 	memory/ak47_Memory.h

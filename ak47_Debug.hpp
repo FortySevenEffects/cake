@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Assert.hpp
+ *  \file       ak47_Debug.hpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -22,7 +22,12 @@
 
 BEGIN_AK47_NAMESPACE
 
-void Debug::print(const char* inString)
+inline void Debug::print(char inChar)
+{
+    mPrintCallback(inChar);
+}
+
+inline void Debug::print(const char* inString)
 {
     if (inString != 0 && mPrintCallback != 0)
     {

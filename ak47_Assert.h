@@ -21,25 +21,7 @@
 #pragma once
 
 #include "ak47_Namespace.h"
-
-BEGIN_AK47_NAMESPACE
-
-class Debug
-{
-public:
-    typedef void (*PrintCallback)(char);
-    
-public:
-    static inline void print(const char* inString);
-    static inline void setDevice(PrintCallback inCallback);
-    
-private:
-    static PrintCallback mPrintCallback;
-};
-
-END_AK47_NAMESPACE
-
-// -----------------------------------------------------------------------------
+#include "ak47_Debug.h"
 
 #define AVR__STRINGIFY(s)       #s
 #define AVR_STRINGIFY(s)        AVR__STRINGIFY(s)
@@ -66,7 +48,3 @@ END_AK47_NAMESPACE
     }                                                                           \
 }
 #endif
-
-// -----------------------------------------------------------------------------
-
-#include "ak47_Assert.hpp"

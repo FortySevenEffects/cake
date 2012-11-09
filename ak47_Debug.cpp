@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Assert.cpp
+ *  \file       ak47_Debug.cpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
@@ -18,7 +18,7 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "ak47_Assert.h"
+#include "ak47_Debug.h"
 
 BEGIN_AK47_NAMESPACE
 
