@@ -25,14 +25,16 @@ BEGIN_AK47_NAMESPACE
 // -----------------------------------------------------------------------------
 // Macros
 
+#define UBBR_VALUE(baud)    (( (F_CPU) / 16 + (baud) / 2) / (baud) - 1)
+
 #define UART_OPEN(uart, baud)                                                   \
 template<>                                                                      \
 template<>                                                                      \
 inline void Uart<uart>::open<baud>()                                            \
 {                                                                               \
     /* Compute baud rate */                                                     \
-    UBRR##uart##H = ((F_CPU / 16 + baud / 2) / baud - 1) >> 8;                  \
-    UBRR##uart##L = ((F_CPU / 16 + baud / 2) / baud - 1);                       \
+    UBRR##uart##H = UBBR_VALUE(baud) >> 8;                                      \
+    UBRR##uart##L = UBBR_VALUE(baud) & 0xFF;                                    \
                                                                                 \
     UCSR##uart##A   = 0x00;                                                     \
     UCSR##uart##B   = (1 << RXEN##uart)    /* Enable RX */                      \
@@ -139,6 +141,7 @@ inline void Uart<3>::close()
 #undef UART_OPEN
 #undef UART_IMPLEMENT_OPEN
 #undef UART_CLOSE
+#undef UBBR_VALUE
 
 // -----------------------------------------------------------------------------
 
