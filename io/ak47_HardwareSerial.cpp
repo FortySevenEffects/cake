@@ -44,7 +44,7 @@ END_AK47_NAMESPACE
 // -----------------------------------------------------------------------------
 // Interrupts Macros
 
-#define UART_ISR_RX(uart, obj) ISR(USART##uart##_RX_vect)                            \
+#define UART_ISR_RX(uart, obj) ISR(USART##uart##_RX_vect)                       \
 {                                                                               \
     ak47::obj.handleByteReceived(UDR##uart);                                    \
 }

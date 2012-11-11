@@ -39,8 +39,8 @@ inline void Uart<uart>::open<baud>()                                            
     UCSR##uart##A   = 0x00;                                                     \
     UCSR##uart##B   = (1 << RXEN##uart)    /* Enable RX */                      \
                     | (1 << TXEN##uart)    /* Enable TX */                      \
-                    | (1 << RXCIE##uart)   /* Enable RX Interrupt */            \
-                    | (1 << TXCIE##uart);  /* Enable RX Interrupt */            \
+                    | (1 << RXCIE##uart);  /* Enable RX Interrupt */            \
+    /* TX Interrupt will be enabled when data is being sent. */                 \
                                                                                 \
     /* Defaults to 8-bit, no parity, 1 stop bit */                              \
     UCSR##uart##C   = (1 << UCSZ##uart##1) | (1 << UCSZ##uart##0);              \
@@ -69,19 +69,14 @@ inline void Uart<uart>::open<baud>()                                            
                      ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);                  \
 }
 
+#define UART_ENABLE_TX_INT(uart)    UCSR##uart##B |=  (1 << TXCIE##uart)
+#define UART_DISABLE_TX_INT(uart)   UCSR##uart##B &= ~(1 << TXCIE##uart)
 
 // -----------------------------------------------------------------------------
 
 template<unsigned UartNumber>
 Uart<UartNumber>::Uart()
 {
-}
-
-template<unsigned UartNumber>
-void Uart<UartNumber>::init()
-{
-    mRxBuffer.init();
-    mTxBuffer.init();
 }
 
 // -----------------------------------------------------------------------------
@@ -138,23 +133,16 @@ inline void Uart<3>::close()
 
 // -----------------------------------------------------------------------------
 
-#undef UART_OPEN
-#undef UART_IMPLEMENT_OPEN
-#undef UART_CLOSE
-#undef UBBR_VALUE
-
-// -----------------------------------------------------------------------------
-
 template<unsigned UartNumber>
 inline bool Uart<UartNumber>::available() const
 {
-    return mRxBuffer.size() != 0;
+    return !(mRxBuffer.empty());
 }
 
 template<unsigned UartNumber>
 inline byte Uart<UartNumber>::read()
 {
-    if (mRxBuffer.size() != 0)
+    if (!mRxBuffer.empty())
         return mRxBuffer.pop();
     return 0xFF;
 }
@@ -165,16 +153,17 @@ inline byte Uart<UartNumber>::read()
 template<>
 inline void Uart<0>::write(byte inData)
 {
-    if (UCSR0A & (1 << UDRE0))
+    if (UCSR0B & (1 << TXCIE0))
     {
-        // Output register is empty, can write byte directly.
-        UDR0 = inData;
+        // TX interrupt is enabled: transfer in progress -> push to buffer.
+        mTxBuffer.push(inData);
     }
     else
     {
-        // Output register still containing data to be sent.
-        mTxBuffer.push(inData);
-    }   
+        // Ready to transmit.
+        UART_ENABLE_TX_INT(0); // Activate TX interrupt
+        UDR0 = inData;      // and send data.
+    }
 }
 #endif
 
@@ -182,16 +171,17 @@ inline void Uart<0>::write(byte inData)
 template<>
 inline void Uart<1>::write(byte inData)
 {
-    if (UCSR1A & (1 << UDRE1))
+    if (UCSR1B & (1 << TXCIE1))
     {
-        // Output register is empty, can write byte directly.
-        UDR1 = inData;
+        // TX interrupt is enabled: transfer in progress -> push to buffer.
+        mTxBuffer.push(inData);
     }
     else
     {
-        // Output register still containing data to be sent.
-        mTxBuffer.push(inData);
-    }   
+        // Ready to transmit.
+        UART_ENABLE_TX_INT(1);  // Activate TX interrupt
+        UDR1 = inData;          // and send data.
+    }
 }
 #endif
 
@@ -199,16 +189,17 @@ inline void Uart<1>::write(byte inData)
 template<>
 inline void Uart<2>::write(byte inData)
 {
-    if (UCSR2A & (1 << UDRE2))
+    if (UCSR2B & (1 << TXCIE2))
     {
-        // Output register is empty, can write byte directly.
-        UDR2 = inData;
+        // TX interrupt is enabled: transfer in progress -> push to buffer.
+        mTxBuffer.push(inData);
     }
     else
     {
-        // Output register still containing data to be sent.
-        mTxBuffer.push(inData);
-    }   
+        // Ready to transmit.
+        UART_ENABLE_TX_INT(2);  // Activate TX interrupt
+        UDR2 = inData;          // and send data.
+    }
 }
 #endif
 
@@ -216,16 +207,17 @@ inline void Uart<2>::write(byte inData)
 template<>
 inline void Uart<3>::write(byte inData)
 {
-    if (UCSR3A & (1 << UDRE3))
+    if (UCSR3B & (1 << TXCIE3))
     {
-        // Output register is empty, can write byte directly.
-        UDR3 = inData;
+        // TX interrupt is enabled: transfer in progress -> push to buffer.
+        mTxBuffer.push(inData);
     }
     else
     {
-        // Output register still containing data to be sent.
-        mTxBuffer.push(inData);
-    }   
+        // Ready to transmit.
+        UART_ENABLE_TX_INT(3);  // Activate TX interrupt
+        UDR3 = inData;          // and send data.
+    }
 }
 #endif
 
@@ -321,9 +313,14 @@ inline void Uart<UartNumber>::handleByteReceived(byte inData)
 template<>
 inline void Uart<0>::handleEndOfTransmission()
 {
-    if (mTxBuffer.size() != 0)
+    if (!mTxBuffer.empty())
     {
         UDR0 = mTxBuffer.pop();
+    }
+    else
+    {
+        // No more data to be sent, disable TX interrupt.
+        UART_DISABLE_TX_INT(0);
     }
 }
 #endif
@@ -332,9 +329,14 @@ inline void Uart<0>::handleEndOfTransmission()
 template<>
 inline void Uart<1>::handleEndOfTransmission()
 {
-    if (mTxBuffer.size() != 0)
+    if (!mTxBuffer.empty())
     {
         UDR1 = mTxBuffer.pop();
+    }
+    else
+    {
+        // No more data to be sent, disable TX interrupt.
+        UART_DISABLE_TX_INT(1);
     }
 }
 #endif
@@ -343,9 +345,14 @@ inline void Uart<1>::handleEndOfTransmission()
 template<>
 inline void Uart<2>::handleEndOfTransmission()
 {
-    if (mTxBuffer.size() != 0)
+    if (!mTxBuffer.empty())
     {
         UDR2 = mTxBuffer.pop();
+    }
+    else
+    {
+        // No more data to be sent, disable TX interrupt.
+        UART_DISABLE_TX_INT(2);
     }
 }
 #endif
@@ -354,12 +361,27 @@ inline void Uart<2>::handleEndOfTransmission()
 template<>
 inline void Uart<3>::handleEndOfTransmission()
 {
-    if (mTxBuffer.size() != 0)
+    if (!mTxBuffer.empty())
     {
         UDR3 = mTxBuffer.pop();
     }
+    else
+    {
+        // No more data to be sent, disable TX interrupt.
+        UART_DISABLE_TX_INT(3);
+    }
 }
 #endif
+
+
+// -----------------------------------------------------------------------------
+
+#undef UART_OPEN
+#undef UART_IMPLEMENT_OPEN
+#undef UART_CLOSE
+#undef UBBR_VALUE
+#undef UART_ENABLE_TX_INT
+#undef UART_DISABLE_TX_INT
 
 
 /*

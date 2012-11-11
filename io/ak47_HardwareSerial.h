@@ -31,8 +31,7 @@ template<unsigned UartNumber>
 class Uart
 {   
 public:
-    explicit Uart();
-    inline void init();
+    Uart();
     
 public:
     template<uint16 BaudRate>
