@@ -27,8 +27,8 @@
 #define AVR_STRINGIFY(s)        AVR__STRINGIFY(s)
 
 #ifdef AVR_BREAK_ON_ASSERT
-#   include <stdlib.h>
-#   define avr_assert_break     abort()
+#   include <avr/interrupt.h>
+#   define avr_assert_break     { cli(); while(1); }
 #else
 #   define avr_assert_break     ((void)0)
 #endif
