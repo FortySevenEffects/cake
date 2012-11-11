@@ -46,6 +46,7 @@ append(ak47_SOURCES
 	io/ak47_HardwareSerial.cpp
 	io/ak47_HardwareSerial.h
 	io/ak47_HardwareSerial.hpp
+	io/ak47_HardwareSerial_Devices.h
 	io/ak47_I2C.cpp
 	io/ak47_I2C.h
 	io/ak47_I2C.hpp

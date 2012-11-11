@@ -23,7 +23,7 @@
 #include "ak47.h"
 #include "ak47_Types.h"
 #include "memory/ak47_RingBuffer.h"
-#include <avr/io.h>
+#include "io/ak47_HardwareSerial_Devices.h"
 
 BEGIN_AK47_NAMESPACE
 
@@ -66,20 +66,6 @@ protected:
     RingBuffer<sRxBufferSize, byte> mRxBuffer;
     RingBuffer<sTxBufferSize, byte> mTxBuffer;
 };
-
-// -----------------------------------------------------------------------------
-// Hardware Abstraction
-
-#if defined (__AVR_ATmega644P__)
-#   define UART0
-#   define UART1
-#elif defined (__AVR_ATmega32U4__)
-#   define UART1
-#elif defined (__AVR_ATtiny84__)
-#   define NO_UART  // No UART available
-#else
-#   error Implement abstraction for this target chip.
-#endif
 
 // -----------------------------------------------------------------------------
 
