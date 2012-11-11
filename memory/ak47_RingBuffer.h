@@ -32,10 +32,8 @@ public:
     explicit RingBuffer();
     ~RingBuffer();
     
-    inline void init();
-    
 public:
-    inline byte size() const;
+    inline bool empty() const;
     
 public:
     inline void push(Type inData);
@@ -44,11 +42,11 @@ public:
     
 protected:
     typedef volatile Type DataType;
+    typedef volatile byte Index;
     
     DataType mData[BufferSize];
-    const DataType* volatile mRead;
-    DataType* volatile  mWrite;
-    byte mSize;
+    Index mRead;
+    Index mWrite;
 };
 
 END_AK47_NAMESPACE

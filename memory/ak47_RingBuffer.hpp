@@ -24,10 +24,12 @@ BEGIN_AK47_NAMESPACE
 
 template <byte BufferSize, typename Type>
 RingBuffer<BufferSize, Type>::RingBuffer()
-    : mRead(mData)
-    , mWrite(mData)
-    , mSize(0)
+    : mRead(0)
+    , mWrite(0)
 {
+    // Check that buffer size is a power of two less than 256.
+    AVR_STATIC_ASSERT(BufferSize <= 256 &&
+                      (BufferSize != 0) && !(BufferSize & (BufferSize - 1)));
 }
 
 template <byte BufferSize, typename Type>
@@ -35,20 +37,12 @@ RingBuffer<BufferSize, Type>::~RingBuffer()
 {
 }
 
-template <byte BufferSize, typename Type>
-void RingBuffer<BufferSize, Type>::init()
-{
-    mRead  = mData;
-    mWrite = mData;
-    mSize = 0;
-}
-
 // -----------------------------------------------------------------------------
 
 template <byte BufferSize, typename Type>
-byte RingBuffer<BufferSize, Type>::size() const
+bool RingBuffer<BufferSize, Type>::empty() const
 {
-    return mSize;
+    return mRead == mWrite;
 }
 
 // -----------------------------------------------------------------------------
@@ -56,11 +50,8 @@ byte RingBuffer<BufferSize, Type>::size() const
 template <byte BufferSize, typename Type>
 void RingBuffer<BufferSize, Type>::push(Type inData)
 {
-    *mWrite++ = inData;
-    mSize++;
-    
-    if (mWrite >= mData + BufferSize)
-        mWrite = mData;
+    mData[mWrite++] = inData;
+    mWrite &= (BufferSize - 1); // Modulo for powers of two.
     
     // Overflow -> increment buffer size.
     AVR_ASSERT(mWrite != mRead);
@@ -69,23 +60,19 @@ void RingBuffer<BufferSize, Type>::push(Type inData)
 template <byte BufferSize, typename Type>
 Type RingBuffer<BufferSize, Type>::pop()
 {
-    // You should always check if there is available data
-    // before calling pop..
-    AVR_ASSERT(size() != 0); 
+    // You should always check if there is available data before calling pop.
+    AVR_ASSERT(!empty());
     
-    const DataType data = *mRead++;
-    mSize--;
-    if (mRead >= mData + BufferSize)
-        mRead = mData;
-
+    const DataType data = mData[mRead++];
+    mRead &= (BufferSize - 1);
+    
     return data;
 }
 
 template <byte BufferSize, typename Type>
 void RingBuffer<BufferSize, Type>::flush()
 {
-    mWrite = mRead;
-    mSize = 0;
+    mWrite = mRead = 0;
 }
 
 END_AK47_NAMESPACE
