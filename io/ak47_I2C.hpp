@@ -22,11 +22,11 @@
 
 BEGIN_AK47_NAMESPACE
 
-inline void I2c::openMaster()
+inline void I2c::openMaster(byte inAddress)
 {
 }
 
-inline void I2c::openSlave()
+inline void I2c::openSlave(byte inAddress)
 {
 }
 

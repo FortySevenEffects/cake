@@ -22,20 +22,24 @@
 
 #include "ak47.h"
 #include "ak47_Types.h"
-#include <avr/io.h>
+#include "io/ak47_I2C_Devices.h"
 
 BEGIN_AK47_NAMESPACE
 
 class I2c
 {
 public:
-    static inline void openMaster();
-    static inline void openSlave();
+    static inline void openMaster(byte inAddress);
+    static inline void openSlave(byte inAddress);
     static inline void close();
     
 public:
     static inline void write(byte inData);
     static inline byte read();
+    
+private:
+    static byte mAddress;
+    
 };
 
 

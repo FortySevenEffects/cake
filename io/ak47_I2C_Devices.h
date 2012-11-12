@@ -1,7 +1,7 @@
 /*!
- *  \file       ak47_I2C.cpp
+ *  \file       ak47_I2C_Devices.h
  *  \author     Francois Best
- *  \date       27/10/2012
+ *  \date       11/11/2012
  *  \license    CC-BY-SA Forty Seven Effects - 2012
  *
  * THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS 
@@ -18,12 +18,22 @@
  * http://creativecommons.org/licenses/by-sa/3.0/
  */
 
-#include "io/ak47_I2C.h"
+#pragma once
+
+#include "ak47.h"
+#include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
 
-#if defined (__AVR_ATmega644P__)
-#   define I2C_ISR_VECT     TWI_vect
+#if defined (__AVR_ATmega644P__) || defined (__AVR_ATmega32U4__)
+#   define I2C_REG_CTRL         TWCR
+#   define I2C_REG_STAT         TWSR
+#   define I2C_REG_DATA         TWDR
+#   define I2C_REG_ADDR         TWAR
+#   define I2C_REG_MASK         TWAMR
+#   define I2C_REG_RATE         TWBR
+#elif defined (__AVR_ATtiny84__)
+#   define NO_I2C // Not support for USI yet.
 #else
 #   error Implement abstraction for this target chip.
 #endif
