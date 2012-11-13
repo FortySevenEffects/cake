@@ -48,3 +48,22 @@
     }                                                                           \
 }
 #endif
+
+// -----------------------------------------------------------------------------
+
+BEGIN_AK47_NAMESPACE
+
+template<bool Predicate> struct StaticAssert;
+template<> struct StaticAssert<true> { static void ok() {} };
+
+END_AK47_NAMESPACE
+
+#define AVR_ASSERT(Predicate, ...)      avr_assert(Predicate)
+#define AVR_ASSERT_FALSE(...)           avr_assert(false)
+#define AVR_STATIC_ASSERT(Predicate)    ak47::StaticAssert<Predicate>::ok()
+
+#define AVR_IMPLEMENT_ME(...)                                                   \
+{                                                                               \
+    static const bool ImplementMe = false;                                      \
+    assert(ImplementMe);                                                        \
+}

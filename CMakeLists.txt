@@ -5,6 +5,7 @@ append(ak47_SOURCES
     
     ak47.cpp
     ak47.h
+    ak47_Defs.h
     ak47_Namespace.h
     ak47_Types.cpp
     ak47_Types.h

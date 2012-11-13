@@ -41,9 +41,9 @@ inline void Debug::print(const char* inString)
 
 // -----------------------------------------------------------------------------
 
-void Debug::setDevice(PrintCallback inDevice)
+void Debug::setPrintCallback(PrintCallback inCallback)
 {
-    mPrintCallback = inDevice;
+    mPrintCallback = inCallback;
 }
 
 END_AK47_NAMESPACE

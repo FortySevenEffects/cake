@@ -39,6 +39,9 @@ void checkTypesBitWidths()
     AVR_STATIC_ASSERT(sizeof(uint64) == 8);
     
     AVR_STATIC_ASSERT(sizeof(byte) == 1);
+    
+    AVR_STATIC_ASSERT(sizeof(int) == 2);
+    AVR_STATIC_ASSERT(sizeof(unsigned) == 2);
 }
 
 AVR_END_UNNAMED_NAMESPACE

@@ -21,18 +21,19 @@
 #pragma once
 
 #include "ak47_Namespace.h"
+#include "ak47_Defs.h"
 
 BEGIN_AK47_NAMESPACE
 
 class Debug
 {
 public:
-    typedef void (*PrintCallback)(char);
+    AVR_TYPEDEF_FUNCTOR(void, PrintCallback, char);
     
 public:
     static inline void print(char inChar);
     static inline void print(const char* inString);
-    static inline void setDevice(PrintCallback inCallback);
+    static inline void setPrintCallback(PrintCallback inCallback);
     
 private:
     static PrintCallback mPrintCallback;
