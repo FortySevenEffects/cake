@@ -27,6 +27,12 @@
 
 // -----------------------------------------------------------------------------
 
+#if __cplusplus > 199711L
+#   define AVR_CPP11    // C++11 available
+#endif
+
+// -----------------------------------------------------------------------------
+
 #if defined(DEBUG) || defined(_DEBUG)
 #   define AVR_DEBUG   1
 #elif defined(NDEBUG) || defined(_NDEBUG)
