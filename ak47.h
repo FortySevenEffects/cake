@@ -20,3 +20,4 @@
 #include "ak47_Namespace.h"
 #include "ak47_Defs.h"
 #include "ak47_Assert.h"
+#include "ak47_Types.h"
