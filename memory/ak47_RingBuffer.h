@@ -35,7 +35,7 @@ public:
 public:
     inline void push(Type inData);
     inline Type pop();
-    inline void flush();
+    inline void clear();
     
 protected:
     typedef volatile Type DataType;

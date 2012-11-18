@@ -49,8 +49,8 @@ public:
                           unsigned inSize);
     
 public:
-    inline void flushRxBuffer();
-    inline void flushTxBuffer();
+    inline void clearRxBuffer();
+    inline void clearTxBuffer();
     
 public:
     inline void handleByteReceived(byte inReceived);

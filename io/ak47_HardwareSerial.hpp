@@ -285,15 +285,15 @@ inline void Uart<UartNumber>::busyWrite(const byte* inData,
 // -----------------------------------------------------------------------------
 
 template<unsigned UartNumber>
-inline void Uart<UartNumber>::flushRxBuffer()
+inline void Uart<UartNumber>::clearRxBuffer()
 {
-    mRxBuffer.flush();
+    mRxBuffer.clear();
 }
 
 template<unsigned UartNumber>
-inline void Uart<UartNumber>::flushTxBuffer()
+inline void Uart<UartNumber>::clearTxBuffer()
 {
-    mTxBuffer.flush();
+    mTxBuffer.clear();
 }
 
 // -----------------------------------------------------------------------------

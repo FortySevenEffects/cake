@@ -67,7 +67,7 @@ Type RingBuffer<BufferSize, Type>::pop()
 }
 
 template <byte BufferSize, typename Type>
-void RingBuffer<BufferSize, Type>::flush()
+void RingBuffer<BufferSize, Type>::clear()
 {
     mWrite = mRead = 0;
 }
