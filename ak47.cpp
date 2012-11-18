@@ -20,11 +20,7 @@
 BEGIN_AK47_NAMESPACE
 
 #ifndef F_CPU
-#   error Please define F_CPU to 16000000 (16MHz clock).
-#else
-#   if (F_CPU != 16000000)
-#       error This code has been designed for running on a 16MHz clock.
-#   endif
+#   error Please define F_CPU in the compiler flags.
 #endif
 
 END_AK47_NAMESPACE
