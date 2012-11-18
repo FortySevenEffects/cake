@@ -25,15 +25,20 @@ BEGIN_AK47_NAMESPACE
 // -----------------------------------------------------------------------------
 // Hardware Abstraction
 
-#if defined (__AVR_ATmega644P__)
+#ifdef UDR0
 #   define UART0
+#endif
+#ifdef UDR1
 #   define UART1
-#elif defined (__AVR_ATmega32U4__)
-#   define UART1
-#elif defined (__AVR_ATtiny84__)
-#   define NO_UART  // No UART available
-#else
-#   error Implement abstraction for this target chip.
+#endif
+#ifdef UDR2
+#   define UART2
+#endif
+#ifdef UDR3
+#   define UART3
+#endif
+#if !defined(UART0) && !defined(UART1) && !defined(UART2) && !defined(UART3)
+#   define NO_UART
 #endif
 
 END_AK47_NAMESPACE
