@@ -18,35 +18,53 @@
 #pragma once
 
 #include "ak47.h"
-#include "ak47_Types.h"
 #include <util/atomic.h>
 #include <avr/interrupt.h>
 
 // -----------------------------------------------------------------------------
 
-#define AVR_BEGIN_ATOMIC_BLOCK  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-#define AVR_END_ATOMIC_BLOCK    }
-
-// -----------------------------------------------------------------------------
-
-#define AVR_STD_CONTEXT         0   // Standard context (runtime)
-#define AVR_INT_CONTEXT         1   // Interrupt context (ISR)
-
-#define AVR_SET_INT_CONTEXT     //ak47::sContext = AVR_INT_CONTEXT;
-#define AVR_SET_STD_CONTEXT     //ak47::sContext = AVR_STD_CONTEXT;
-
-// -----------------------------------------------------------------------------
-
-#if defined (AVR_TRACE) && ( defined (DEBUG) || defined (_DEBUG) )
-#   define AVR_BEGIN_ISR(id)    { AVR_SET_INT_CONTEXT; AVR_BEGIN_TRACE(id); }
-#   define AVR_END_ISR(id)      { AVR_SET_STD_CONTEXT; AVR_END_TRACE(id); }
-#else
-#   define AVR_BEGIN_ISR(...)   { AVR_SET_INT_CONTEXT; }
-#   define AVR_END_ISR(...)     { AVR_SET_STD_CONTEXT; }
-#endif
-
 BEGIN_AK47_NAMESPACE
 
+struct Atomic
+{
+    enum
+    {
+        Main = 0,
+        Interrupt,
+    };
+    
+    template<byte Context>
+    static inline void setContext();
+    
+    static inline bool isContext(byte inContext);
+    
+private:
+    static byte mContext;
+};
+
 END_AK47_NAMESPACE
+
+// -----------------------------------------------------------------------------
+
+#define AVR_BEGIN_ATOMIC_BLOCK      ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+#define AVR_END_ATOMIC_BLOCK        }
+
+// -----------------------------------------------------------------------------
+
+#if AVR_DEBUG
+#   define AVR_BEGIN_ISR(port, pin)                                             \
+    {                                                                           \
+        AVR_TRACE_ON(port, pin);                                                \
+        Atomic::setContext<Atomic::Interrupt>();                                \
+    }
+#   define AVR_END_ISR(port, pin)                                               \
+    {                                                                           \
+        Atomic::setContext<Atomic::Main>();                                     \
+        AVR_TRACE_OFF(port, pin);                                               \
+    }
+#else
+#   define AVR_BEGIN_ISR(...)
+#   define AVR_END_ISR(...)
+#endif
 
 #include "interrupts/ak47_Atomic.hpp"

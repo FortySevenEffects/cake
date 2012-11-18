@@ -19,6 +19,16 @@
 
 BEGIN_AK47_NAMESPACE
 
+template<byte Context>
+inline void Atomic::setContext()
+{
+    AVR_STATIC_ASSERT(Context == Interrupt || Context == Main);
+    mContext = Context;
+}
 
+inline bool Atomic::isContext(byte inContext)
+{
+    return mContext == inContext;
+}
 
 END_AK47_NAMESPACE
