@@ -18,21 +18,22 @@
 #pragma once
 
 #include "ak47.h"
-#include <avr/io.h>
+#include "memory/ak47_Register.h"
 
 BEGIN_AK47_NAMESPACE
 
-#if defined (__AVR_ATmega644P__) || defined (__AVR_ATmega32U4__)
-#   define I2C_REG_CTRL         TWCR
-#   define I2C_REG_STAT         TWSR
-#   define I2C_REG_DATA         TWDR
-#   define I2C_REG_ADDR         TWAR
-#   define I2C_REG_MASK         TWAMR
-#   define I2C_REG_RATE         TWBR
-#elif defined (__AVR_ATtiny84__)
-#   define NO_I2C // Not support for USI yet.
+#if defined TWI_vect
+#   if  !defined(TWCR) ||   \
+        !defined(TWSR) ||   \
+        !defined(TWDR) ||   \
+        !defined(TWAR) ||   \
+        !defined(TWBR) ||   \
+        !defined(TWAMR)
+#       error I2C registers not found for this target chip.
+#   endif
+    AVR_REGISTER(TWCR, I2cControlRegister);
 #else
-#   error Implement abstraction for this target chip.
+#   define NO_I2C
 #endif
 
 END_AK47_NAMESPACE

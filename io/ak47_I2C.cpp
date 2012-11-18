@@ -19,10 +19,15 @@
 
 BEGIN_AK47_NAMESPACE
 
-#if defined (__AVR_ATmega644P__)
-#   define I2C_ISR_VECT     TWI_vect
-#else
-#   error Implement abstraction for this target chip.
+byte I2C::sExpected = 0;
+
+// -----------------------------------------------------------------------------
+
+#ifdef TWI_vect
+ISR(TWI_vect)
+{
+    I2C::interruptCallback();
+}
 #endif
 
 END_AK47_NAMESPACE
