@@ -19,6 +19,7 @@
 
 #include "ak47.h"
 #include "ak47_Types.h"
+#include "memory/ak47_Register.h"
 #include "memory/ak47_RingBuffer.h"
 #include "io/ak47_HardwareSerial_Devices.h"
 

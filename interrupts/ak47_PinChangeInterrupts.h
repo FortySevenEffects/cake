@@ -19,6 +19,7 @@
 
 #include "ak47.h"
 #include "ak47_Types.h"
+#include "memory/ak47_Register.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
@@ -39,7 +40,7 @@ public:
 
 // -----------------------------------------------------------------------------
 
-template<int PortId>
+template<byte PortId>
 class PortChangeListener
 {
 protected:

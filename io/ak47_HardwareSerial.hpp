@@ -62,8 +62,13 @@ inline void Uart<uart>::open<baud>()                                            
 
 #define UART_CLOSE(uart)                                                        \
 {                                                                               \
-    UCSR##uart##B &= ~(1 << RXCIE##uart) & ~(1 << TXCIE##uart) &                \
-                     ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);                  \
+    AVR_REGISTER(UCSR##uart##B, UartConfigRegisterB);                           \
+    UartConfigRegisterB.clear(RXCIE##uart);                                     \
+    UartConfigRegisterB.clear(TXCIE##uart);                                     \
+    UartConfigRegisterB.clear(RXEN##uart);                                      \
+    UartConfigRegisterB.clear(TXEN##uart);                                      \
+    /*UCSR##uart##B &= ~(1 << RXCIE##uart) & ~(1 << TXCIE##uart) &                \
+                     ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);               */   \
 }
 
 #define UART_ENABLE_TX_INT(uart)    UCSR##uart##B |=  (1 << TXCIE##uart)

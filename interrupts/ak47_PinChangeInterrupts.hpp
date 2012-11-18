@@ -22,32 +22,39 @@ BEGIN_AK47_NAMESPACE
 // -----------------------------------------------------------------------------
 
 #if defined(__AVR_ATmega644P__)
-#   define PCINT_CTL_REG        PCICR
-#   define PCINT_READ_0         PINA
-#   define PCINT_READ_1         PINB
-#   define PCINT_READ_2         PINC
-#   define PCINT_READ_3         PIND
+    AVR_REGISTER(PCICR,     PinChangeControl);
+    AVR_REGISTER(PINA,      PinChangeRead0);
+    AVR_REGISTER(PINB,      PinChangeRead1);
+    AVR_REGISTER(PINC,      PinChangeRead2);
+    AVR_REGISTER(PIND,      PinChangeRead3);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+    AVR_REGISTER(PCMSK1,    PinChangeMask1);
+    AVR_REGISTER(PCMSK2,    PinChangeMask2);
+    AVR_REGISTER(PCMSK3,    PinChangeMask3);
 #elif defined(__AVR_ATmega32U4__)
-#   define PCINT_CTL_REG        PCICR
-#   define PCINT_READ_0         PINB
+    AVR_REGISTER(PCICR,     PinChangeControl);
+    AVR_REGISTER(PINB,      PinChangeRead0);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
 #elif defined(__AVR_ATtiny84__)
-#   define PCINT_CTL_REG        GIMSK
-#   define PCINT_READ_0         PINA
-#   define PCINT_READ_1         PINB
+    AVR_REGISTER(GIMSK,     PinChangeControl);
+    AVR_REGISTER(PINA,      PinChangeRead0);
+    AVR_REGISTER(PINB,      PinChangeRead1);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+    AVR_REGISTER(PCMSK1,    PinChangeMask1);
 #else
 #   error Implement abstraction for this chip.
 #endif
 
 // -----------------------------------------------------------------------------
 
-template<int PortId>
+template<byte PortId>
 PortChangeListener<PortId>::PortChangeListener()
 {
     for (byte i = 0; i < 8; ++i)
         mListeners[i] = 0;
 }
 
-template<int PortId>
+template<byte PortId>
 PortChangeListener<PortId>::~PortChangeListener()
 {
     for (byte i = 0; i < 8; ++i)
@@ -56,7 +63,7 @@ PortChangeListener<PortId>::~PortChangeListener()
 
 // -----------------------------------------------------------------------------
 
-template<int PortId>
+template<byte PortId>
 void PortChangeListener<PortId>::attachPinListener(PinChangeListener* inListener,
                                                    PinNumber inPin)
 {
@@ -72,7 +79,7 @@ void PortChangeListener<PortId>::attachPinListener(PinChangeListener* inListener
     }
 }
 
-template<int PortId>
+template<byte PortId>
 void PortChangeListener<PortId>::detachPinListener(PinChangeListener* inListener)
 {
     for (byte i = 0; i < 8; ++i)
@@ -86,7 +93,7 @@ void PortChangeListener<PortId>::detachPinListener(PinChangeListener* inListener
     }
 }
 
-template<int PortId>
+template<byte PortId>
 void PortChangeListener<PortId>::detachPinListener(PinNumber inPin)
 {
     unregisterInterrupt(inPin);
@@ -97,37 +104,37 @@ void PortChangeListener<PortId>::detachPinListener(PinNumber inPin)
 
 #ifdef PCINT0_vect
 template<>
-void PortChangeListener<0>::registerInterrupt(byte inPin)
+void PortChangeListener<0>::registerInterrupt(PinNumber inPin)
 {
-    PCINT_CTL_REG |= (1 << PCIE0);
-    PCMSK0 |= (1 << inPin);
+    PinChangeControl.set(PCIE0);
+    PinChangeMask0.set(inPin);
 }
 #endif
 
 #ifdef PCINT1_vect
 template<>
-void PortChangeListener<1>::registerInterrupt(byte inPin)
+void PortChangeListener<1>::registerInterrupt(PinNumber inPin)
 {
-    PCINT_CTL_REG |= (1 << PCIE1);
-    PCMSK1 |= (1 << inPin);
+    PinChangeControl.set(PCIE1);
+    PinChangeMask1.set(inPin);
 }
 #endif
 
 #ifdef PCINT2_vect
 template<>
-void PortChangeListener<2>::registerInterrupt(byte inPin)
+void PortChangeListener<2>::registerInterrupt(PinNumber inPin)
 {
-    PCINT_CTL_REG |= (1 << PCIE2);
-    PCMSK2 |= (1 << inPin);
+    PinChangeControl.set(PCIE2);
+    PinChangeMask2.set(inPin);
 }
 #endif
 
 #ifdef PCINT3_vect
 template<>
-void PortChangeListener<3>::registerInterrupt(byte inPin)
+void PortChangeListener<3>::registerInterrupt(PinNumber inPin)
 {
-    PCINT_CTL_REG |= (1 << PCIE3);
-    PCMSK3 |= (1 << inPin);
+    PinChangeControl.set(PCIE3);
+    PinChangeMask3.set(inPin);
 }
 #endif
 
@@ -135,41 +142,49 @@ void PortChangeListener<3>::registerInterrupt(byte inPin)
 
 #ifdef PCINT0_vect
 template<>
-void PortChangeListener<0>::unregisterInterrupt(byte inPin)
+void PortChangeListener<0>::unregisterInterrupt(PinNumber inPin)
 {
-    PCMSK0 &= ~(1 << inPin);
-    if (PCMSK0 == 0)
-        PCINT_CTL_REG &= ~(1 << PCIE0);
+    PinChangeMask0.clear(inPin);
+    if (PinChangeMask0 == 0)
+    {
+        PinChangeControl.clear(PCIE0);
+    }
 }
 #endif
 
 #ifdef PCINT1_vect
 template<>
-void PortChangeListener<1>::unregisterInterrupt(byte inPin)
+void PortChangeListener<1>::unregisterInterrupt(PinNumber inPin)
 {
-    PCMSK1 &= ~(1 << inPin);
-    if (PCMSK1 == 0)
-        PCINT_CTL_REG &= ~(1 << PCIE1);
+    PinChangeMask1.clear(inPin);
+    if (PinChangeMask1 == 0)
+    {
+        PinChangeControl.clear(PCIE1);
+    }
 }
 #endif
 
 #ifdef PCINT2_vect
 template<>
-void PortChangeListener<2>::unregisterInterrupt(byte inPin)
+void PortChangeListener<2>::unregisterInterrupt(PinNumber inPin)
 {
-    PCMSK2 &= ~(1 << inPin);
-    if (PCMSK2 == 0)
-        PCINT_CTL_REG &= ~(1 << PCIE2);
+    PinChangeMask2.clear(inPin);
+    if (PinChangeMask2 == 0)
+    {
+        PinChangeControl.clear(PCIE2);
+    }
 }
 #endif
 
 #ifdef PCINT3_vect
 template<>
-void PortChangeListener<3>::unregisterInterrupt(byte inPin)
+void PortChangeListener<3>::unregisterInterrupt(PinNumber inPin)
 {
-    PCMSK3 &= ~(1 << inPin);
-    if (PCMSK3 == 0)
-        PCINT_CTL_REG &= ~(1 << PCIE3);
+    PinChangeMask2.clear(inPin);
+    if (PinChangeMask2 == 0)
+    {
+        PinChangeControl.clear(PCIE2);
+    }
 }
 #endif
 
@@ -179,7 +194,7 @@ void PortChangeListener<3>::unregisterInterrupt(byte inPin)
 template<>
 void PortChangeListener<0>::handlePortInterrupt()
 {
-    dispatchInterrupt(PCINT_READ_0);
+    dispatchInterrupt(PinChangeRead0());
 }
 #endif
 
@@ -187,7 +202,7 @@ void PortChangeListener<0>::handlePortInterrupt()
 template<>
 void PortChangeListener<1>::handlePortInterrupt()
 {
-    dispatchInterrupt(PCINT_READ_1);
+    dispatchInterrupt(PinChangeRead1());
 }
 #endif
 
@@ -195,7 +210,7 @@ void PortChangeListener<1>::handlePortInterrupt()
 template<>
 void PortChangeListener<2>::handlePortInterrupt()
 {
-    dispatchInterrupt(PCINT_READ_2);
+    dispatchInterrupt(PinChangeRead2());
 }
 #endif
 
@@ -203,13 +218,13 @@ void PortChangeListener<2>::handlePortInterrupt()
 template<>
 void PortChangeListener<3>::handlePortInterrupt()
 {
-    dispatchInterrupt(PCINT_READ_3);
+    dispatchInterrupt(PinChangeRead3());
 }
 #endif
 
 // -----------------------------------------------------------------------------
 
-template<int PortId>
+template<byte PortId>
 void PortChangeListener<PortId>::dispatchInterrupt(PortValue inValue)
 {
     const PortValue diff = mPreviousPortValue ^ inValue;
@@ -222,27 +237,5 @@ void PortChangeListener<PortId>::dispatchInterrupt(PortValue inValue)
         }
     }
 }
-
-// -----------------------------------------------------------------------------
-
-#ifdef      PCINT_CTL_REG
-#   undef   PCINT_CTL_REG
-#endif
-
-#ifdef      PCINT_READ_0
-#   undef   PCINT_READ_0
-#endif
-
-#ifdef      PCINT_READ_1
-#   undef   PCINT_READ_1
-#endif
-
-#ifdef      PCINT_READ_2
-#   undef   PCINT_READ_2
-#endif
-
-#ifdef      PCINT_READ_3
-#   undef   PCINT_READ_3
-#endif
 
 END_AK47_NAMESPACE
