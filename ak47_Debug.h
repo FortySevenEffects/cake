@@ -41,6 +41,7 @@ END_AK47_NAMESPACE
 // -----------------------------------------------------------------------------
 
 #ifndef AK47_NO_TRACE
+#   define AVR_TRACE
 #   include <avr/io.h>
 #   define AVR_START_TRACE(port, pin)   { DDR##port  |=  (1 << pin); }
 #   define AVR_STOP_TRACE(port, pin)    { DDR##port  &= ~(1 << pin); }
