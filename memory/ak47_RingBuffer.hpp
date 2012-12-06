@@ -24,6 +24,8 @@ RingBuffer<BufferSize, Type>::RingBuffer()
     : mRead(0)
     , mWrite(0)
 {
+    // Implement other sizes if needed.
+    AVR_STATIC_ASSERT(sizeof(Type) == 1);
     // Check that buffer size is a power of two less than 256.
     AVR_STATIC_ASSERT(BufferSize <= 256 &&
                       (BufferSize != 0) && !(BufferSize & (BufferSize - 1)));
