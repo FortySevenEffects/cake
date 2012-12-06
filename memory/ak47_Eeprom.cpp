@@ -16,6 +16,7 @@
  */
 
 #include "memory/ak47_Eeprom.h"
+#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
@@ -25,4 +26,24 @@ const uint16 Eeprom::sEepromSize = E2END;
 const uint16 Eeprom::sEepromSize = 0;
 #endif
 
+Eeprom::EepromReadyCallback Eeprom::sClientCallback = 0;
+
 END_AK47_NAMESPACE
+
+// -----------------------------------------------------------------------------
+
+#if   defined (EE_READY_vect)
+#   define EEPROM_ISR EE_READY_vect
+#elif defined (EEPROM_READY_vect)
+#   define EEPROM_ISR EEPROM_READY_vect
+#elif defined (EE_RDY_vect)
+#   define EEPROM_ISR EE_RDY_vect
+#endif
+
+ISR(EEPROM_ISR)
+{
+    if (ak47::Eeprom::sClientCallback != 0)
+    {
+        ak47::Eeprom::sClientCallback();
+    }
+}

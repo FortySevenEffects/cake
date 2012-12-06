@@ -32,15 +32,22 @@ BEGIN_AK47_NAMESPACE
 class Eeprom
 {
 public:
+    AVR_TYPEDEF_FUNCTOR(void, EepromReadyCallback, void);
+    static const uint16 sEepromSize;
+    
+public:
     static inline byte read(uint16 inAddress);
     
     static inline void write(uint16 inAddress, byte inData);
+    static inline void writeNoBlock(uint16 inAddress, byte inData);
     static inline void write(uint16 inAddress,
                              const byte* inData,
                              uint16 inSize);
     
-public:
-    static const uint16 sEepromSize;
+    static inline void setClientCallback(EepromReadyCallback inCallback);
+    
+public: // For the ISR only, not for public use
+    static EepromReadyCallback sClientCallback;
 };
 
 END_AK47_NAMESPACE
