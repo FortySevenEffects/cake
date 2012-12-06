@@ -32,6 +32,10 @@ append(ak47_SOURCES
     memory/ak47_RingBuffer.cpp
     memory/ak47_RingBuffer.hpp
     memory/ak47_RingBuffer.h
+    
+    time/ak47_Timer.cpp
+    time/ak47_Timer.hpp
+    time/ak47_Timer.h
 
     interrupts/ak47_Atomic.cpp
     interrupts/ak47_Atomic.hpp
