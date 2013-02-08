@@ -17,8 +17,8 @@
 
 #pragma once
 
-extern ak47::uint16 __heap_start;
-extern void*        __brkval;
+extern uint16 __heap_start;
+extern void*  __brkval;
 
 BEGIN_AK47_NAMESPACE
 
@@ -33,7 +33,7 @@ uint16 getHeapSize()
     return (uint16) &dummy - (__brkval == 0 ? (uint16) &__heap_start : (uint16) __brkval);
 }
 
-ak47::uint16 getStackSize()
+uint16 getStackSize()
 {
     return RAMEND - SP;
 }
