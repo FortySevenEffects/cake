@@ -20,8 +20,6 @@
 #include "ak47.h"
 #include <inttypes.h>
 
-BEGIN_AK47_NAMESPACE
-
 typedef float       float32;
 typedef double      float64;
 
@@ -35,5 +33,9 @@ typedef int64_t     int64;
 typedef uint64_t    uint64;
 
 typedef uint8       byte;
+
+// -----------------------------------------------------------------------------
+
+BEGIN_AK47_NAMESPACE
 
 END_AK47_NAMESPACE
