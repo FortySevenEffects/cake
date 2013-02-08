@@ -16,6 +16,7 @@
  */
 
 #include "ak47_PinChangeInterrupts.h"
+#include "memory/ak47_Memory.h"
 
 BEGIN_AK47_NAMESPACE
 
@@ -26,6 +27,154 @@ PinChangeListener::PinChangeListener()
 PinChangeListener::~PinChangeListener()
 {
 }
+
+// -----------------------------------------------------------------------------
+
+#if defined(__AVR_ATmega644P__)
+    AVR_REGISTER(PCICR,     PinChangeControl);
+    AVR_REGISTER(PINA,      PinChangeRead0);
+    AVR_REGISTER(PINB,      PinChangeRead1);
+    AVR_REGISTER(PINC,      PinChangeRead2);
+    AVR_REGISTER(PIND,      PinChangeRead3);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+    AVR_REGISTER(PCMSK1,    PinChangeMask1);
+    AVR_REGISTER(PCMSK2,    PinChangeMask2);
+    AVR_REGISTER(PCMSK3,    PinChangeMask3);
+#elif defined(__AVR_ATmega32U4__)
+    AVR_REGISTER(PCICR,     PinChangeControl);
+    AVR_REGISTER(PINB,      PinChangeRead0);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+#elif defined(__AVR_ATtiny84__)
+    AVR_REGISTER(GIMSK,     PinChangeControl);
+    AVR_REGISTER(PINA,      PinChangeRead0);
+    AVR_REGISTER(PINB,      PinChangeRead1);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+    AVR_REGISTER(PCMSK1,    PinChangeMask1);
+#else
+#   error Implement abstraction for this chip.
+#endif
+
+// -----------------------------------------------------------------------------
+
+#ifdef PCINT0_vect
+template<>
+void PortChangeListener<0>::registerInterrupt(PinNumber inPin)
+{
+    PinChangeControl.set(PCIE0);
+    PinChangeMask0.set(inPin);
+}
+#endif
+
+#ifdef PCINT1_vect
+template<>
+void PortChangeListener<1>::registerInterrupt(PinNumber inPin)
+{
+    PinChangeControl.set(PCIE1);
+    PinChangeMask1.set(inPin);
+}
+#endif
+
+#ifdef PCINT2_vect
+template<>
+void PortChangeListener<2>::registerInterrupt(PinNumber inPin)
+{
+    PinChangeControl.set(PCIE2);
+    PinChangeMask2.set(inPin);
+}
+#endif
+
+#ifdef PCINT3_vect
+template<>
+void PortChangeListener<3>::registerInterrupt(PinNumber inPin)
+{
+    PinChangeControl.set(PCIE3);
+    PinChangeMask3.set(inPin);
+}
+#endif
+
+// -----------------------------------------------------------------------------
+
+#ifdef PCINT0_vect
+template<>
+void PortChangeListener<0>::unregisterInterrupt(PinNumber inPin)
+{
+    PinChangeMask0.clear(inPin);
+    if (PinChangeMask0 == 0)
+    {
+        PinChangeControl.clear(PCIE0);
+    }
+}
+#endif
+
+#ifdef PCINT1_vect
+template<>
+void PortChangeListener<1>::unregisterInterrupt(PinNumber inPin)
+{
+    PinChangeMask1.clear(inPin);
+    if (PinChangeMask1 == 0)
+    {
+        PinChangeControl.clear(PCIE1);
+    }
+}
+#endif
+
+#ifdef PCINT2_vect
+template<>
+void PortChangeListener<2>::unregisterInterrupt(PinNumber inPin)
+{
+    PinChangeMask2.clear(inPin);
+    if (PinChangeMask2 == 0)
+    {
+        PinChangeControl.clear(PCIE2);
+    }
+}
+#endif
+
+#ifdef PCINT3_vect
+template<>
+void PortChangeListener<3>::unregisterInterrupt(PinNumber inPin)
+{
+    PinChangeMask2.clear(inPin);
+    if (PinChangeMask2 == 0)
+    {
+        PinChangeControl.clear(PCIE2);
+    }
+}
+#endif
+
+// -----------------------------------------------------------------------------
+
+#ifdef PCINT0_vect
+template<>
+void PortChangeListener<0>::handlePortInterrupt()
+{
+    dispatchInterrupt(PinChangeRead0());
+}
+#endif
+
+#ifdef PCINT1_vect
+template<>
+void PortChangeListener<1>::handlePortInterrupt()
+{
+    dispatchInterrupt(PinChangeRead1());
+}
+#endif
+
+#ifdef PCINT2_vect
+template<>
+void PortChangeListener<2>::handlePortInterrupt()
+{
+    dispatchInterrupt(PinChangeRead2());
+}
+#endif
+
+#ifdef PCINT3_vect
+template<>
+void PortChangeListener<3>::handlePortInterrupt()
+{
+    dispatchInterrupt(PinChangeRead3());
+}
+#endif
 
 // -----------------------------------------------------------------------------
 
