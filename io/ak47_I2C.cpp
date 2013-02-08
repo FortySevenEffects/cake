@@ -17,17 +17,19 @@
 
 #include "io/ak47_I2C.h"
 
+#ifdef TWI_vect
+
 BEGIN_AK47_NAMESPACE
 
 byte I2C::sExpected = 0;
 
 // -----------------------------------------------------------------------------
 
-#ifdef TWI_vect
 ISR(TWI_vect)
 {
     I2C::interruptCallback();
 }
-#endif
 
 END_AK47_NAMESPACE
+
+#endif

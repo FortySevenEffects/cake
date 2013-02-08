@@ -23,6 +23,8 @@
 #include "io/ak47_I2C_Devices.h"
 #include <util/twi.h>
 
+#ifdef TWI_vect
+
 BEGIN_AK47_NAMESPACE
 
 class I2cSession;
@@ -96,3 +98,5 @@ private:
 END_AK47_NAMESPACE
 
 #include "io/ak47_I2C.hpp"
+
+#endif // TWI_vect
