@@ -38,7 +38,7 @@ inline void Spi::close()
 
 // -----------------------------------------------------------------------------
 
-inline byte Spi::write(byte inData)
+inline void Spi::write(byte inData)
 {
     // \todo Implement me.
 }
