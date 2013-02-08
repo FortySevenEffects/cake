@@ -19,6 +19,12 @@
 
 BEGIN_AK47_NAMESPACE
 
+Spi::Spi()
+{
+}
 
+Spi::~Spi()
+{
+}
 
 END_AK47_NAMESPACE
