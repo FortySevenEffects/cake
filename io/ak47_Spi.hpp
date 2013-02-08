@@ -19,26 +19,83 @@
 
 BEGIN_AK47_NAMESPACE
 
-inline void Spi::openMaster()
+inline void Spi::openMaster(Parser* inParser)
 {
-    
+    mParser = inParser;
+    // \todo Implement me.
 }
 
-inline void Spi::openSlave()
+inline void Spi::openSlave(Parser* inParser)
 {
-    
+    mParser = inParser;
+    // \todo Implement me.
 }
 
 inline void Spi::close()
 {
-    
+    // \todo Implement me.
 }
 
 // -----------------------------------------------------------------------------
 
-inline byte write(byte inData)
+inline void Spi::write(byte inData)
 {
-    return 0;
+    // \todo Implement me.
+}
+
+inline void Spi::write(const byte* inData, byte inLength)
+{
+    // \todo Implement me.
+}
+
+// -----------------------------------------------------------------------------
+
+inline void Spi::busyWrite(byte inData)
+{
+    // \todo Implement me.
+}
+
+inline void Spi::busyWrite(const byte* inData, byte inLenght)
+{
+    // \todo Implement me.
+}
+
+// -----------------------------------------------------------------------------
+
+inline bool Spi::available() const
+{
+    return !mRxBuffer.empty();
+}
+
+inline byte Spi::read()
+{
+    if (!mRxBuffer.empty())
+        return mRxBuffer.pop();
+    return 0xFF;
+}
+
+// -----------------------------------------------------------------------------
+
+inline void Spi::handleByteReceived(byte inData)
+{
+    mRxBuffer.push(inData);
+}
+
+inline void Spi::handleEndOfTransmission()
+{
+    // \todo Implement me.
+}
+
+// -----------------------------------------------------------------------------
+
+inline void Spi::clearRxBuffer()
+{
+    mRxBuffer.clear();
+}
+
+inline void Spi::clearTxBuffer()
+{
+    mTxBuffer.clear();
 }
 
 END_AK47_NAMESPACE

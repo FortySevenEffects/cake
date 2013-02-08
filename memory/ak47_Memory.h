@@ -23,9 +23,9 @@
 
 BEGIN_AK47_NAMESPACE
 
-inline ak47::uint16 getFreeMemory();
-inline ak47::uint16 getHeapSize();
-inline ak47::uint16 getStackSize();
+inline uint16 getFreeMemory();
+inline uint16 getHeapSize();
+inline uint16 getStackSize();
 
 END_AK47_NAMESPACE
 
