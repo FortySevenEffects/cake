@@ -19,45 +19,150 @@
 
 BEGIN_AK47_NAMESPACE
 
-inline void Spi::openMaster(Parser* inParser)
+inline void Spi::setMode(byte inSpiMode)
 {
-    mParser = inParser;
-    // \todo Implement me.
+    // Mode CPOL CPHA
+    // 0    0    0
+    // 1    0    1
+    // 2    1    0
+    // 3    1    1
+    
+    if (inSpiMode & 0x01) // Mask for CPHA
+    {
+        SPCR |= (1 << CPHA);
+    }
+    else
+    {
+        SPCR &= ~(1 << CPHA);
+    }
+    
+    if (inSpiMode & 0x02) // Mask for CPOL
+    {
+        SPCR |= (1 << CPOL);
+    }
+    else
+    {
+        SPCR &= ~(1 << CPOL);
+    }
 }
 
-inline void Spi::openSlave(Parser* inParser)
+inline void Spi::setSpeed(SpiSpeed inSpeed)
+{
+    // Clear old config and replace with new.
+    SPCR = (SPCR & ~(0x03)) | (inSpeed & 0x03);
+    
+    // 2X factor
+    if (inSpeed & 0x04)
+    {
+        SPSR |= (1 << SPI2X);
+    }
+    else
+    {
+        SPSR &= ~(1 << SPI2X);
+    }
+}
+
+inline void Spi::setDataOrder(bool inLsbFirst)
+{
+    if (inLsbFirst)
+    {
+        SPCR |= (1 << DORD);
+    }
+    else
+    {
+        SPCR &= ~(1 << DORD);
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+inline void Spi::openMaster(Parser inParser)
 {
     mParser = inParser;
-    // \todo Implement me.
+    SPCR |= (1 << SPE) | (1 << MSTR);
+    // \todo Configure SS pin as output
+}
+
+inline void Spi::openSlave(Parser inParser)
+{
+    mParser = inParser;
+    SPCR &= ~(1 << MSTR);
+    SPCR |=  (1 << SPE);
 }
 
 inline void Spi::close()
 {
-    // \todo Implement me.
+    SPCR &= ~((1 << SPE) | (1 << SPIE));
+    clearRxBuffer();
+    clearTxBuffer();
 }
 
 // -----------------------------------------------------------------------------
 
 inline void Spi::write(byte inData)
 {
-    // \todo Implement me.
+    if (mTxBuffer.empty())
+    {
+        // Avoid buffer overhead, send directly.
+        SPCR |= (1 << SPIE);    // Enable interrupt
+        SPDR = inData;          // Start transaction
+    }
+    else
+    {
+        mTxBuffer.push(inData);
+    }
 }
 
 inline void Spi::write(const byte* inData, byte inLength)
 {
-    // \todo Implement me.
+    if (mTxBuffer.empty())
+    {
+        write(inData[0]);
+        for (byte i = 1; i < inLength; ++i)
+        {
+            mTxBuffer.push(inData[i]);
+        }
+    }
+    else
+    {
+        for (byte i = 0; i < inLength; ++i)
+        {
+            mTxBuffer.push(inData[i]);
+        }
+    }
 }
 
 // -----------------------------------------------------------------------------
 
 inline void Spi::busyWrite(byte inData)
 {
-    // \todo Implement me.
+    SPDR = inData;
+    while (bit_is_clear(SPSR, SPIF));
+    handleByteReceived(SPDR);
 }
 
 inline void Spi::busyWrite(const byte* inData, byte inLenght)
 {
-    // \todo Implement me.
+    for (byte i = 0; i < inLenght; ++i)
+    {
+        busyWrite(inData[i]);
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+inline void Spi::writeSlave(byte inData)
+{
+    // Write only the response for next transaction
+    mTxBuffer.push(inData);
+}
+
+inline void Spi::writeSlave(const byte* inData, byte inLenght)
+{
+    for (byte i = 0; i < inLenght; ++i)
+    {
+        writeSlave(inData[i]);
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -76,14 +181,32 @@ inline byte Spi::read()
 
 // -----------------------------------------------------------------------------
 
-inline void Spi::handleByteReceived(byte inData)
+inline void Spi::handleInterrupt()
 {
-    mRxBuffer.push(inData);
+    handleByteReceived(SPDR);
+    if (mTxBuffer.empty())
+    {
+        // End of transmission: disable interrupt
+        SPCR &= ~(1 << SPIE);
+    }
+    else
+    {
+        // Continue transmission
+        SPDR = mTxBuffer.pop();
+    }
 }
 
-inline void Spi::handleEndOfTransmission()
+inline void Spi::handleByteReceived(byte inData)
 {
-    // \todo Implement me.
+    // \todo Check logic with real user cases
+    if (mParser != 0)
+    {
+        mParser(inData);
+    }
+    else
+    {
+        mRxBuffer.push(inData);
+    }
 }
 
 // -----------------------------------------------------------------------------

@@ -27,15 +27,34 @@ BEGIN_AK47_NAMESPACE
 class Spi
 {
 public:
-     Spi();
+    Spi();
     ~Spi();
     
 public:
     AVR_TYPEDEF_FUNCTOR(void, Parser, byte);
     
+    enum SpiSpeed
+    {
+        // Regular speeds
+        SpiFreq_4   = 0,
+        SpiFreq_16  = 1,
+        SpiFreq_64  = 2,
+        SpiFreq_128 = 3,
+        
+        // 2X speeds
+        SpiFreq_2   = 4,
+        SpiFreq_8   = 5,
+        SpiFreq_32  = 6,
+    };
+    
+public: // Master & Slave
+    inline void setMode(byte inSpiMode);
+    inline void setSpeed(SpiSpeed inSpeed); 
+    inline void setDataOrder(bool inLsbFirst);
+    
 public:
-    inline void openMaster(Parser* inParser = 0);
-    inline void openSlave(Parser* inParser);
+    inline void openMaster(Parser inParser = 0);
+    inline void openSlave(Parser inParser);
     inline void close();
     
 public: // Master only
@@ -44,15 +63,21 @@ public: // Master only
     inline void busyWrite(byte inData);
     inline void busyWrite(const byte* inData, byte inLenght);
     
+public: // Slave only
+    inline void writeSlave(byte inData);
+    inline void writeSlave(const byte* inData, byte inLenght);
+    
 public: // Master & Slave
     inline bool available() const;
     inline byte read();
     
 public: // Master & Slave
-    inline void handleByteReceived(byte inData);
-    inline void handleEndOfTransmission();
+    inline void handleInterrupt();
     
-public:
+private: // Master & Slave
+    inline void handleByteReceived(byte inData);
+    
+public: // Master & Slave
     inline void clearRxBuffer();
     inline void clearTxBuffer();
     
@@ -61,8 +86,10 @@ private:
     static const byte sTxBufferSize = 16;
     RingBuffer<sRxBufferSize> mRxBuffer;
     RingBuffer<sTxBufferSize> mTxBuffer;
-    Parser* mParser;
+    Parser mParser;
 };
+
+extern Spi spi;
 
 END_AK47_NAMESPACE
 
