@@ -24,7 +24,7 @@ BEGIN_AK47_NAMESPACE
 
 #define UBBR_VALUE(baud)    (( (F_CPU) / 16 + (baud) / 2) / (baud) - 1)
 
-#define UART_OPEN(uart, baud)                                                   \
+#define UART_OPEN_IMPL(uart, baud)                                              \
 template<>                                                                      \
 template<>                                                                      \
 inline void Uart<uart>::open<baud>()                                            \
@@ -37,27 +37,27 @@ inline void Uart<uart>::open<baud>()                                            
     UCSR##uart##B   = (1 << RXEN##uart)    /* Enable RX */                      \
                     | (1 << TXEN##uart)    /* Enable TX */                      \
                     | (1 << RXCIE##uart);  /* Enable RX Interrupt */            \
-    /* TX Interrupt will be enabled when data is being sent. */                 \
+    /* TX Interrupt will be enabled when data needs sending. */                 \
                                                                                 \
     /* Defaults to 8-bit, no parity, 1 stop bit */                              \
     UCSR##uart##C   = (1 << UCSZ##uart##1) | (1 << UCSZ##uart##0);              \
 }   
 
 #define UART_IMPLEMENT_OPEN(uart)                                               \
-    UART_OPEN(uart, 4800)                                                       \
-    UART_OPEN(uart, 9600)                                                       \
-    UART_OPEN(uart, 14400)                                                      \
-    UART_OPEN(uart, 19200)                                                      \
-    UART_OPEN(uart, 28800)                                                      \
-    UART_OPEN(uart, 31250)                                                      \
-    UART_OPEN(uart, 38400)                                                      \
-    UART_OPEN(uart, 57600)                                                      \
-    UART_OPEN(uart, 76800)                                                      \
-    UART_OPEN(uart, 115200)                                                     \
-    UART_OPEN(uart, 230400)                                                     \
-    UART_OPEN(uart, 250000)                                                     \
-    UART_OPEN(uart, 500000)                                                     \
-    UART_OPEN(uart, 1000000)
+    UART_OPEN_IMPL(uart, 4800)                                                  \
+    UART_OPEN_IMPL(uart, 9600)                                                  \
+    UART_OPEN_IMPL(uart, 14400)                                                 \
+    UART_OPEN_IMPL(uart, 19200)                                                 \
+    UART_OPEN_IMPL(uart, 28800)                                                 \
+    UART_OPEN_IMPL(uart, 31250)                                                 \
+    UART_OPEN_IMPL(uart, 38400)                                                 \
+    UART_OPEN_IMPL(uart, 57600)                                                 \
+    UART_OPEN_IMPL(uart, 76800)                                                 \
+    UART_OPEN_IMPL(uart, 115200)                                                \
+    UART_OPEN_IMPL(uart, 230400)                                                \
+    UART_OPEN_IMPL(uart, 250000)                                                \
+    UART_OPEN_IMPL(uart, 500000)                                                \
+    UART_OPEN_IMPL(uart, 1000000)
 
 
 #define UART_CLOSE(uart)                                                        \
@@ -67,8 +67,8 @@ inline void Uart<uart>::open<baud>()                                            
     UartConfigRegisterB.clear(TXCIE##uart);                                     \
     UartConfigRegisterB.clear(RXEN##uart);                                      \
     UartConfigRegisterB.clear(TXEN##uart);                                      \
-    /*UCSR##uart##B &= ~(1 << RXCIE##uart) & ~(1 << TXCIE##uart) &                \
-                     ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);               */   \
+    /*UCSR##uart##B &= ~(1 << RXCIE##uart) & ~(1 << TXCIE##uart) &              \
+                     ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);               */ \
 }
 
 #define UART_ENABLE_TX_INT(uart)    UCSR##uart##B |=  (1 << TXCIE##uart)
@@ -378,7 +378,7 @@ inline void Uart<3>::handleEndOfTransmission()
 
 // -----------------------------------------------------------------------------
 
-#undef UART_OPEN
+#undef UART_OPEN_IMPL
 #undef UART_IMPLEMENT_OPEN
 #undef UART_CLOSE
 #undef UBBR_VALUE
