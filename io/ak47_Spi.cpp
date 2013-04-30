@@ -16,25 +16,7 @@
  */
 
 #include "io/ak47_Spi.h"
-#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
-Spi spi;
-
-Spi::Spi()
-{
-}
-
-Spi::~Spi()
-{
-}
-
 END_AK47_NAMESPACE
-
-// -----------------------------------------------------------------------------
-
-ISR(SPI_STC_vect)
-{
-    ak47::spi.handleInterrupt();
-}

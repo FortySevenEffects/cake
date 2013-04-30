@@ -24,16 +24,9 @@
 
 BEGIN_AK47_NAMESPACE
 
-class Spi
+struct Spi
 {
-public:
-    Spi();
-    ~Spi();
-    
-public:
-    AVR_TYPEDEF_FUNCTOR(void, Parser, byte);
-    
-    enum SpiSpeed
+    enum Speed
     {
         // Regular speeds
         SpiFreq_4   = 0,
@@ -46,50 +39,80 @@ public:
         SpiFreq_8   = 5,
         SpiFreq_32  = 6,
     };
-    
-public: // Master & Slave
-    inline void setMode(byte inSpiMode);
-    inline void setSpeed(SpiSpeed inSpeed); 
-    inline void setDataOrder(bool inLsbFirst);
-    
-public:
-    inline void openMaster(Parser inParser = 0);
-    inline void openSlave(Parser inParser);
-    inline void close();
-    
-public: // Master only
-    inline void write(byte inData);
-    inline void write(const byte* inData, byte inLenght);
-    inline void busyWrite(byte inData);
-    inline void busyWrite(const byte* inData, byte inLenght);
-    
-public: // Slave only
-    inline void writeSlave(byte inData);
-    inline void writeSlave(const byte* inData, byte inLenght);
-    
-public: // Master & Slave
-    inline bool available() const;
-    inline byte read();
-    
-public: // Master & Slave
-    inline void handleInterrupt();
-    
-private: // Master & Slave
-    inline void handleByteReceived(byte inData);
-    
-public: // Master & Slave
-    inline void clearRxBuffer();
-    inline void clearTxBuffer();
-    
-private:
-    static const byte sRxBufferSize = 16;
-    static const byte sTxBufferSize = 16;
-    RingBuffer<sRxBufferSize> mRxBuffer;
-    RingBuffer<sTxBufferSize> mTxBuffer;
-    Parser mParser;
 };
 
-extern Spi spi;
+template<byte TxSize>
+class SpiTransmitter
+{
+public:
+    inline  SpiTransmitter();
+    inline ~SpiTransmitter();
+
+public:
+    inline void send(byte inData);
+
+public: // Restricted - not for public usage.
+    inline void startTransmission(byte inData);
+    inline void handleEndOfTransmission();
+
+protected:
+    RingBuffer<TxSize> mTxBuffer;
+};
+
+// -----------------------------------------------------------------------------
+
+template<byte RxSize>
+class SpiReceiver
+{
+public:
+    inline  SpiReceiver();
+    inline ~SpiReceiver();
+
+public:
+    inline bool read(byte& outData);
+
+public: // Restricted - not for public usage.
+    inline void handleByteReceived();
+
+protected:
+    RingBuffer<RxSize> mRxBuffer;
+};
+
+// -----------------------------------------------------------------------------
+
+template<byte TxSize>
+class SpiMaster : public SpiTransmitter<TxSize>
+{
+public:
+    inline  SpiMaster();
+    inline ~SpiMaster();
+
+public:
+    inline void open();
+    inline void close();
+
+public:
+    inline void setMode(byte inSpiMode);
+    inline void setSpeed(Spi::Speed inSpeed);
+    inline void setDataOrder(bool inLsbFirst);
+};
+
+// -----------------------------------------------------------------------------
+
+template<byte RxSize>
+class SpiSlave : public SpiReceiver<RxSize>
+{
+public:
+    inline  SpiSlave();
+    inline ~SpiSlave();
+
+public:
+    inline void open();
+    inline void close();
+
+public:
+    inline void setMode(byte inSpiMode);
+};
 
 END_AK47_NAMESPACE
 
