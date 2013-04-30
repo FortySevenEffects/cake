@@ -27,6 +27,9 @@ inline uint16 getFreeMemory();
 inline uint16 getHeapSize();
 inline uint16 getStackSize();
 
+inline void paintStack();
+inline uint16 getMaxStackUsage();
+
 END_AK47_NAMESPACE
 
 // -----------------------------------------------------------------------------
