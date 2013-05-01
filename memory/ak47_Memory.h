@@ -37,18 +37,14 @@ END_AK47_NAMESPACE
 
 #if AK47_DYNAMIC_MEMORY && defined(__cplusplus)
 
-AVR_BEGIN_EXTERN_C
-
 #include <stdlib.h>
-inline void* operator new(size_t size);
-inline void operator delete(void* ptr);
-inline void* operator new[](size_t size);
-inline void operator delete[](void* ptr);
+inline void* operator new(size_t);
+inline void* operator new[](size_t);
+inline void* operator new(size_t size_,void *ptr_);
 
-AVR_END_EXTERN_C
+inline void operator delete(void*);
+inline void operator delete[](void*);
 
 #endif
-
-// -----------------------------------------------------------------------------
 
 #include "ak47_Memory.hpp"
