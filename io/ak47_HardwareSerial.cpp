@@ -19,22 +19,6 @@
 #include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
-/*
-#ifdef UART0
-Uart<0> Uart0;
-#endif
-
-#ifdef UART1
-Uart<1> Uart1;
-#endif
-
-#ifdef UART2
-Uart<2> Uart2;
-#endif
-
-#ifdef UART3
-Uart<3> Uart3;
-#endif*/
 
 template<byte UartNumber>
 Uart<UartNumber> Uart<UartNumber>::sInstance;
