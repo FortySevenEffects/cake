@@ -19,7 +19,7 @@
 #include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
-
+/*
 #ifdef UART0
 Uart<0> Uart0;
 #endif
@@ -34,41 +34,44 @@ Uart<2> Uart2;
 
 #ifdef UART3
 Uart<3> Uart3;
-#endif
+#endif*/
+
+template<byte UartNumber>
+Uart<UartNumber> Uart<UartNumber>::sInstance;
 
 END_AK47_NAMESPACE
 
 // -----------------------------------------------------------------------------
 // Interrupts Macros
 
-#define UART_ISR_RX(uart, obj) ISR(USART##uart##_RX_vect)                       \
+#define UART_ISR_RX(uartNum) ISR(USART##uartNum##_RX_vect)                       \
 {                                                                               \
-    ak47::obj.handleByteReceived(UDR##uart);                                    \
+    ak47::Uart<uartNum>::sInstance.handleByteReceived(UDR##uartNum);                                    \
 }
 
-#define UART_ISR_TX(uart, obj) ISR(USART##uart##_TX_vect)                       \
+#define UART_ISR_TX(uartNum) ISR(USART##uartNum##_TX_vect)                       \
 {                                                                               \
-    ak47::obj.handleEndOfTransmission();                                        \
+    ak47::Uart<uartNum>::sInstance.handleEndOfTransmission();                                        \
 }
 
 // -----------------------------------------------------------------------------
 
 #ifdef UART0
-UART_ISR_RX(0, Uart0);
-UART_ISR_TX(0, Uart0);
+UART_ISR_RX(0);
+UART_ISR_TX(0);
 #endif
 
 #ifdef UART1
-UART_ISR_RX(1, Uart1);
-UART_ISR_TX(1, Uart1);
+UART_ISR_RX(1);
+UART_ISR_TX(1);
 #endif
 
 #ifdef UART2
-UART_ISR_RX(2, Uart2);
-UART_ISR_TX(2, Uart2);
+UART_ISR_RX(2);
+UART_ISR_TX(2);
 #endif
 
 #ifdef UART3
-UART_ISR_RX(3, Uart3);
-UART_ISR_TX(3, Uart3);
+UART_ISR_RX(3);
+UART_ISR_TX(3);
 #endif

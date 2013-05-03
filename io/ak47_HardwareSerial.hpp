@@ -76,7 +76,7 @@ inline void Uart<uart>::open<baud>()                                            
 
 // -----------------------------------------------------------------------------
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 Uart<UartNumber>::Uart()
 {
 }
@@ -135,13 +135,13 @@ inline void Uart<3>::close()
 
 // -----------------------------------------------------------------------------
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline bool Uart<UartNumber>::available() const
 {
     return !(mRxBuffer.empty());
 }
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline byte Uart<UartNumber>::read()
 {
     if (!mRxBuffer.empty())
@@ -223,7 +223,7 @@ inline void Uart<3>::write(byte inData)
 }
 #endif
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline void Uart<UartNumber>::write(const byte* inData,
                                     unsigned inSize)
 {
@@ -277,7 +277,7 @@ inline void Uart<3>::busyWrite(byte inData)
  the next one. It does not use the TX buffer, allowing large amounts of data 
  to be sent without the need of a big TX buffer size.
  */
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline void Uart<UartNumber>::busyWrite(const byte* inData,
                                         unsigned inSize)
 {
@@ -289,13 +289,13 @@ inline void Uart<UartNumber>::busyWrite(const byte* inData,
 
 // -----------------------------------------------------------------------------
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline void Uart<UartNumber>::clearRxBuffer()
 {
     mRxBuffer.clear();
 }
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline void Uart<UartNumber>::clearTxBuffer()
 {
     mTxBuffer.clear();
@@ -303,7 +303,7 @@ inline void Uart<UartNumber>::clearTxBuffer()
 
 // -----------------------------------------------------------------------------
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 inline void Uart<UartNumber>::handleByteReceived(byte inData)
 {
     mRxBuffer.push(inData);

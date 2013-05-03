@@ -25,12 +25,14 @@
 
 BEGIN_AK47_NAMESPACE
 
-template<unsigned UartNumber>
+template<byte UartNumber>
 class Uart
 {   
 public:
     Uart();
-    
+
+    static Uart sInstance;
+
 public:
     template<uint16 BaudRate>
     inline void open();
@@ -66,6 +68,12 @@ protected:
 
 // -----------------------------------------------------------------------------
 
+#define Uart0 Uart<0>::sInstance
+#define Uart1 Uart<1>::sInstance
+#define Uart2 Uart<2>::sInstance
+#define Uart3 Uart<3>::sInstance
+
+/*
 #ifdef UART0
 extern Uart<0> Uart0;
 #endif
@@ -80,7 +88,7 @@ extern Uart<2> Uart2;
 
 #ifdef UART3
 extern Uart<3> Uart3;
-#endif
+#endif*/
 
 END_AK47_NAMESPACE;
                       
