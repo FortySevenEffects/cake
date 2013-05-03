@@ -57,6 +57,12 @@ END_AK47_NAMESPACE
 #   define AVR_TRACE_PULSE(...)
 #endif
 
+// Aliases
+#define AVR_BEGIN_TRACE(...)    AVR_START_TRACE(...)
+#define AVR_END_TRACE(...)      AVR_STOP_TRACE(...)
+#define AVR_TRACE_HIGH(...)     AVR_TRACE_ON(...)
+#define AVR_TRACE_LOW(...)      AVR_TRACE_OFF(...)
+
 // -----------------------------------------------------------------------------
 
 #include "ak47_Debug.hpp"

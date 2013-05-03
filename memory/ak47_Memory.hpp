@@ -84,9 +84,17 @@ END_AK47_NAMESPACE
 
 #if AK47_DYNAMIC_MEMORY && defined(__cplusplus)
 
-AVR_BEGIN_EXTERN_C
+inline void* operator new(size_t size)
+{
+    return malloc(size);
+}
 
-void* operator new(size_t size)
+inline void* operator new(size_t size_,void *ptr_)
+{
+    return ptr_;
+}
+
+inline void* operator new[](size_t size)
 {
     return malloc(size);
 }
@@ -99,11 +107,6 @@ void operator delete(void* ptr)
     }
 }
 
-void* operator new[](size_t size)
-{
-    return malloc(size);
-}
-
 void operator delete[](void* ptr)
 {
     if (ptr != 0)
@@ -112,6 +115,4 @@ void operator delete[](void* ptr)
     }
 }
 
-AVR_END_EXTERN_C
-
-#endif // AK47_DYNAMIC_MEMORY
+#endif
