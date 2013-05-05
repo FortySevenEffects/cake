@@ -50,18 +50,18 @@ END_AK47_NAMESPACE
 #   define AVR_TRACE_PULSE(port, pin)   { PIN##port |= (1 << pin);             \
                                           PIN##port |= (1 << pin); }
 #else
-#   define AVR_START_TRACE(...)
-#   define AVR_STOP_TRACE(...)
-#   define AVR_TRACE_ON(...)
-#   define AVR_TRACE_OFF(...)
-#   define AVR_TRACE_PULSE(...)
+#   define AVR_START_TRACE(port, pin)
+#   define AVR_STOP_TRACE(port, pin)
+#   define AVR_TRACE_ON(port, pin)
+#   define AVR_TRACE_OFF(port, pin)
+#   define AVR_TRACE_PULSE(port, pin)
 #endif
 
 // Aliases
-#define AVR_BEGIN_TRACE(...)    AVR_START_TRACE(...)
-#define AVR_END_TRACE(...)      AVR_STOP_TRACE(...)
-#define AVR_TRACE_HIGH(...)     AVR_TRACE_ON(...)
-#define AVR_TRACE_LOW(...)      AVR_TRACE_OFF(...)
+#define AVR_BEGIN_TRACE(port, pin)    AVR_START_TRACE(port, pin)
+#define AVR_END_TRACE(port, pin)      AVR_STOP_TRACE(port, pin)
+#define AVR_TRACE_HIGH(port, pin)     AVR_TRACE_ON(port, pin)
+#define AVR_TRACE_LOW(port, pin)      AVR_TRACE_OFF(port, pin)
 
 // -----------------------------------------------------------------------------
 
