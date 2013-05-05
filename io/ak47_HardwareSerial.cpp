@@ -16,46 +16,7 @@
  */
 
 #include "io/ak47_HardwareSerial.h"
-#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
-template<byte UartNumber>
-Uart<UartNumber> Uart<UartNumber>::sInstance;
-
 END_AK47_NAMESPACE
-
-// -----------------------------------------------------------------------------
-// Interrupts Macros
-
-#define UART_ISR_RX(uartNum) ISR(USART##uartNum##_RX_vect)                       \
-{                                                                               \
-    ak47::Uart<uartNum>::sInstance.handleByteReceived(UDR##uartNum);                                    \
-}
-
-#define UART_ISR_TX(uartNum) ISR(USART##uartNum##_TX_vect)                       \
-{                                                                               \
-    ak47::Uart<uartNum>::sInstance.handleEndOfTransmission();                                        \
-}
-
-// -----------------------------------------------------------------------------
-
-#ifdef UART0
-UART_ISR_RX(0);
-UART_ISR_TX(0);
-#endif
-
-#ifdef UART1
-UART_ISR_RX(1);
-UART_ISR_TX(1);
-#endif
-
-#ifdef UART2
-UART_ISR_RX(2);
-UART_ISR_TX(2);
-#endif
-
-#ifdef UART3
-UART_ISR_RX(3);
-UART_ISR_TX(3);
-#endif

@@ -22,6 +22,7 @@
 #include "memory/ak47_Register.h"
 #include "memory/ak47_RingBuffer.h"
 #include "io/ak47_HardwareSerial_Devices.h"
+#include <avr/interrupt.h>
 
 BEGIN_AK47_NAMESPACE
 
@@ -29,9 +30,8 @@ template<byte UartNumber>
 class Uart
 {   
 public:
-    Uart();
-
-    static Uart sInstance;
+    inline Uart();
+    inline ~Uart();
 
 public:
     template<uint16 BaudRate>
@@ -56,8 +56,8 @@ public:
     inline void clearTxBuffer();
     
 public:
-    inline void handleByteReceived(byte inReceived);
-    inline void handleEndOfTransmission();
+    inline void handleByteReceived(byte inData);
+    inline void handleTxReady();
     
 protected:
     static const byte sRxBufferSize = 32;
@@ -68,10 +68,17 @@ protected:
 
 // -----------------------------------------------------------------------------
 
-#define Uart0 Uart<0>::sInstance
-#define Uart1 Uart<1>::sInstance
-#define Uart2 Uart<2>::sInstance
-#define Uart3 Uart<3>::sInstance
+#define UART_ISR_RX_IMPL(uartNum, obj)                                          \
+ISR(USART##uartNum##_RX_vect)                                                   \
+{                                                                               \
+    obj.handleByteReceived(UDR##uartNum);                                       \
+}
+
+#define UART_ISR_TX_IMPL(uartNum, obj)                                          \
+ISR(USART##uartNum##_UDRE_vect)                                                 \
+{                                                                               \
+    obj.handleTxReady();                                                        \
+}
 
 END_AK47_NAMESPACE;
                       

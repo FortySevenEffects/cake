@@ -59,25 +59,18 @@ inline void Uart<uart>::open<baud>()                                            
     UART_OPEN_IMPL(uart, 500000)                                                \
     UART_OPEN_IMPL(uart, 1000000)
 
-
-#define UART_CLOSE(uart)                                                        \
-{                                                                               \
-    AVR_REGISTER(UCSR##uart##B, UartConfigRegisterB);                           \
-    UartConfigRegisterB.clear(RXCIE##uart);                                     \
-    UartConfigRegisterB.clear(TXCIE##uart);                                     \
-    UartConfigRegisterB.clear(RXEN##uart);                                      \
-    UartConfigRegisterB.clear(TXEN##uart);                                      \
-    /*UCSR##uart##B &= ~(1 << RXCIE##uart) & ~(1 << TXCIE##uart) &              \
-                     ~(1 << RXEN##uart)  & ~(1 << TXEN##uart);               */ \
-}
-
-#define UART_ENABLE_TX_INT(uart)    UCSR##uart##B |=  (1 << TXCIE##uart)
-#define UART_DISABLE_TX_INT(uart)   UCSR##uart##B &= ~(1 << TXCIE##uart)
+#define UART_ENABLE_TX_INT(uart)    UCSR##uart##B |=  (1 << UDRIE##uart)
+#define UART_DISABLE_TX_INT(uart)   UCSR##uart##B &= ~(1 << UDRIE##uart)
 
 // -----------------------------------------------------------------------------
 
 template<byte UartNumber>
-Uart<UartNumber>::Uart()
+inline Uart<UartNumber>::Uart()
+{
+}
+
+template<byte UartNumber>
+inline Uart<UartNumber>::~Uart()
 {
 }
 
@@ -105,7 +98,7 @@ UART_IMPLEMENT_OPEN(3);
 template<>
 inline void Uart<0>::close()
 {
-    UART_CLOSE(0);
+    UCSR0B = 0x00;
 }
 #endif
 
@@ -113,7 +106,7 @@ inline void Uart<0>::close()
 template<>
 inline void Uart<1>::close()
 {
-    UART_CLOSE(1);
+    UCSR1B = 0x00;
 }
 #endif
 
@@ -121,7 +114,7 @@ inline void Uart<1>::close()
 template<>
 inline void Uart<2>::close()
 {
-    UART_CLOSE(2);
+    UCSR2B = 0x00;
 }
 #endif
 
@@ -129,7 +122,7 @@ inline void Uart<2>::close()
 template<>
 inline void Uart<3>::close()
 {
-    UART_CLOSE(3);
+    UCSR3B = 0x00;
 }
 #endif
 
@@ -155,17 +148,9 @@ inline byte Uart<UartNumber>::read()
 template<>
 inline void Uart<0>::write(byte inData)
 {
-    if (UCSR0B & (1 << TXCIE0))
-    {
-        // TX interrupt is enabled: transfer in progress -> push to buffer.
-        mTxBuffer.push(inData);
-    }
-    else
-    {
-        // Ready to transmit.
-        UART_ENABLE_TX_INT(0); // Activate TX interrupt
-        UDR0 = inData;      // and send data.
-    }
+    UART_DISABLE_TX_INT(0);
+    mTxBuffer.push(inData);
+    UART_ENABLE_TX_INT(0);
 }
 #endif
 
@@ -173,17 +158,9 @@ inline void Uart<0>::write(byte inData)
 template<>
 inline void Uart<1>::write(byte inData)
 {
-    if (UCSR1B & (1 << TXCIE1))
-    {
-        // TX interrupt is enabled: transfer in progress -> push to buffer.
-        mTxBuffer.push(inData);
-    }
-    else
-    {
-        // Ready to transmit.
-        UART_ENABLE_TX_INT(1);  // Activate TX interrupt
-        UDR1 = inData;          // and send data.
-    }
+    UART_DISABLE_TX_INT(1);
+    mTxBuffer.push(inData);
+    UART_ENABLE_TX_INT(1);
 }
 #endif
 
@@ -191,17 +168,9 @@ inline void Uart<1>::write(byte inData)
 template<>
 inline void Uart<2>::write(byte inData)
 {
-    if (UCSR2B & (1 << TXCIE2))
-    {
-        // TX interrupt is enabled: transfer in progress -> push to buffer.
-        mTxBuffer.push(inData);
-    }
-    else
-    {
-        // Ready to transmit.
-        UART_ENABLE_TX_INT(2);  // Activate TX interrupt
-        UDR2 = inData;          // and send data.
-    }
+    UART_DISABLE_TX_INT(2);
+    mTxBuffer.push(inData);
+    UART_ENABLE_TX_INT(2);
 }
 #endif
 
@@ -209,17 +178,9 @@ inline void Uart<2>::write(byte inData)
 template<>
 inline void Uart<3>::write(byte inData)
 {
-    if (UCSR3B & (1 << TXCIE3))
-    {
-        // TX interrupt is enabled: transfer in progress -> push to buffer.
-        mTxBuffer.push(inData);
-    }
-    else
-    {
-        // Ready to transmit.
-        UART_ENABLE_TX_INT(3);  // Activate TX interrupt
-        UDR3 = inData;          // and send data.
-    }
+    UART_DISABLE_TX_INT(3);
+    mTxBuffer.push(inData);
+    UART_ENABLE_TX_INT(3);
 }
 #endif
 
@@ -313,7 +274,7 @@ inline void Uart<UartNumber>::handleByteReceived(byte inData)
 
 #ifdef UART0
 template<>
-inline void Uart<0>::handleEndOfTransmission()
+inline void Uart<0>::handleTxReady()
 {
     if (!mTxBuffer.empty())
     {
@@ -329,7 +290,7 @@ inline void Uart<0>::handleEndOfTransmission()
 
 #ifdef UART1
 template<>
-inline void Uart<1>::handleEndOfTransmission()
+inline void Uart<1>::handleTxReady()
 {
     if (!mTxBuffer.empty())
     {
@@ -345,7 +306,7 @@ inline void Uart<1>::handleEndOfTransmission()
 
 #ifdef UART2
 template<>
-inline void Uart<2>::handleEndOfTransmission()
+inline void Uart<2>::handleTxReady()
 {
     if (!mTxBuffer.empty())
     {
@@ -361,7 +322,7 @@ inline void Uart<2>::handleEndOfTransmission()
 
 #ifdef UART3
 template<>
-inline void Uart<3>::handleEndOfTransmission()
+inline void Uart<3>::handleTxReady()
 {
     if (!mTxBuffer.empty())
     {
@@ -375,12 +336,10 @@ inline void Uart<3>::handleEndOfTransmission()
 }
 #endif
 
-
 // -----------------------------------------------------------------------------
 
 #undef UART_OPEN_IMPL
 #undef UART_IMPLEMENT_OPEN
-#undef UART_CLOSE
 #undef UBBR_VALUE
 #undef UART_ENABLE_TX_INT
 #undef UART_DISABLE_TX_INT
