@@ -21,58 +21,113 @@
 #pragma once
 
 #include "ak47.h"
+#include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
 
-struct TimerPrescale
+template<byte TimerId, byte Bits>
+struct TimerTraits;
+
+template<byte TimerId>
+struct TimerTraits<TimerId, 8>
 {
+    typedef uint8           Value;
+    typedef volatile uint8* ControlRegister;
+    typedef volatile Value* DataRegister;
+
+    static inline ControlRegister   getTCCRA();
+    static inline ControlRegister   getTCCRB();
+    static inline ControlRegister   getTIMSK();
+    static inline DataRegister      getOCRA();
+    static inline DataRegister      getOCRB();
+    static inline DataRegister      getTCNT();
+
+    static inline byte getInterruptMaskA();
+    static inline byte getInterruptMaskB();
+    static inline byte getInterruptMaskOverflow();
+};
+
+template<byte TimerId>
+struct TimerTraits<TimerId, 16>
+{
+    typedef uint16          Value;
+    typedef volatile uint8* ControlRegister;
+    typedef volatile Value* DataRegister;
+
+    static inline ControlRegister   getTCCRA();
+    static inline ControlRegister   getTCCRB();
+    static inline ControlRegister   getTIMSK();
+    static inline DataRegister      getOCRA();
+    static inline DataRegister      getOCRB();
+    static inline DataRegister      getTCNT();
+
+    static inline byte getInterruptMaskA();
+    static inline byte getInterruptMaskB();
+    static inline byte getInterruptMaskOverflow();
+};
+
+// -----------------------------------------------------------------------------
+
+template<byte TimerId, byte Bits>
+class Timer
+{
+public:
     enum 
     {
-          timer_Prescale1       = 1
-        , timer_Prescale8       = 2
-        , timer_Prescale64      = 3
-        , timer_Prescale256     = 4
-        , timer_Prescale1024    = 5
+          prescale1       = 1
+        , prescale8       = 2
+        , prescale64      = 3
+        , prescale256     = 4
+        , prescale1024    = 5
     };
-};
 
-// -----------------------------------------------------------------------------
+    enum
+    {
+          compareOutputDisconnected     = 0
+        , compareOutputToggle           = 1
+        , compareOutputClear            = 2
+        , compareOutputSet              = 3
+    };
 
-template<int TimerId>
-class Timer8
-{
-public:
-    AVR_TYPEDEF_FUNCTOR(void, TimerCallback, void);
+    typedef uint8                       Prescale;
+    typedef uint8                       CompareOutputMode;
+    typedef uint8                       Mode;
+    typedef TimerTraits<TimerId, Bits>  Traits;
+    typedef typename Traits::Value      Value;
     
 public:
-     Timer8();
-    ~Timer8();
-    
-public:
-    inline void setLength(byte inLenght);
-    inline void setPrescale(byte inPrescale);
-    
-public:
-    inline void setCallbackA(TimerCallback inCallback);
-    inline void setCallbackB(TimerCallback inCallback);
-    
-public:
-    inline void start(bool inOneShot = false);
-    inline void pause();
-    inline void stop();
-    inline void reset();
-    
-private:
-    TimerCallback mCallbackA;
-    TimerCallback mCallbackB;
-    byte mFlags;
-};
+    inline  Timer();
+    inline ~Timer();
 
-// -----------------------------------------------------------------------------
+public:
+    static inline void enableInterruptA();
+    static inline void enableInterruptB();
+    static inline void enableInterruptOverflow();
 
-class Timer16
-{
-    
+    static inline void disableInterruptA();
+    static inline void disableInterruptB();
+    static inline void disableInterruptOverflow();
+
+public:
+    static inline void setCompareOutputModeA(CompareOutputMode inMode);
+    static inline void setCompareOutputModeB(CompareOutputMode inMode);
+    static inline void setMode(Mode inMode);
+
+public:
+    static inline void start(Prescale inPrescale = prescale1);
+    static inline void stop();
+    static inline void reset();
+
+public:
+    static inline void setPrescale(Prescale inPrescale);    
+
+public:
+    static inline Value getValue();
+    static inline void setValue(Value inValue);
+
+public:
+    static inline void setA(Value inValue);
+    static inline void setB(Value inValue);
 };
 
 END_AK47_NAMESPACE
