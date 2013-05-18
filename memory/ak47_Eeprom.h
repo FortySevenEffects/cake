@@ -25,6 +25,10 @@
 
 #define AVR_EEPROM_SECTION  __attribute__((section(".eeprom")))
 
+#ifndef E2END
+#define E2END 0
+#endif
+
 // -----------------------------------------------------------------------------
 
 BEGIN_AK47_NAMESPACE
@@ -33,7 +37,7 @@ class Eeprom
 {
 public:
     AVR_TYPEDEF_FUNCTOR(void, EepromReadyCallback, void);
-    static const uint16 sEepromSize;
+    static const uint16 sEepromSize = E2END;
     
 public:
     static inline byte read(uint16 inAddress);

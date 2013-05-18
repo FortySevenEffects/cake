@@ -20,12 +20,6 @@
 
 BEGIN_AK47_NAMESPACE
 
-#if E2END
-const uint16 Eeprom::sEepromSize = E2END;
-#else
-const uint16 Eeprom::sEepromSize = 0;
-#endif
-
 Eeprom::EepromReadyCallback Eeprom::sClientCallback = 0;
 
 END_AK47_NAMESPACE
