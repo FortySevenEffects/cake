@@ -37,77 +37,93 @@ inline Timer<TimerId, Bits>::~Timer()
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::enableInterruptA()
 {
-    *(Traits::getTIMSK()) |= Traits::getInterruptMaskA();
+    static const byte flag = 1; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) |= mask;
 }
 
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::enableInterruptB()
 {
-    *(Traits::getTIMSK()) |= Traits::getInterruptMaskB();
+    static const byte flag = 2; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) |= mask;
 }
 
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::enableInterruptOverflow()
 {
-    *(Traits::getTIMSK()) |= Traits::getInterruptMaskOverflow();
+    static const byte flag = 0; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) |= mask;
 }
 
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::disableInterruptA()
 {
-    *(Traits::getTIMSK()) &= ~(Traits::getInterruptMaskA());
+    static const byte flag = 1; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) &= ~(mask);
 }
 
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::disableInterruptB()
 {
-    *(Traits::getTIMSK()) &= ~(Traits::getInterruptMaskB());
+    static const byte flag = 2; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) &= ~(mask);
 }
 
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::disableInterruptOverflow()
 {
-    *(Traits::getTIMSK()) &= ~(Traits::getInterruptMaskOverflow());
+    static const byte flag = 0; // See Traits::checkRegistersStructure
+    static const byte mask = (1 << flag);
+    *(Traits::getTIMSK()) &= ~(mask);
 }
 
 // -----------------------------------------------------------------------------
 
-template <byte TimerId, byte Bits>
+template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::setCompareOutputModeA(CompareOutputMode inMode)
 {
     static const byte mask  = 0xC0;
     static const byte shift = 6;
 
-    const uint8 tccra = *(Traits::getTCCRA()) & ~(mask);
+    const byte tccra = *(Traits::getTCCRA()) & ~(mask);
     *(Traits::getTCCRA()) = tccra | ((inMode << shift) & mask);
 }
 
-template <byte TimerId, byte Bits>
+template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::setCompareOutputModeB(CompareOutputMode inMode)
 {
     static const byte mask  = 0x30;
     static const byte shift = 4;
 
-    const uint8 tccra = *(Traits::getTCCRA()) & ~(mask);
+    const byte tccra = *(Traits::getTCCRA()) & ~(mask);
     *(Traits::getTCCRA()) = tccra | ((inMode << shift) & mask);
 }
 
-template <byte TimerId, byte Bits>
-inline void Timer<TimerId, Bits>::setMode(Mode inMode)
+template<byte TimerId, byte Bits>
+template<byte Mode>
+inline void Timer<TimerId, Bits>::setMode()
 {
-    static const byte maskMsb  = 0x18;
+    AVR_STATIC_ASSERT(Traits::hasWGM3 == true  && (Mode & ~0x0F) == 0 ||
+                      Traits::hasWGM3 == false && (Mode & ~0x07) == 0);
+
+    static const byte maskMsb  = (Traits::hasWGM3 ? 0x18 : 0x08);
     static const byte maskLsb  = 0x03;
     static const byte shiftMsb = 3;
     static const byte shiftLsb = 0;
 
-    const byte msb = (inMode >> 2) & 0x03;
-    const byte lsb = inMode & 0x03;
+    const byte msb = (Mode >> 2) & (Traits::hasWGM3 ? 0x03 : 0x01);
+    const byte lsb = Mode & 0x03;
 
-    const uint8 tccra = *(Traits::getTCCRA()) & ~(maskLsb);
-    *(Traits::getTCCRA()) = tccra | ((inMode << shiftLsb) & maskLsb);
+    const byte tccra = *(Traits::getTCCRA()) & ~(maskLsb);
+    *(Traits::getTCCRA()) = tccra | ((Mode << shiftLsb) & maskLsb);
 
-    const uint8 tccrb = *(Traits::getTCCRB()) & ~(maskMsb);
-    *(Traits::getTCCRB()) = tccrb | ((inMode << shiftMsb) & maskMsb);
+    const byte tccrb = *(Traits::getTCCRB()) & ~(maskMsb);
+    *(Traits::getTCCRB()) = tccrb | ((Mode << shiftMsb) & maskMsb);
 }
 
 // -----------------------------------------------------------------------------
@@ -161,8 +177,8 @@ inline void Timer<TimerId, Bits>::setB(Value inValue)
 template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::setPrescale(Prescale inPrescale)
 {
-    static const uint8 mask = 0x07;
-    const uint8 tccrb = *(Traits::getTCCRB()) & ~(0x07);    // Mask away the old value
+    static const byte mask = 0x07;
+    const byte tccrb = *(Traits::getTCCRB()) & ~(mask);    // Mask away the old value
     *(Traits::getTCCRB()) = tccrb | (inPrescale & mask);    // And set the new one
 }
 
@@ -207,24 +223,6 @@ inline TimerTraits<Id, Bit>::DataRegister TimerTraits<Id, Bit>::getTCNT()       
 }                                                                               \
                                                                                 \
 template<>                                                                      \
-inline byte TimerTraits<Id, Bit>::getInterruptMaskA()                           \
-{                                                                               \
-    return (1 << OCIE##Id##A);                                                  \
-}                                                                               \
-                                                                                \
-template<>                                                                      \
-inline byte TimerTraits<Id, Bit>::getInterruptMaskB()                           \
-{                                                                               \
-    return (1 << OCIE##Id##B);                                                  \
-}                                                                               \
-                                                                                \
-template<>                                                                      \
-inline byte TimerTraits<Id, Bit>::getInterruptMaskOverflow()                    \
-{                                                                               \
-    return (1 << TOIE##Id);                                                     \
-}                                                                               \
-                                                                                \
-template<>                                                                      \
 inline void TimerTraits<Id, Bit>::checkRegistersStructure()                     \
 {                                                                               \
     /* Check TCCRnA structure */                                                \
@@ -236,11 +234,15 @@ inline void TimerTraits<Id, Bit>::checkRegistersStructure()                     
     AVR_STATIC_ASSERT(WGM##Id##0    == 0);                                      \
                                                                                 \
     /* Check TCCRnB structure */                                                \
-    AVR_STATIC_ASSERT(WGM##Id##3    == 4);                                      \
     AVR_STATIC_ASSERT(WGM##Id##2    == 3);                                      \
     AVR_STATIC_ASSERT(CS##Id##2     == 2);                                      \
     AVR_STATIC_ASSERT(CS##Id##1     == 1);                                      \
     AVR_STATIC_ASSERT(CS##Id##0     == 0);                                      \
+                                                                                \
+    /* Check TIMSKn structure */                                                \
+    AVR_STATIC_ASSERT(OCIE##Id##B   == 2);                                      \
+    AVR_STATIC_ASSERT(OCIE##Id##A   == 1);                                      \
+    AVR_STATIC_ASSERT(TOIE##Id      == 0);                                      \
 }
 
 #ifdef TCNT0
@@ -261,6 +263,16 @@ AVR_TIMER_TRAITS_IMPL(2, 8 * sizeof(TCNT2))
 #ifdef TCNT3
 typedef Timer<3, 8 * sizeof(TCNT3)> Timer3;
 AVR_TIMER_TRAITS_IMPL(3, 8 * sizeof(TCNT3))
+#endif
+
+#ifdef TCNT4
+typedef Timer<4, 8 * sizeof(TCNT4)> Timer4;
+AVR_TIMER_TRAITS_IMPL(4, 8 * sizeof(TCNT4))
+#endif
+
+#ifdef TCNT5
+typedef Timer<5, 8 * sizeof(TCNT5)> Timer5;
+AVR_TIMER_TRAITS_IMPL(5, 8 * sizeof(TCNT5))
 #endif
 
 #undef AVR_TIMER_TRAITS_IMPL

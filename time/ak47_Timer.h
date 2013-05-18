@@ -34,6 +34,7 @@ struct TimerTraits<TimerId, 8>
     typedef uint8           Value;
     typedef volatile uint8* ControlRegister;
     typedef volatile Value* DataRegister;
+    static const bool       hasWGM3 = false;
 
     static inline ControlRegister   getTCCRA();
     static inline ControlRegister   getTCCRB();
@@ -41,10 +42,6 @@ struct TimerTraits<TimerId, 8>
     static inline DataRegister      getOCRA();
     static inline DataRegister      getOCRB();
     static inline DataRegister      getTCNT();
-
-    static inline byte getInterruptMaskA();
-    static inline byte getInterruptMaskB();
-    static inline byte getInterruptMaskOverflow();
 
 private:
     static inline void checkRegistersStructure();
@@ -56,6 +53,7 @@ struct TimerTraits<TimerId, 16>
     typedef uint16          Value;
     typedef volatile uint8* ControlRegister;
     typedef volatile Value* DataRegister;
+    static const bool       hasWGM3 = true;
 
     static inline ControlRegister   getTCCRA();
     static inline ControlRegister   getTCCRB();
@@ -63,10 +61,6 @@ struct TimerTraits<TimerId, 16>
     static inline DataRegister      getOCRA();
     static inline DataRegister      getOCRB();
     static inline DataRegister      getTCNT();
-
-    static inline byte getInterruptMaskA();
-    static inline byte getInterruptMaskB();
-    static inline byte getInterruptMaskOverflow();
 
 private:
     static inline void checkRegistersStructure();
@@ -97,7 +91,6 @@ public:
 
     typedef uint8                       Prescale;
     typedef uint8                       CompareOutputMode;
-    typedef uint8                       Mode;
     typedef TimerTraits<TimerId, Bits>  Traits;
     typedef typename Traits::Value      Value;
     
@@ -117,7 +110,9 @@ public:
 public:
     static inline void setCompareOutputModeA(CompareOutputMode inMode);
     static inline void setCompareOutputModeB(CompareOutputMode inMode);
-    static inline void setMode(Mode inMode);
+
+    template<byte Mode>
+    static inline void setMode();
 
 public:
     static inline void start(Prescale inPrescale = prescale1);
