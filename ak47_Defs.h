@@ -37,8 +37,6 @@
 #   define AVR_DEBUG   1
 #elif defined(NDEBUG) || defined(_NDEBUG)
 #   define AVR_RELEASE 1
-#else
-//#   error No Debug/Release flags provided.
 #endif
 
 // -----------------------------------------------------------------------------

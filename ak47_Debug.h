@@ -36,6 +36,8 @@ private:
     static PrintCallback mPrintCallback;
 };
 
+#define AVR_DBG(str) ak47::Debug::print(str)
+
 END_AK47_NAMESPACE
 
 // -----------------------------------------------------------------------------
