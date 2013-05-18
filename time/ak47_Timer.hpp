@@ -223,6 +223,25 @@ inline byte TimerTraits<Id, Bit>::getInterruptMaskOverflow()                    
 {                                                                               \
     return (1 << TOIE##Id);                                                     \
 }                                                                               \
+                                                                                \
+template<>                                                                      \
+inline void TimerTraits<Id, Bit>::checkRegistersStructure()                     \
+{                                                                               \
+    /* Check TCCRnA structure */                                                \
+    AVR_STATIC_ASSERT(COM##Id##A1   == 7);                                      \
+    AVR_STATIC_ASSERT(COM##Id##A0   == 6);                                      \
+    AVR_STATIC_ASSERT(COM##Id##B1   == 5);                                      \
+    AVR_STATIC_ASSERT(COM##Id##B0   == 4);                                      \
+    AVR_STATIC_ASSERT(WGM##Id##1    == 1);                                      \
+    AVR_STATIC_ASSERT(WGM##Id##0    == 0);                                      \
+                                                                                \
+    /* Check TCCRnB structure */                                                \
+    AVR_STATIC_ASSERT(WGM##Id##3    == 4);                                      \
+    AVR_STATIC_ASSERT(WGM##Id##2    == 3);                                      \
+    AVR_STATIC_ASSERT(CS##Id##2     == 2);                                      \
+    AVR_STATIC_ASSERT(CS##Id##1     == 1);                                      \
+    AVR_STATIC_ASSERT(CS##Id##0     == 0);                                      \
+}
 
 #ifdef TCNT0
 typedef Timer<0, 8 * sizeof(TCNT0)> Timer0;

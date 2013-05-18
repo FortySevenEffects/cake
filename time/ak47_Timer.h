@@ -45,6 +45,9 @@ struct TimerTraits<TimerId, 8>
     static inline byte getInterruptMaskA();
     static inline byte getInterruptMaskB();
     static inline byte getInterruptMaskOverflow();
+
+private:
+    static inline void checkRegistersStructure();
 };
 
 template<byte TimerId>
@@ -64,6 +67,9 @@ struct TimerTraits<TimerId, 16>
     static inline byte getInterruptMaskA();
     static inline byte getInterruptMaskB();
     static inline byte getInterruptMaskOverflow();
+
+private:
+    static inline void checkRegistersStructure();
 };
 
 // -----------------------------------------------------------------------------
