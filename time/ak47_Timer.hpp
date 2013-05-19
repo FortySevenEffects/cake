@@ -116,14 +116,14 @@ inline void Timer<TimerId, Bits>::setMode()
     static const byte shiftMsb = 3;
     static const byte shiftLsb = 0;
 
-    const byte msb = (Mode >> 2) & (Traits::hasWGM3 ? 0x03 : 0x01);
+    const byte msb = (Mode >> 2);
     const byte lsb = Mode & 0x03;
 
     const byte tccra = *(Traits::getTCCRA()) & ~(maskLsb);
-    *(Traits::getTCCRA()) = tccra | ((Mode << shiftLsb) & maskLsb);
+    *(Traits::getTCCRA()) = tccra | (lsb << shiftLsb);
 
     const byte tccrb = *(Traits::getTCCRB()) & ~(maskMsb);
-    *(Traits::getTCCRB()) = tccrb | ((Mode << shiftMsb) & maskMsb);
+    *(Traits::getTCCRB()) = tccrb | (msb << shiftMsb);
 }
 
 // -----------------------------------------------------------------------------
@@ -178,8 +178,8 @@ template<byte TimerId, byte Bits>
 inline void Timer<TimerId, Bits>::setPrescale(Prescale inPrescale)
 {
     static const byte mask = 0x07;
-    const byte tccrb = *(Traits::getTCCRB()) & ~(mask);    // Mask away the old value
-    *(Traits::getTCCRB()) = tccrb | (inPrescale & mask);    // And set the new one
+    const byte tccrb = *(Traits::getTCCRB()) & ~mask;    // Mask away the old value
+    *(Traits::getTCCRB()) = tccrb | (inPrescale & mask); // And set the new one
 }
 
 // ########################################################################## //
