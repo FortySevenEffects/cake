@@ -35,6 +35,7 @@ struct TimerTraits<TimerId, 8>
     typedef volatile uint8* ControlRegister;
     typedef volatile Value* DataRegister;
     static const bool       hasWGM3 = false;
+    static const byte       numBits = 8;
 
     static inline ControlRegister   getTCCRA();
     static inline ControlRegister   getTCCRB();
@@ -54,6 +55,7 @@ struct TimerTraits<TimerId, 16>
     typedef volatile uint8* ControlRegister;
     typedef volatile Value* DataRegister;
     static const bool       hasWGM3 = true;
+    static const byte       numBits = 16;
 
     static inline ControlRegister   getTCCRA();
     static inline ControlRegister   getTCCRB();
@@ -130,6 +132,16 @@ public:
     static inline void setA(Value inValue);
     static inline void setB(Value inValue);
 };
+
+#if defined(TIM0_COMPA_vect)
+#   define AVR_ISR_TIMER_A(Id)         TIM##Id##_COMPA_vect
+#   define AVR_ISR_TIMER_B(Id)         TIM##Id##_COMPB_vect
+#   define AVR_ISR_TIMER_OVF(Id)       TIM##Id##_OVF_vect
+#elif defined(TIMER0_COMPA_vect)
+#   define AVR_ISR_TIMER_A(Id)         TIMER##Id##_COMPA_vect
+#   define AVR_ISR_TIMER_B(Id)         TIMER##Id##_COMPB_vect
+#   define AVR_ISR_TIMER_OVF(Id)       TIMER##Id##_OVF_vect
+#endif
 
 END_AK47_NAMESPACE
 
