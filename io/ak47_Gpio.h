@@ -18,10 +18,41 @@
 #pragma once
 
 #include "ak47.h"
+#include "ak47_Types.h"
+#include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
 
+typedef volatile uint8* RegisterAddress;
 
+template<class Traits>
+class Gpio
+{
+public:
+    inline  Gpio();
+    inline ~Gpio();
+
+public: // Direction
+    template<byte Pin>
+    static inline void setInput(bool inWithPullUp = false);
+
+    template<byte Pin>
+    static inline void setOutput();
+
+public: // Pin operations
+    template<byte Pin>
+    static inline void set();
+
+    template<byte Pin>
+    static inline void clear();
+
+    template<byte Pin>
+    static inline void toggle();
+
+public: // Port operations
+    static inline byte read();
+    static inline void write(byte inValue);
+};
 
 END_AK47_NAMESPACE
 
