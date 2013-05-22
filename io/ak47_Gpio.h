@@ -25,12 +25,15 @@ BEGIN_AK47_NAMESPACE
 
 typedef volatile uint8* RegisterAddress;
 
-template<class Traits>
-class Gpio
+template<class RegisterTraits>
+class Port
 {
 public:
-    inline  Gpio();
-    inline ~Gpio();
+    typedef RegisterTraits Traits;
+
+public:
+    inline  Port();
+    inline ~Port();
 
 public: // Direction
     template<byte Pin>
@@ -52,6 +55,48 @@ public: // Pin operations
 public: // Port operations
     static inline byte read();
     static inline void write(byte inValue);
+};
+
+// -----------------------------------------------------------------------------
+
+template<class Port, byte Bit>
+class Pin
+{
+public:
+    inline  Pin();
+    inline ~Pin();
+
+public:
+    static inline void setInput(bool inWithPullUp = false);
+    static inline void setOutput();
+
+public:
+    static inline void set();
+    static inline void clear();
+    static inline void toggle();
+    static inline bool read();
+};
+
+// -----------------------------------------------------------------------------
+
+template<class Port, byte Mask>
+class PinGroup
+{
+public:
+    inline  PinGroup();
+    inline ~PinGroup();
+
+public:
+    static inline void setInput(bool inWithPullUp = false);
+    static inline void setOutput();
+
+public:
+    static inline void set(byte inValue);
+    static inline void clear();
+    static inline byte read();
+
+private:
+    static inline byte getShift();
 };
 
 END_AK47_NAMESPACE
