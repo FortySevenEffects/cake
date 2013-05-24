@@ -23,8 +23,6 @@
 
 BEGIN_AK47_NAMESPACE
 
-typedef volatile uint8* RegisterAddress;
-
 template<class RegisterTraits>
 class Port
 {

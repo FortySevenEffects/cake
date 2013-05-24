@@ -89,6 +89,8 @@ inline void Port<Traits>::write(byte inValue)
 #define AVR_PORT_TRAITS_IMPL(Id)                                                \
 struct PortTraits##Id                                                           \
 {                                                                               \
+    typedef volatile uint8* RegisterAddress;                                    \
+                                                                                \
     static inline RegisterAddress getDirectionRegister()                        \
     {                                                                           \
         return RegisterAddress(&DDR##Id);                                       \
