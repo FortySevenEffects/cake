@@ -90,6 +90,13 @@ public:
         , compareOutputClear            = 2
         , compareOutputSet              = 3
     };
+    
+    enum
+    {
+          compareOutputPwmNonInverting  = 2
+        , compareOutputPwmInverting     = 3
+    };
+
 
     typedef uint8                       Prescale;
     typedef uint8                       CompareOutputMode;
