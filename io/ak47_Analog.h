@@ -19,7 +19,6 @@
 
 #include "ak47.h"
 #include "ak47_Types.h"
-#include "utility/ak47_MiscTools.h"
 #include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE

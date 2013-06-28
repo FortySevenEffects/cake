@@ -40,6 +40,14 @@ PinChangeListener::~PinChangeListener()
     AVR_REGISTER(PCMSK1,    PinChangeMask1);
     AVR_REGISTER(PCMSK2,    PinChangeMask2);
     AVR_REGISTER(PCMSK3,    PinChangeMask3);
+#elif defined(__AVR_ATmega328P__)
+    AVR_REGISTER(PCICR,     PinChangeControl);
+    AVR_REGISTER(PINB,      PinChangeRead0);
+    AVR_REGISTER(PINC,      PinChangeRead1);
+    AVR_REGISTER(PIND,      PinChangeRead2);
+    AVR_REGISTER(PCMSK0,    PinChangeMask0);
+    AVR_REGISTER(PCMSK1,    PinChangeMask1);
+    AVR_REGISTER(PCMSK2,    PinChangeMask2);
 #elif defined(__AVR_ATmega32U4__)
     AVR_REGISTER(PCICR,     PinChangeControl);
     AVR_REGISTER(PINB,      PinChangeRead0);
