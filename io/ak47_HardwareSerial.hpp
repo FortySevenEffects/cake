@@ -29,6 +29,7 @@ template<>                                                                      
 template<>                                                                      \
 inline void Uart<uart>::open<baud>()                                            \
 {                                                                               \
+    cli();                                                                      \
     /* Compute baud rate */                                                     \
     UBRR##uart##H = UBBR_VALUE(baud) >> 8;                                      \
     UBRR##uart##L = UBBR_VALUE(baud) & 0xFF;                                    \
@@ -41,6 +42,7 @@ inline void Uart<uart>::open<baud>()                                            
                                                                                 \
     /* Defaults to 8-bit, no parity, 1 stop bit */                              \
     UCSR##uart##C   = (1 << UCSZ##uart##1) | (1 << UCSZ##uart##0);              \
+    sei();                                                                      \
 }   
 
 #define UART_IMPLEMENT_OPEN(uart)                                               \
