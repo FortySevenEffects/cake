@@ -45,7 +45,7 @@ void PortChangeListener<PortId>::attachPinListener(PinChangeListener* inListener
         {
             detachPinListener(inPin);
         }
-        
+
         mListeners[inPin] = inListener;
         registerInterrupt(inPin);
     }

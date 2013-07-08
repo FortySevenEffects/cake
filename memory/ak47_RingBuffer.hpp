@@ -51,7 +51,7 @@ void RingBuffer<BufferSize, Type>::push(Type inData)
 {
     mData[mWrite++] = inData;
     mWrite &= (BufferSize - 1); // Modulo for powers of two.
-    
+
     // Overflow -> increment buffer size.
     AVR_ASSERT(mWrite != mRead);
 }
@@ -61,10 +61,10 @@ Type RingBuffer<BufferSize, Type>::pop()
 {
     // You should always check if there is available data before calling pop.
     AVR_ASSERT(!empty());
-    
+
     const DataType data = mData[mRead++];
     mRead &= (BufferSize - 1);
-    
+
     return data;
 }
 

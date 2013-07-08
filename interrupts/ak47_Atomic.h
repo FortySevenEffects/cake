@@ -32,12 +32,12 @@ struct Atomic
         Main = 0,
         Interrupt,
     };
-    
+
     template<byte Context>
     static inline void setContext();
-    
+
     static inline bool isContext(byte inContext);
-    
+
 private:
     static byte mContext;
 };

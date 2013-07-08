@@ -38,29 +38,29 @@ public:
         speed_400k = 400000,    // 400 kHz bus speed
         speed_1M   = 1000000,   // 1 MHz bus speed
     };
-    
+
 public:
     template<uint32 Speed>
     static inline void openMaster(byte inAddress);
     static inline void close();
-    
+
 public:
     static inline void sendStart();
     static inline void sendStop();
-    
-    
+
+
     static inline void writeHeader(bool inWriteMode = true);
     static inline void write(byte inData);
-    
+
 private:
     static inline void enableInterrupt();
     static inline void disableInterrupt();
     static inline void clearTwint();
     static inline byte getStatus();
-    
+
 private:
     static byte sExpected;
-    
+
 public:
     static I2cSession* sCurrentSession;
     static inline void interruptCallback();
@@ -84,11 +84,11 @@ class I2cTransmitterSession
 public:
     I2cTransmitterSession();
     ~I2cTransmitterSession();
-    
+
 public:
     inline void send(const byte* inData,
                      byte inSize);
-    
+
 private:
     RingBuffer<Size> mBuffer;
 };

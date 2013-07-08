@@ -2,7 +2,7 @@
 target(ak47)
 
 append(ak47_SOURCES
-    
+
     ak47.cpp
     ak47.h
     ak47_Defs.h
@@ -13,7 +13,7 @@ append(ak47_SOURCES
     ak47_Debug.cpp
     ak47_Debug.hpp
     ak47_Debug.h
-    
+
     memory/ak47_Memory.cpp
     memory/ak47_Memory.hpp
     memory/ak47_Memory.h
@@ -32,7 +32,7 @@ append(ak47_SOURCES
     memory/ak47_RingBuffer.cpp
     memory/ak47_RingBuffer.hpp
     memory/ak47_RingBuffer.h
-    
+
     time/ak47_Timer.cpp
     time/ak47_Timer.hpp
     time/ak47_Timer.h
@@ -44,7 +44,7 @@ append(ak47_SOURCES
     interrupts/ak47_PinChangeInterrupts.hpp
     interrupts/ak47_PinChangeInterrupts.h
     interrupts/ak47_BadIsrCatcher.cpp
-    
+
     io/ak47_Analog.cpp
     io/ak47_Analog.hpp
     io/ak47_Analog.h

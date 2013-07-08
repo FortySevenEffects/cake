@@ -26,5 +26,5 @@
 
 namespace AK47_NAMESPACE
 {
-    
+
 }

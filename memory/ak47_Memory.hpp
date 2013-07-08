@@ -49,7 +49,7 @@ inline void paintStack()
 
     extern uint8_t _end;
     extern uint8_t __stack;
-    
+
     uint8_t* stackPointer = &_end;
 
     while(stackPointer <= &__stack)
@@ -63,7 +63,7 @@ inline uint16 getMaxStackUsage()
 {
     // Code from MichaelMcTernan:
     // http://www.avrfreaks.net/index.php?name=PNphpBB2&file=printview&t=52249
-    
+
     extern uint8_t _end;
     extern uint8_t __stack;
 
@@ -75,7 +75,7 @@ inline uint16 getMaxStackUsage()
         stackPointer++;
         count++;
     }
-    return count; 
+    return count;
 }
 
 END_AK47_NAMESPACE
@@ -99,7 +99,7 @@ inline void* operator new[](size_t size)
     return malloc(size);
 }
 
-void operator delete(void* ptr) 
+void operator delete(void* ptr)
 {
     if (ptr != 0)
     {

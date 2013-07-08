@@ -74,7 +74,7 @@ template<byte TimerId, byte Bits>
 class Timer
 {
 public:
-    enum 
+    enum
     {
           prescale1       = 1
         , prescale8       = 2
@@ -90,7 +90,7 @@ public:
         , compareOutputClear            = 2
         , compareOutputSet              = 3
     };
-    
+
     enum
     {
           compareOutputPwmNonInverting  = 2
@@ -102,7 +102,7 @@ public:
     typedef uint8                       CompareOutputMode;
     typedef TimerTraits<TimerId, Bits>  Traits;
     typedef typename Traits::Value      Value;
-    
+
 public:
     inline  Timer();
     inline ~Timer();
@@ -129,7 +129,7 @@ public:
     static inline void reset();
 
 public:
-    static inline void setPrescale(Prescale inPrescale);    
+    static inline void setPrescale(Prescale inPrescale);
 
 public:
     static inline Value getValue();

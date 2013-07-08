@@ -255,7 +255,7 @@ inline byte PinGroup<Port, Mask>::getShift()
 {
     AVR_STATIC_ASSERT(Mask >= 0x01);
     AVR_STATIC_ASSERT(Mask <= 0xff);
-    
+
     for (byte i = 0; i < 8; ++i)
     {
         if (Mask & (1 << i))

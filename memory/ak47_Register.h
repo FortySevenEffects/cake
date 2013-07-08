@@ -30,7 +30,7 @@ struct Register
 {
     inline void set(byte inBit);
     inline void clear(byte inBit);
-    
+
     inline Register& operator=(const byte& inValue);
     inline byte operator() ();
     inline operator byte() const;

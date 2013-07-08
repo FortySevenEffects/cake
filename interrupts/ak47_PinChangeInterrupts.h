@@ -33,7 +33,7 @@ class PinChangeListener
 public:
     explicit PinChangeListener();
     virtual ~PinChangeListener();
-    
+
 public:
     virtual void operator() (bool inPinState) = 0;
 };
@@ -46,25 +46,25 @@ class PortChangeListener
 protected:
     typedef volatile byte PortValue;
     typedef byte PinNumber;
-    
+
 public:
     explicit PortChangeListener();
     virtual ~PortChangeListener();
-    
+
 public:
     inline void attachPinListener(PinChangeListener* inListener,
                                   PinNumber inPinToAttachTo);
     inline void detachPinListener(PinChangeListener* inListener);
     inline void detachPinListener(PinNumber inPinToDetach);
-    
+
 public:
     inline void registerInterrupt(PinNumber inPin);
     inline void unregisterInterrupt(PinNumber inPin);
     inline void handlePortInterrupt();
-    
+
 protected:
     inline void dispatchInterrupt(PortValue inCurrentPortValue);
-    
+
     PinChangeListener* mListeners[8];
     PortValue mPreviousPortValue;
 };

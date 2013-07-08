@@ -75,7 +75,7 @@ inline void SpiTransmitter<TxSize>::handleEndOfTransmission()
     {
         // Disable End of Transmission interrupt
 #if defined(SPCR)
-        SPCR  &= ~(1 << SPIE);       
+        SPCR  &= ~(1 << SPIE);
 #elif defined(USICR)
         USICR &= ~(1 << USIOIE);
 #endif
@@ -104,7 +104,7 @@ inline bool SpiReceiver<RxSize>::read(byte& outData)
 
     outData = mRxBuffer.pop();
     return true;
-} 
+}
 
 // -----------------------------------------------------------------------------
 
@@ -173,7 +173,7 @@ inline void SpiMaster<TxSize>::setMode(byte inSpiMode)
 #if defined(SPCR)
     if (inSpiMode & maskCPHA)       SPCR |=  (1 << CPHA);
     else                            SPCR &= ~(1 << CPHA);
-    
+
     if (inSpiMode & maskCPOL)       SPCR |=  (1 << CPOL);
     else                            SPCR &= ~(1 << CPOL);
 
@@ -183,7 +183,7 @@ inline void SpiMaster<TxSize>::setMode(byte inSpiMode)
     {
         USICR |= (1 << USICS1) | (1 << USICS0);
     }
-    else 
+    else
     {
         USICR |=  (1 << USICS1);
         USICR &= ~(1 << USICS0);
@@ -197,7 +197,7 @@ inline void SpiMaster<TxSize>::setSpeed(Spi::Speed inSpeed)
 #if defined(SPCR)
     // Clear old config and replace with new.
     SPCR = (SPCR & ~(0x03)) | (inSpeed & 0x03);
-    
+
     // 2X factor
     if (inSpeed & 0x04)
     {
@@ -283,7 +283,7 @@ inline void SpiSlave<RxSize>::setMode(byte inSpiMode)
 #if defined(SPCR)
     if (inSpiMode & maskCPHA)       SPCR |=  (1 << CPHA);
     else                            SPCR &= ~(1 << CPHA);
-    
+
     if (inSpiMode & maskCPOL)       SPCR |=  (1 << CPOL);
     else                            SPCR &= ~(1 << CPOL);
 
@@ -293,7 +293,7 @@ inline void SpiSlave<RxSize>::setMode(byte inSpiMode)
     {
         USICR |= (1 << USICS1) | (1 << USICS0);
     }
-    else 
+    else
     {
         USICR |=  (1 << USICS1);
         USICR &= ~(1 << USICS0);

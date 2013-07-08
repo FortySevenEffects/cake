@@ -33,7 +33,7 @@ struct Spi
         SpiFreq_16  = 1,
         SpiFreq_64  = 2,
         SpiFreq_128 = 3,
-        
+
         // 2X speeds
         SpiFreq_2   = 4,
         SpiFreq_8   = 5,

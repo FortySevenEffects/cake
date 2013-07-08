@@ -29,14 +29,14 @@ BEGIN_AK47_NAMESPACE
  - SLA+W
  - SLA+R
  - Data byte
- 
+
  Transaction description (MT mode)
  - Start
  - SLA+W
  - Data out
  - ... (more data out)
  - Stop
- 
+
  Transaction description (MR mode)
  - Start
  - SLA+R
@@ -44,7 +44,7 @@ BEGIN_AK47_NAMESPACE
  - ... (more data in)
  - Send NAK
  - Stop
- 
+
  */
 
 template<uint32 Speed>
@@ -53,10 +53,10 @@ inline void I2C::openMaster(byte inAddress)
     AVR_STATIC_ASSERT(Speed == speed_100k ||
                       Speed == speed_400k ||
                       Speed == speed_1M);
-    
+
     TWAR = inAddress; // Spare a byte and store the address there.
     TWBR = I2C_GET_BIT_RATE(Speed);
-    
+
     // Enable I2C
     I2cControlRegister.set(TWEN);
     enableInterrupt();
@@ -79,7 +79,7 @@ inline void I2C::sendStart()
 
 inline void I2C::sendStop()
 {
-    I2cControlRegister.set(TWSTO);  
+    I2cControlRegister.set(TWSTO);
     clearTwint();
     sExpected = TW_NO_INFO;
 }
@@ -88,7 +88,7 @@ inline void I2C::sendStop()
 
 inline void I2C::writeHeader(bool inWriteMode)
 {
-    
+
 }
 
 inline void I2C::write(byte inData)
@@ -166,7 +166,7 @@ inline void I2cTransmitterSession<Size>::send(const byte* inData,
     {
         mBuffer.push(inData[i]);
     }
-    
+
     I2C::sCurrentSession = this;
 }
 

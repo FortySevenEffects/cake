@@ -24,7 +24,7 @@ END_AK47_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
-ISR(BADISR_vect) 
+ISR(BADISR_vect)
 {
     // You have enabled an interrupt, but did not implement an ISR for it.
     // Zombie interrupts come here to die.

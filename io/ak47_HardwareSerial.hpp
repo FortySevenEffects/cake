@@ -43,7 +43,7 @@ inline void Uart<uart>::open<baud>()                                            
     /* Defaults to 8-bit, no parity, 1 stop bit */                              \
     UCSR##uart##C   = (1 << UCSZ##uart##1) | (1 << UCSZ##uart##0);              \
     sei();                                                                      \
-}   
+}
 
 #define UART_IMPLEMENT_OPEN(uart)                                               \
     UART_OPEN_IMPL(uart, 4800)                                                  \
@@ -234,10 +234,10 @@ inline void Uart<3>::busyWrite(byte inData)
 }
 #endif
 
-/*! \brief Write data and wait until end of transmission. 
- 
+/*! \brief Write data and wait until end of transmission.
+
  Unlike write, this method will wait for each byte to be transmitted to send
- the next one. It does not use the TX buffer, allowing large amounts of data 
+ the next one. It does not use the TX buffer, allowing large amounts of data
  to be sent without the need of a big TX buffer size.
  */
 template<byte UartNumber>

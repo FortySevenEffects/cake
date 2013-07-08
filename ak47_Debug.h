@@ -26,12 +26,12 @@ class Debug
 {
 public:
     AVR_TYPEDEF_FUNCTOR(void, PrintCallback, char);
-    
+
 public:
     static inline void print(char inChar);
     static inline void print(const char* inString);
     static inline void setPrintCallback(PrintCallback inCallback);
-    
+
 private:
     static PrintCallback mPrintCallback;
 };

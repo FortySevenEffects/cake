@@ -73,16 +73,16 @@ inline Adc::Sample Adc::read(ChannelId inChannel)
     ADMUX = admux | (inChannel & mask);
 
     ADCSRA |= (1 << ADSC); // Start conversion
-    
+
     while (bit_is_set(ADCSRA, ADSC))
     {
         // Wait until it's finished
     }
-    
+
     // Read data (LSB must be read first).
     const uint16 lsb = ADCL;
     const uint16 msb = ADCH;
-    
+
     return (msb << 8) | lsb;
 }
 
@@ -109,7 +109,7 @@ inline Adc::Sample AdcOversamplingFilter<NumBits>::process(Adc::Sample inSample)
 {
     mBuffer[mWriteIndex++] = inSample;
     mWriteIndex &= (sBufferSize - 1);
-    
+
     uint16 sum = 0;
     for (byte i = 0; i < sBufferSize; ++i)
     {

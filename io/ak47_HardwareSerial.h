@@ -28,7 +28,7 @@ BEGIN_AK47_NAMESPACE
 
 template<byte UartNumber>
 class Uart
-{   
+{
 public:
     inline Uart();
     inline ~Uart();
@@ -37,28 +37,28 @@ public:
     template<uint16 BaudRate>
     inline void open();
     inline void close();
-    
+
 public:
     inline byte read();
     inline bool available() const;
-    
+
 public:
     inline void write(byte inData);
     inline void write(const byte* inData,
                       unsigned inSize);
-    
+
     inline void busyWrite(byte inData);
     inline void busyWrite(const byte* inData,
                           unsigned inSize);
-    
+
 public:
     inline void clearRxBuffer();
     inline void clearTxBuffer();
-    
+
 public:
     inline void handleByteReceived(byte inData);
     inline void handleTxReady();
-    
+
 protected:
     static const byte sRxBufferSize = 32;
     static const byte sTxBufferSize = 32;
@@ -81,5 +81,5 @@ ISR(USART##uartNum##_UDRE_vect)                                                 
 }
 
 END_AK47_NAMESPACE;
-                      
+
 #include "io/ak47_HardwareSerial.hpp"
