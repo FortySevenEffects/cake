@@ -36,7 +36,10 @@ template<byte Pin>
 inline void Port<Traits>::setInput(bool inWithPullUp)
 {
     *(Traits::getDirectionRegister()) &= ~(1 << Pin);
-    // \todo Handle pull-up
+    if (inWithPullUp)
+    {
+        *(Traits::getOutputRegister()) |= (1 << Pin);
+    }
 }
 
 template<class Traits>
@@ -165,7 +168,6 @@ template<class Port, byte Bit>
 inline void Pin<Port, Bit>::setInput(bool inWithPullUp)
 {
     Port::template setInput<Bit>(inWithPullUp);
-    // \todo Handle pull-up
 }
 
 template<class Port, byte Bit>
@@ -218,7 +220,10 @@ template<class Port, byte Mask>
 inline void PinGroup<Port, Mask>::setInput(bool inWithPullUp)
 {
     *(Port::Traits::getDirectionRegister()) &= ~Mask;
-    // \todo Handle pull-up
+    if (inWithPullUp)
+    {
+        *(Port::Traits::getOutputRegister()) |= Mask;
+    }
 }
 
 template<class Port, byte Mask>
