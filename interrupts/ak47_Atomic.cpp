@@ -19,16 +19,4 @@
 
 BEGIN_AK47_NAMESPACE
 
-byte Atomic::mContext; // No initialiser, starts at zero
-
-AVR_BEGIN_UNNAMED_NAMESPACE
-
-void checkAtomicValidity()
-{
-    // Check that mContext starts with Main value.
-    AVR_STATIC_ASSERT(Atomic::Main == 0);
-}
-
-AVR_END_UNNAMED_NAMESPACE
-
 END_AK47_NAMESPACE

@@ -21,50 +21,20 @@
 #include <util/atomic.h>
 #include <avr/interrupt.h>
 
-// -----------------------------------------------------------------------------
-
 BEGIN_AK47_NAMESPACE
 
-struct Atomic
+struct ScopedInterruptLock
 {
-    enum
-    {
-        Main = 0,
-        Interrupt,
-    };
+    inline  ScopedInterruptLock();
+    inline ~ScopedInterruptLock();
+};
 
-    template<byte Context>
-    static inline void setContext();
-
-    static inline bool isContext(byte inContext);
-
-private:
-    static byte mContext;
+struct ScopedInterruptUnlock
+{
+    inline  ScopedInterruptUnlock();
+    inline ~ScopedInterruptUnlock();
 };
 
 END_AK47_NAMESPACE
-
-// -----------------------------------------------------------------------------
-
-#define AVR_BEGIN_ATOMIC_BLOCK      ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-#define AVR_END_ATOMIC_BLOCK        }
-
-// -----------------------------------------------------------------------------
-
-#if AVR_DEBUG
-#   define AVR_BEGIN_ISR(port, pin)                                             \
-    {                                                                           \
-        AVR_TRACE_ON(port, pin);                                                \
-        Atomic::setContext<Atomic::Interrupt>();                                \
-    }
-#   define AVR_END_ISR(port, pin)                                               \
-    {                                                                           \
-        Atomic::setContext<Atomic::Main>();                                     \
-        AVR_TRACE_OFF(port, pin);                                               \
-    }
-#else
-#   define AVR_BEGIN_ISR(...)
-#   define AVR_END_ISR(...)
-#endif
 
 #include "interrupts/ak47_Atomic.hpp"

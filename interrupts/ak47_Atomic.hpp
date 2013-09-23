@@ -19,16 +19,26 @@
 
 BEGIN_AK47_NAMESPACE
 
-template<byte Context>
-inline void Atomic::setContext()
+inline ScopedInterruptLock::ScopedInterruptLock()
 {
-    AVR_STATIC_ASSERT(Context == Interrupt || Context == Main);
-    mContext = Context;
+    cli();
 }
 
-inline bool Atomic::isContext(byte inContext)
+inline ~ScopedInterruptLock::ScopedInterruptLock()
 {
-    return mContext == inContext;
+    sei();
+}
+
+// -----------------------------------------------------------------------------
+
+inline ScopedInterruptUnlock::ScopedInterruptUnlock()
+{
+    sei();
+}
+
+inline ~ScopedInterruptUnlock::ScopedInterruptUnlock()
+{
+    cli();
 }
 
 END_AK47_NAMESPACE
