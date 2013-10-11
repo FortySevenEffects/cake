@@ -24,7 +24,7 @@ inline ScopedInterruptLock::ScopedInterruptLock()
     cli();
 }
 
-inline ~ScopedInterruptLock::ScopedInterruptLock()
+inline ScopedInterruptLock::~ScopedInterruptLock()
 {
     sei();
 }
@@ -36,7 +36,7 @@ inline ScopedInterruptUnlock::ScopedInterruptUnlock()
     sei();
 }
 
-inline ~ScopedInterruptUnlock::ScopedInterruptUnlock()
+inline ScopedInterruptUnlock::~ScopedInterruptUnlock()
 {
     cli();
 }
