@@ -72,7 +72,7 @@ class AdcOversamplingFilter
 public:
     static const byte sAdcNumBits           = 10;
     static const byte sNumAdditionalBits    = NumBits - sAdcNumBits;
-    static const uint16 sFactor             = 8 << sNumAdditionalBits;
+    static const uint16 sFactor             = 1 << (2 * sNumAdditionalBits);
     static const uint16 sBufferSize         = sFactor;
     static const byte sShift                = sNumAdditionalBits;
 

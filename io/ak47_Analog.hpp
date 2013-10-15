@@ -93,7 +93,6 @@ inline AdcOversamplingFilter<NumBits>::AdcOversamplingFilter()
 {
     // Make sure size is a power of two.
     AVR_STATIC_ASSERT(sBufferSize >= 1);
-    AVR_STATIC_ASSERT(sBufferSize <= 0xff);
     AVR_STATIC_ASSERT(!(sBufferSize & (sBufferSize - 1)));
 }
 
