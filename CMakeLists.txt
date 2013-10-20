@@ -40,6 +40,9 @@ append(ak47_SOURCES
     interrupts/ak47_Atomic.cpp
     interrupts/ak47_Atomic.hpp
     interrupts/ak47_Atomic.h
+    interrupts/ak47_ExternalInterrupt.cpp
+    interrupts/ak47_ExternalInterrupt.hpp
+    interrupts/ak47_ExternalInterrupt.h
     interrupts/ak47_PinChangeInterrupts.cpp
     interrupts/ak47_PinChangeInterrupts.hpp
     interrupts/ak47_PinChangeInterrupts.h
