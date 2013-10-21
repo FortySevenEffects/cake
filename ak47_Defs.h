@@ -29,6 +29,8 @@
 
 #if __cplusplus > 199711L
 #   define AVR_CPP11    // C++11 available
+#else
+#   define constexpr
 #endif
 
 // -----------------------------------------------------------------------------
