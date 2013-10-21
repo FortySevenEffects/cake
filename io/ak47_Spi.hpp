@@ -260,9 +260,9 @@ template<byte RxSize>
 inline void SpiSlave<RxSize>::close()
 {
 #if defined(SPCR)
-    SPCR = 0;
+    SPCR &= ~(1 << SPIE) & ~(1 << SPE);
 #elif defined(USICR)
-    USICR = 0;
+    USICR &= ~(1 << USIOIE) & ~(1 << USIWM0);
 #endif
 }
 
