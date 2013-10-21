@@ -19,73 +19,81 @@
 
 BEGIN_AK47_NAMESPACE
 
-template<byte PortId>
-PortChangeListener<PortId>::PortChangeListener()
+template<class Port>
+constexpr inline RegisterAddress8 PinChangeTraits<Port>::getGeneralInterruptRegister()
 {
-    for (byte i = 0; i < 8; ++i)
-        mListeners[i] = 0;
-}
-
-template<byte PortId>
-PortChangeListener<PortId>::~PortChangeListener()
-{
-    for (byte i = 0; i < 8; ++i)
-        detachPinListener(i);
+#if defined(GIMSK)
+    return RegisterAddress8(&GIMSK);
+#elif defined(PCICR)
+    return RegisterAddress8(&PCICR);
+#endif
 }
 
 // -----------------------------------------------------------------------------
 
-template<byte PortId>
-void PortChangeListener<PortId>::attachPinListener(PinChangeListener* inListener,
-                                                   PinNumber inPin)
-{
-    if (inListener != 0)
-    {
-        if (mListeners[inPin] != 0)
-        {
-            detachPinListener(inPin);
-        }
-
-        mListeners[inPin] = inListener;
-        registerInterrupt(inPin);
-    }
+#define AVR_PIN_CHANGE_TRAITS_IMPL(PortName, Id)                                        \
+template<>                                                                              \
+constexpr inline RegisterAddress8 PinChangeTraits<PortName>::getPinChangeMaskRegister() \
+{                                                                                       \
+    return RegisterAddress8(&PCMSK##Id);                                                \
+}                                                                                       \
+template<>                                                                              \
+constexpr inline byte PinChangeTraits<PortName>::getPinChangeEnableMask()               \
+{                                                                                       \
+    return 1 << (PCIE0 + Id);                                                           \
 }
 
-template<byte PortId>
-void PortChangeListener<PortId>::detachPinListener(PinChangeListener* inListener)
+#if defined(__AVR_ATmega644P__)
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortA, 0);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortB, 1);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortC, 2);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortD, 3);
+#elif defined(__AVR_ATmega328P__)
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortB, 0);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortC, 1);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortD, 2);
+#elif defined(__AVR_ATmega32U4__)
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortB, 0);
+#elif defined(__AVR_ATtiny84__)
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortA, 0);
+    AVR_PIN_CHANGE_TRAITS_IMPL(PortB, 1);
+#else
+#   error Implement abstraction for this chip.
+#endif
+
+#undef AVR_PIN_CHANGE_TRAITS_IMPL
+
+// ########################################################################## //
+
+template<class Pin>
+inline PinChangeInterrupt<Pin>::PinChangeInterrupt()
 {
-    for (byte i = 0; i < 8; ++i)
-    {
-        if (mListeners[i] == inListener)
-        {
-            unregisterInterrupt(i);
-            mListeners[i] = 0;
-            break;
-        }
-    }
 }
 
-template<byte PortId>
-void PortChangeListener<PortId>::detachPinListener(PinNumber inPin)
+template<class Pin>
+inline PinChangeInterrupt<Pin>::~PinChangeInterrupt()
 {
-    unregisterInterrupt(inPin);
-    mListeners[inPin] = 0;
 }
 
 // -----------------------------------------------------------------------------
 
-template<byte PortId>
-void PortChangeListener<PortId>::dispatchInterrupt(PortValue inValue)
+template<class Pin>
+inline void PinChangeInterrupt<Pin>::init(bool inPullUp)
 {
-    const PortValue diff = mPreviousPortValue ^ inValue;
-    mPreviousPortValue = inValue;
-    for (byte i = 0; i < 8; ++i)
-    {
-        if (diff & (1 << i) && mListeners[i] != 0)
-        {
-            (*mListeners[i])(inValue & (1 << i));
-        }
-    }
+    static const byte mask = Traits::getPinChangeEnableMask();
+    *(Traits::getGeneralInterruptRegister()) |= mask;
+}
+
+template<class Pin>
+inline void PinChangeInterrupt<Pin>::enable()
+{
+    *(Traits::getPinChangeMaskRegister()) |= (1 << Pin::Bit);
+}
+
+template<class Pin>
+inline void PinChangeInterrupt<Pin>::disable()
+{
+    *(Traits::getPinChangeMaskRegister()) &= ~(1 << Pin::Bit);
 }
 
 END_AK47_NAMESPACE

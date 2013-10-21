@@ -92,21 +92,19 @@ inline void Port<Traits>::write(byte inValue)
 #define AVR_PORT_TRAITS_IMPL(Id)                                                \
 struct PortTraits##Id                                                           \
 {                                                                               \
-    typedef volatile uint8* RegisterAddress;                                    \
-                                                                                \
-    static inline RegisterAddress getDirectionRegister()                        \
+    static inline RegisterAddress8 getDirectionRegister()                       \
     {                                                                           \
-        return RegisterAddress(&DDR##Id);                                       \
+        return RegisterAddress8(&DDR##Id);                                      \
     }                                                                           \
                                                                                 \
-    static inline RegisterAddress getOutputRegister()                           \
+    static inline RegisterAddress8 getOutputRegister()                          \
     {                                                                           \
-        return RegisterAddress(&PORT##Id);                                      \
+        return RegisterAddress8(&PORT##Id);                                     \
     }                                                                           \
                                                                                 \
-    static inline RegisterAddress getInputRegister()                            \
+    static inline RegisterAddress8 getInputRegister()                           \
     {                                                                           \
-        return RegisterAddress(&PIN##Id);                                       \
+        return RegisterAddress8(&PIN##Id);                                      \
     }                                                                           \
 };                                                                              \
 typedef Port<PortTraits##Id> Port##Id;

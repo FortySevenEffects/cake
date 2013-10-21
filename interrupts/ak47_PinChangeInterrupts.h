@@ -18,76 +18,38 @@
 #pragma once
 
 #include "ak47.h"
-#include "ak47_Types.h"
-#include "memory/ak47_Register.h"
+#include "io/ak47_Gpio.h"
 #include <avr/interrupt.h>
-#include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
 
-// -----------------------------------------------------------------------------
-
-/*! \brief Inherit from this class to be notified of pin changes. */
-class PinChangeListener
+template<class Port>
+struct PinChangeTraits
 {
-public:
-    explicit PinChangeListener();
-    virtual ~PinChangeListener();
-
-public:
-    virtual void operator() (bool inPinState) = 0;
+    static constexpr inline RegisterAddress8 getGeneralInterruptRegister();
+    static constexpr inline RegisterAddress8 getPinChangeMaskRegister();
+    static constexpr inline byte getPinChangeEnableMask();
 };
 
 // -----------------------------------------------------------------------------
 
-template<byte PortId>
-class PortChangeListener
+template<class Pin>
+class PinChangeInterrupt
 {
-protected:
-    typedef volatile byte PortValue;
-    typedef byte PinNumber;
+private:
+    typedef PinChangeTraits<typename Pin::Port> Traits;
 
 public:
-    explicit PortChangeListener();
-    virtual ~PortChangeListener();
+    inline  PinChangeInterrupt();
+    inline ~PinChangeInterrupt();
 
 public:
-    inline void attachPinListener(PinChangeListener* inListener,
-                                  PinNumber inPinToAttachTo);
-    inline void detachPinListener(PinChangeListener* inListener);
-    inline void detachPinListener(PinNumber inPinToDetach);
+    static inline void init(bool inPullUp = true);
 
 public:
-    inline void registerInterrupt(PinNumber inPin);
-    inline void unregisterInterrupt(PinNumber inPin);
-    inline void handlePortInterrupt();
-
-protected:
-    inline void dispatchInterrupt(PortValue inCurrentPortValue);
-
-    PinChangeListener* mListeners[8];
-    PortValue mPreviousPortValue;
+    static inline void enable();
+    static inline void disable();
 };
-
-// -----------------------------------------------------------------------------
-
-#ifdef PCINT0_vect
-PortChangeListener<0>* getPortChangeListener0();
-#endif
-
-#ifdef PCINT1_vect
-PortChangeListener<1>* getPortChangeListener1();
-#endif
-
-#ifdef PCINT2_vect
-PortChangeListener<2>* getPortChangeListener2();
-#endif
-
-#ifdef PCINT3_vect
-PortChangeListener<3>* getPortChangeListener3();
-#endif
-
-// -----------------------------------------------------------------------------
 
 END_AK47_NAMESPACE
 

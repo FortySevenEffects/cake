@@ -47,6 +47,12 @@ struct Register
     };                                                                          \
     Register<reg##Register> name;
 
+// -----------------------------------------------------------------------------
+
+typedef volatile uint8*     RegisterAddress;
+typedef volatile uint8*     RegisterAddress8;
+typedef volatile uint16*    RegisterAddress16;
+
 END_AK47_NAMESPACE
 
 #include "memory/ak47_Register.hpp"

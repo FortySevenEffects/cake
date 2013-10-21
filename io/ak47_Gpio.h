@@ -19,6 +19,7 @@
 
 #include "ak47.h"
 #include "ak47_Types.h"
+#include "memory/ak47_Register.h"
 #include <avr/io.h>
 
 BEGIN_AK47_NAMESPACE
@@ -57,9 +58,13 @@ public: // Port operations
 
 // -----------------------------------------------------------------------------
 
-template<class Port, byte Bit>
+template<class IOPort, byte IOBit>
 class Pin
 {
+public:
+    typedef IOPort Port;
+    static const byte Bit = IOBit;
+
 public:
     inline  Pin();
     inline ~Pin();
