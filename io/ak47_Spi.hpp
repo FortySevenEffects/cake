@@ -34,13 +34,7 @@ inline SpiTransmitter<TxSize>::~SpiTransmitter()
 template<byte TxSize>
 inline void SpiTransmitter<TxSize>::send(byte inData)
 {
-#if defined(SPCR)
-    const bool isTransmitting = SPCR & (1 << SPIE);
-#elif defined(USICR)
-    const bool isTransmitting = USICR & (1 << USIOIE);
-#endif
-
-    if (!isTransmitting && mTxBuffer.empty())
+    if (!isTransmitting() && mTxBuffer.empty())
     {
         startTransmission(inData);
     }
@@ -48,6 +42,19 @@ inline void SpiTransmitter<TxSize>::send(byte inData)
     {
         mTxBuffer.push(inData);
     }
+}
+
+template<byte TxSize>
+inline void SpiTransmitter<TxSize>::sendAndWait(byte inData)
+{
+    send(inData);
+    waitForEndOfTransmission();
+}
+
+template<byte TxSize>
+inline void SpiTransmitter<TxSize>::waitForEndOfTransmission()
+{
+    while (isTransmitting());
 }
 
 // -----------------------------------------------------------------------------
@@ -82,6 +89,18 @@ inline void SpiTransmitter<TxSize>::handleEndOfTransmission()
     }
 }
 
+// -----------------------------------------------------------------------------
+
+template<byte TxSize>
+inline bool SpiTransmitter<TxSize>::isTransmitting()
+{
+#if defined(SPCR)
+    return SPCR & (1 << SPIE);
+#elif defined(USICR)
+    return USICR & (1 << USIOIE);
+#endif
+}
+
 // ########################################################################## //
 
 template<byte RxSize>
@@ -109,12 +128,20 @@ inline bool SpiReceiver<RxSize>::read(byte& outData)
 // -----------------------------------------------------------------------------
 
 template<byte RxSize>
-inline void SpiReceiver<RxSize>::handleByteReceived()
+inline void SpiReceiver<RxSize>::handleByteReceived(bool inStoreData)
 {
 #if defined(SPDR)
-    mRxBuffer.push(SPDR);
+    if (inStoreData)
+    {
+        mRxBuffer.push(SPDR);    
+    }
 #elif defined(USIBR)
-    mRxBuffer.push(USIBR);
+    USISR |= (1 << USIOIF); // Clear interrupt flag
+    USIDR = 0x00;           // Set data to send back (none)
+    if (inStoreData)
+    {
+        mRxBuffer.push(USIBR);
+    }
 #endif
 }
 
@@ -142,7 +169,6 @@ inline void SpiMaster<TxSize>::open()
 #elif defined(USICR)
     USICR = (1 << USIWM0); // No hardware master operation on USI.
 #endif
-
     setMode(0);
 }
 
@@ -249,9 +275,9 @@ inline void SpiSlave<RxSize>::open()
 {
     // Enable interrupt + enable SPI.
 #if defined(SPCR)
-    SPCR  = (1 << SPIE) | (1 << SPE);
+    SPCR  |= (1 << SPIE) | (1 << SPE);
 #elif defined(USICR)
-    USICR = (1 << USIOIE) | (1 << USIWM0);
+    USICR |= (1 << USIOIE) | (1 << USIWM0) | (1 << USICS1);
 #endif
     setMode(0);
 }
@@ -262,7 +288,7 @@ inline void SpiSlave<RxSize>::close()
 #if defined(SPCR)
     SPCR &= ~(1 << SPIE) & ~(1 << SPE);
 #elif defined(USICR)
-    USICR &= ~(1 << USIOIE) & ~(1 << USIWM0);
+    USICR = 0;
 #endif
 }
 
@@ -288,16 +314,10 @@ inline void SpiSlave<RxSize>::setMode(byte inSpiMode)
     else                            SPCR &= ~(1 << CPOL);
 
 #elif defined(USICR)
+    if (inSpiMode & maskCPHA)       USICR |= (1 << USICS0);
+    else                            USICR &= ~(1 << USICS0);
+
     // USI has no polarity support.
-    if (inSpiMode & maskCPHA)
-    {
-        USICR |= (1 << USICS1) | (1 << USICS0);
-    }
-    else
-    {
-        USICR |=  (1 << USICS1);
-        USICR &= ~(1 << USICS0);
-    }
 #endif
 }
 

@@ -50,10 +50,15 @@ public:
 
 public:
     inline void send(byte inData);
+    inline void sendAndWait(byte inData);
+    static inline void waitForEndOfTransmission();
 
 public: // Restricted - not for public usage.
     inline void startTransmission(byte inData);
     inline void handleEndOfTransmission();
+
+protected:
+    static inline bool isTransmitting();
 
 protected:
     RingBuffer<TxSize> mTxBuffer;
@@ -71,8 +76,8 @@ public:
 public:
     inline bool read(byte& outData);
 
-public: // Restricted - not for public usage.
-    inline void handleByteReceived();
+public: // Restricted - call from interrupt handler
+    inline void handleByteReceived(bool inStoreData = true);
 
 protected:
     RingBuffer<RxSize> mRxBuffer;
