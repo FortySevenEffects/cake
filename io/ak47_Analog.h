@@ -98,6 +98,13 @@ public:
     static inline Adc::Sample read();
 };
 
+class AnalogDummyPin
+{
+public:
+    static inline void init() { }
+    static inline Adc::Sample read() { return 0; }
+};
+
 END_AK47_NAMESPACE
 
 #include "io/ak47_Analog.hpp"

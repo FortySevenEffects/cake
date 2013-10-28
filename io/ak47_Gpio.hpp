@@ -200,6 +200,60 @@ inline bool Pin<Port, Bit>::read()
     return Port::read() & (1 << Bit);
 }
 
+// -----------------------------------------------------------------------------
+
+template<class Port, byte Bit>
+inline void Pin<Port, Bit>::pulseHigh()
+{
+    set();
+    clear();
+}
+
+template<class Port, byte Bit>
+inline void Pin<Port, Bit>::pulseLow()
+{
+    clear();
+    set();
+}
+
+// -----------------------------------------------------------------------------
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinSet::ScopedPinSet()
+{
+    set();
+}
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinSet::~ScopedPinSet()
+{
+    clear();
+}
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinClear::ScopedPinClear()
+{
+    clear();
+}
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinClear::~ScopedPinClear()
+{
+    set();
+}
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinToggle::ScopedPinToggle()
+{
+    toggle();
+}
+
+template<class Port, byte Bit>
+inline Pin<Port, Bit>::ScopedPinToggle::~ScopedPinToggle()
+{
+    toggle();
+}
+
 // ########################################################################## //
 
 template<class Port, byte Mask>

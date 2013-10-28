@@ -78,6 +78,29 @@ public:
     static inline void clear();
     static inline void toggle();
     static inline bool read();
+
+public:
+    static inline void pulseHigh();
+    static inline void pulseLow();
+
+public:
+    struct ScopedPinSet
+    {
+        inline  ScopedPinSet();
+        inline ~ScopedPinSet();
+    };
+
+    struct ScopedPinClear
+    {
+        inline  ScopedPinClear();
+        inline ~ScopedPinClear();
+    };
+
+    struct ScopedPinToggle
+    {
+        inline  ScopedPinToggle();
+        inline ~ScopedPinToggle();
+    };
 };
 
 // -----------------------------------------------------------------------------
@@ -100,6 +123,48 @@ public:
 
 private:
     static inline byte getShift();
+};
+
+// -----------------------------------------------------------------------------
+
+class DummyPin
+{
+public:
+    inline  DummyPin() { }
+    inline ~DummyPin() { }
+
+public:
+    static inline void setInput(bool inWithPullUp = false) { }
+    static inline void setOutput() { }
+
+public:
+    static inline void set() { }
+    static inline void clear() { }
+    static inline void toggle() { }
+    static inline bool read() { return false; }
+
+public:
+    static inline void pulseHigh() { }
+    static inline void pulseLow() { }
+
+public:
+    struct ScopedPinSet
+    {
+        inline  ScopedPinSet() { }
+        inline ~ScopedPinSet() { }
+    };
+
+    struct ScopedPinClear
+    {
+        inline  ScopedPinClear() { }
+        inline ~ScopedPinClear() { }
+    };
+
+    struct ScopedPinToggle
+    {
+        inline  ScopedPinToggle() { }
+        inline ~ScopedPinToggle() { }
+    };
 };
 
 END_AK47_NAMESPACE
