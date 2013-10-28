@@ -31,7 +31,7 @@
 #endif
 
 #define avr_assertion_str       "Assert:" __FILE__ ":" AVR_STRINGIFY(__LINE__)
-#define avr_log_assertion       AK47_NAMESPACE::Debug::print(avr_assertion_str)
+#define avr_log_assertion       AK47_NAMESPACE::Debug::log(avr_assertion_str)
 
 #ifdef NDEBUG
 #   define avr_assert(...)      ((void)0)

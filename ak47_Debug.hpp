@@ -36,6 +36,31 @@ inline void Debug::print(const char* inString)
     }
 }
 
+inline void Debug::printNumber(unsigned long inNum)
+{
+    char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+    char *str = &buf[sizeof(buf) - 1];
+    *str = 0;
+
+    do
+    {
+        const unsigned long digit = inNum;
+        inNum /= 10;
+        const char c = digit - 10 * inNum;
+        *--str = c < 10 ? c + '0' : c + 'a' - 10;
+    }
+    while(inNum);
+
+    print(str);
+}
+
+inline void Debug::log(const char* inString)
+{
+    print(inString);
+    print('\n');
+    print('\r');
+}
+
 // -----------------------------------------------------------------------------
 
 void Debug::setPrintCallback(PrintCallback inCallback)
