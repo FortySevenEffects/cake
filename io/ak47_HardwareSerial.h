@@ -68,6 +68,24 @@ protected:
 
 // -----------------------------------------------------------------------------
 
+#ifdef UART0
+typedef Uart<0> Uart0;
+#endif
+
+#ifdef UART1
+typedef Uart<1> Uart1;
+#endif
+
+#ifdef UART2
+typedef Uart<2> Uart2;
+#endif
+
+#ifdef UART3
+typedef Uart<3> Uart3;
+#endif
+
+// -----------------------------------------------------------------------------
+
 #define UART_ISR_RX_IMPL(uartNum, obj)                                          \
 ISR(USART##uartNum##_RX_vect)                                                   \
 {                                                                               \
