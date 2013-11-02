@@ -36,21 +36,25 @@ inline void Debug::print(const char* inString)
     }
 }
 
-inline void Debug::printNumber(unsigned long inNum)
+inline void Debug::printNumber(long inNum)
 {
+    const bool negative = inNum < 0;
+    unsigned long num = negative ? -1 * inNum : inNum;
     char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
     char *str = &buf[sizeof(buf) - 1];
     *str = 0;
 
     do
     {
-        const unsigned long digit = inNum;
-        inNum /= 10;
-        const char c = digit - 10 * inNum;
+        const long digit = num;
+        num /= 10;
+        const char c = digit - 10 * num;
         *--str = c < 10 ? c + '0' : c + 'a' - 10;
     }
-    while(inNum);
+    while(num);
 
+    if (negative)
+        print('-');
     print(str);
 }
 

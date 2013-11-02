@@ -30,7 +30,7 @@ public:
 public:
     static inline void print(char inChar);
     static inline void print(const char* inString);
-    static inline void printNumber(unsigned long inNum);
+    static inline void printNumber(long inNum);
 
     static inline void log(const char* inString);
     static inline void setPrintCallback(PrintCallback inCallback);
