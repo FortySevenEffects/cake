@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_ExternalInterrupt.hpp
+ *  \file       cake_ExternalInterrupt.hpp
  *  \author     Francois Best
  *  \date       16/10/2013
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2013
@@ -20,7 +20,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<class Traits>
 inline ExternalInterrupt<Traits>::ExternalInterrupt()
@@ -118,4 +118,4 @@ AVR_TRAITS_IMPL(6)
 #undef AVR_EXT_INT_ENABLE_REG
 #undef AVR_TRAITS_IMPL
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

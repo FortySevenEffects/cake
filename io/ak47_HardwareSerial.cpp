@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_HardwareSerial.cpp
+ *  \file       cake_HardwareSerial.cpp
  *  \author     Francois Best
  *  \date       16/06/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,8 +15,8 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "io/ak47_HardwareSerial.h"
+#include "io/cake_HardwareSerial.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

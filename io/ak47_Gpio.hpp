@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Gpio.hpp
+ *  \file       cake_Gpio.hpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<class Traits>
 Port<Traits>::Port()
@@ -321,4 +321,4 @@ inline byte PinGroup<Port, Mask>::getShift()
     return 7;
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Spi.h
+ *  \file       cake_Spi.h
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
-#include "memory/ak47_RingBuffer.h"
+#include "cake.h"
+#include "cake_Types.h"
+#include "memory/cake_RingBuffer.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 struct Spi
 {
@@ -119,6 +119,6 @@ public:
     inline void setMode(byte inSpiMode);
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "io/ak47_Spi.hpp"
+#include "io/cake_Spi.hpp"

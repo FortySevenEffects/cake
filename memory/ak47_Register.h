@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Register.h
+ *  \file       cake_Register.h
  *  \author     Francois Best
  *  \date       16/11/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template <typename Reg>
 struct Register
@@ -53,6 +53,6 @@ typedef volatile uint8*     RegisterAddress;
 typedef volatile uint8*     RegisterAddress8;
 typedef volatile uint16*    RegisterAddress16;
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "memory/ak47_Register.hpp"
+#include "memory/cake_Register.hpp"

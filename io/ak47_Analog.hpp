@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Analog.hpp
+ *  \file       cake_Analog.hpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 inline void Adc::enable()
 {
@@ -132,4 +132,4 @@ inline Adc::Sample AnalogPin<Bit>::read()
     return Adc::read(Bit);
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

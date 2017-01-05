@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_HardwareSerial.h
+ *  \file       cake_HardwareSerial.h
  *  \author     Francois Best
  *  \date       16/06/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,14 +17,14 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
-#include "memory/ak47_Register.h"
-#include "memory/ak47_RingBuffer.h"
-#include "io/ak47_HardwareSerial_Devices.h"
+#include "cake.h"
+#include "cake_Types.h"
+#include "memory/cake_Register.h"
+#include "memory/cake_RingBuffer.h"
+#include "io/cake_HardwareSerial_Devices.h"
 #include <avr/interrupt.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<byte UartNumber>
 class Uart
@@ -98,6 +98,6 @@ ISR(USART##uartNum##_UDRE_vect)                                                 
     obj.handleTxReady();                                                        \
 }
 
-END_AK47_NAMESPACE;
+END_CAKE_NAMESPACE;
 
-#include "io/ak47_HardwareSerial.hpp"
+#include "io/cake_HardwareSerial.hpp"

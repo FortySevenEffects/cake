@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Timer.h
+ *  \file       cake_Timer.h
  *  \author     Francois Best
  *  \date       02/12/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<byte TimerId, byte Bits>
 struct TimerTraits;
@@ -150,6 +150,6 @@ public:
 #   define AVR_ISR_TIMER_OVF(Id)       TIMER##Id##_OVF_vect
 #endif
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "time/ak47_Timer.hpp"
+#include "time/cake_Timer.hpp"

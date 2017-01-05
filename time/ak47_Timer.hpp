@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Timer.hpp
+ *  \file       cake_Timer.hpp
  *  \author     Francois Best
  *  \date       02/12/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -20,7 +20,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<byte TimerId, byte Bits>
 inline Timer<TimerId, Bits>::Timer()
@@ -277,4 +277,4 @@ AVR_TIMER_TRAITS_IMPL(5, 8 * sizeof(TCNT5))
 
 #undef AVR_TIMER_TRAITS_IMPL
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

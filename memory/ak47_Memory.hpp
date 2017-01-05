@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Memory.hpp
+ *  \file       cake_Memory.hpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 static const byte sStackPattern = 0xaa;
 
@@ -78,11 +78,11 @@ inline uint16 getMaxStackUsage()
     return count;
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
-#if AK47_DYNAMIC_MEMORY && defined(__cplusplus)
+#if CAKE_DYNAMIC_MEMORY && defined(__cplusplus)
 
 inline void* operator new(size_t size)
 {

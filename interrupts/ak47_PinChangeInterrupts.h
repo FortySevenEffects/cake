@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_PinChangeInterrupts.h
+ *  \file       cake_PinChangeInterrupts.h
  *  \author     Francois Best
  *  \date       23/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "io/ak47_Gpio.h"
+#include "cake.h"
+#include "io/cake_Gpio.h"
 #include <avr/interrupt.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<class Port>
 struct PinChangeTraits
@@ -51,6 +51,6 @@ public:
     static inline void disable();
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "ak47_PinChangeInterrupts.hpp"
+#include "cake_PinChangeInterrupts.hpp"

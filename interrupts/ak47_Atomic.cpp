@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Atomic.cpp
+ *  \file       cake_Atomic.cpp
  *  \author     Francois Best
  *  \date       29/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,8 +15,8 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "interrupts/ak47_Atomic.h"
+#include "interrupts/cake_Atomic.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

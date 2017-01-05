@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Timer.cpp
+ *  \file       cake_Timer.cpp
  *  \author     Francois Best
  *  \date       02/12/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -18,8 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "time/ak47_Timer.h"
+#include "time/cake_Timer.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

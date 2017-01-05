@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Eeprom.cpp
+ *  \file       cake_Eeprom.cpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,14 +15,14 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "memory/ak47_Eeprom.h"
+#include "memory/cake_Eeprom.h"
 #include <avr/interrupt.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 Eeprom::EepromReadyCallback Eeprom::sClientCallback = 0;
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
@@ -36,8 +36,8 @@ END_AK47_NAMESPACE
 
 ISR(EEPROM_ISR)
 {
-    if (ak47::Eeprom::sClientCallback != 0)
+    if (cake::Eeprom::sClientCallback != 0)
     {
-        ak47::Eeprom::sClientCallback();
+        cake::Eeprom::sClientCallback();
     }
 }

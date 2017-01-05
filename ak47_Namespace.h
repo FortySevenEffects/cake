@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Namespace.h
+ *  \file       cake_Namespace.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -19,12 +19,12 @@
 
 // -----------------------------------------------------------------------------
 
-#define AK47_NAMESPACE                  ak47
-#define BEGIN_AK47_NAMESPACE            namespace AK47_NAMESPACE {
-#define END_AK47_NAMESPACE              }
-#define USING_AK47_NAMESPACE            using namespace AK47_NAMESPACE
+#define CAKE_NAMESPACE                  cake
+#define BEGIN_CAKE_NAMESPACE            namespace CAKE_NAMESPACE {
+#define END_CAKE_NAMESPACE              }
+#define USING_CAKE_NAMESPACE            using namespace CAKE_NAMESPACE
 
-namespace AK47_NAMESPACE
+namespace CAKE_NAMESPACE
 {
 
 }

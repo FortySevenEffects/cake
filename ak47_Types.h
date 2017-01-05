@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Types.h
+ *  \file       cake_Types.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <inttypes.h>
 
 typedef float       float32;
@@ -36,6 +36,6 @@ typedef uint8       byte;
 
 // -----------------------------------------------------------------------------
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

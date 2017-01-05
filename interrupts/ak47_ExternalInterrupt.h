@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_ExternalInterrupt.h
+ *  \file       cake_ExternalInterrupt.h
  *  \author     Francois Best
  *  \date       16/10/2013
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2013
@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <avr/interrupt.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<class Traits>
 class ExternalInterrupt
@@ -49,6 +49,6 @@ public:
     static inline void setTriggerOn(TriggerMode inMode);
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "interrupts/ak47_ExternalInterrupt.hpp"
+#include "interrupts/cake_ExternalInterrupt.hpp"

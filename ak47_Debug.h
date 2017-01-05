@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Debug.h
+ *  \file       cake_Debug.h
  *  \author     Francois Best
  *  \date       09/11/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "ak47_Namespace.h"
-#include "ak47_Defs.h"
+#include "cake_Namespace.h"
+#include "cake_Defs.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 class Debug
 {
@@ -39,13 +39,13 @@ private:
     static PrintCallback mPrintCallback;
 };
 
-#define AVR_DBG(str) ak47::Debug::print(str)
+#define AVR_DBG(str) cake::Debug::print(str)
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
-#ifndef AK47_NO_TRACE
+#ifndef CAKE_NO_TRACE
 #   define AVR_TRACE
 #   include <avr/io.h>
 #   define AVR_START_TRACE(port, pin)   { DDR##port  |=  (1 << pin); }
@@ -70,4 +70,4 @@ END_AK47_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
-#include "ak47_Debug.hpp"
+#include "cake_Debug.hpp"

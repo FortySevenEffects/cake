@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_I2C_Devices.h
+ *  \file       cake_I2C_Devices.h
  *  \author     Francois Best
  *  \date       11/11/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "memory/ak47_Register.h"
+#include "cake.h"
+#include "memory/cake_Register.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 #if defined TWI_vect
 #   if  !defined(TWCR) ||   \
@@ -36,4 +36,4 @@ BEGIN_AK47_NAMESPACE
 #   define NO_I2C
 #endif
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

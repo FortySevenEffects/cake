@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_I2C.hpp
+ *  \file       cake_I2C.hpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 #define I2C_GET_BIT_RATE(speed)     ((F_CPU) / (2*(speed)) - 8)
 #define I2C_GET_PRESCALE(speed)     (0)
@@ -170,4 +170,4 @@ inline void I2cTransmitterSession<Size>::send(const byte* inData,
     I2C::sCurrentSession = this;
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

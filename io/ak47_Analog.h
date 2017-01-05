@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Analog.h
+ *  \file       cake_Analog.h
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
+#include "cake.h"
+#include "cake_Types.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 class Adc
 {
@@ -105,6 +105,6 @@ public:
     static inline Adc::Sample read() { return 0; }
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "io/ak47_Analog.hpp"
+#include "io/cake_Analog.hpp"

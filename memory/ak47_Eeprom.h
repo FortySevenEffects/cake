@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Eeprom.h
+ *  \file       cake_Eeprom.h
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
+#include "cake.h"
+#include "cake_Types.h"
 #include <avr/eeprom.h>
 
 // -----------------------------------------------------------------------------
@@ -31,7 +31,7 @@
 
 // -----------------------------------------------------------------------------
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 class Eeprom
 {
@@ -54,6 +54,6 @@ public: // For the ISR only, not for public use
     static EepromReadyCallback sClientCallback;
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "memory/ak47_Eeprom.hpp"
+#include "memory/cake_Eeprom.hpp"

@@ -1,74 +1,74 @@
 
-target(ak47)
+target(cake)
 
-append(ak47_SOURCES
+append(cake_SOURCES
 
-    ak47.cpp
-    ak47.h
-    ak47_Defs.h
-    ak47_Namespace.h
-    ak47_Types.cpp
-    ak47_Types.h
-    ak47_Assert.h
-    ak47_Debug.cpp
-    ak47_Debug.hpp
-    ak47_Debug.h
+    cake.cpp
+    cake.h
+    cake_Defs.h
+    cake_Namespace.h
+    cake_Types.cpp
+    cake_Types.h
+    cake_Assert.h
+    cake_Debug.cpp
+    cake_Debug.hpp
+    cake_Debug.h
 
-    memory/ak47_Memory.cpp
-    memory/ak47_Memory.hpp
-    memory/ak47_Memory.h
-    memory/ak47_Register.cpp
-    memory/ak47_Register.hpp
-    memory/ak47_Register.h
-    memory/ak47_Eeprom.cpp
-    memory/ak47_Eeprom.hpp
-    memory/ak47_Eeprom.h
-    memory/ak47_GeneralPurposeRegisters.cpp
-    memory/ak47_GeneralPurposeRegisters.hpp
-    memory/ak47_GeneralPurposeRegisters.h
-    memory/ak47_ProgramSpace.cpp
-    memory/ak47_ProgramSpace.hpp
-    memory/ak47_ProgramSpace.h
-    memory/ak47_RingBuffer.cpp
-    memory/ak47_RingBuffer.hpp
-    memory/ak47_RingBuffer.h
+    memory/cake_Memory.cpp
+    memory/cake_Memory.hpp
+    memory/cake_Memory.h
+    memory/cake_Register.cpp
+    memory/cake_Register.hpp
+    memory/cake_Register.h
+    memory/cake_Eeprom.cpp
+    memory/cake_Eeprom.hpp
+    memory/cake_Eeprom.h
+    memory/cake_GeneralPurposeRegisters.cpp
+    memory/cake_GeneralPurposeRegisters.hpp
+    memory/cake_GeneralPurposeRegisters.h
+    memory/cake_ProgramSpace.cpp
+    memory/cake_ProgramSpace.hpp
+    memory/cake_ProgramSpace.h
+    memory/cake_RingBuffer.cpp
+    memory/cake_RingBuffer.hpp
+    memory/cake_RingBuffer.h
 
-    time/ak47_Timer.cpp
-    time/ak47_Timer.hpp
-    time/ak47_Timer.h
+    time/cake_Timer.cpp
+    time/cake_Timer.hpp
+    time/cake_Timer.h
 
-    interrupts/ak47_Atomic.cpp
-    interrupts/ak47_Atomic.hpp
-    interrupts/ak47_Atomic.h
-    interrupts/ak47_ExternalInterrupt.cpp
-    interrupts/ak47_ExternalInterrupt.hpp
-    interrupts/ak47_ExternalInterrupt.h
-    interrupts/ak47_PinChangeInterrupts.cpp
-    interrupts/ak47_PinChangeInterrupts.hpp
-    interrupts/ak47_PinChangeInterrupts.h
-    interrupts/ak47_BadIsrCatcher.cpp
+    interrupts/cake_Atomic.cpp
+    interrupts/cake_Atomic.hpp
+    interrupts/cake_Atomic.h
+    interrupts/cake_ExternalInterrupt.cpp
+    interrupts/cake_ExternalInterrupt.hpp
+    interrupts/cake_ExternalInterrupt.h
+    interrupts/cake_PinChangeInterrupts.cpp
+    interrupts/cake_PinChangeInterrupts.hpp
+    interrupts/cake_PinChangeInterrupts.h
+    interrupts/cake_BadIsrCatcher.cpp
 
-    io/ak47_Analog.cpp
-    io/ak47_Analog.hpp
-    io/ak47_Analog.h
-    io/ak47_Gpio.cpp
-    io/ak47_Gpio.hpp
-    io/ak47_Gpio.h
-    io/ak47_HardwareSerial.cpp
-    io/ak47_HardwareSerial.hpp
-    io/ak47_HardwareSerial.h
-    io/ak47_HardwareSerial_Devices.h
-    io/ak47_I2C.cpp
-    io/ak47_I2C.hpp
-    io/ak47_I2C.h
-    io/ak47_Spi.cpp
-    io/ak47_Spi.hpp
-    io/ak47_Spi.h
+    io/cake_Analog.cpp
+    io/cake_Analog.hpp
+    io/cake_Analog.h
+    io/cake_Gpio.cpp
+    io/cake_Gpio.hpp
+    io/cake_Gpio.h
+    io/cake_HardwareSerial.cpp
+    io/cake_HardwareSerial.hpp
+    io/cake_HardwareSerial.h
+    io/cake_HardwareSerial_Devices.h
+    io/cake_I2C.cpp
+    io/cake_I2C.hpp
+    io/cake_I2C.h
+    io/cake_Spi.cpp
+    io/cake_Spi.hpp
+    io/cake_Spi.h
 )
 
-append(ak47_DEFS
-    AVR_AK47=1
+append(cake_DEFS
+    AVR_CAKE=1
     AVR_BREAK_ON_ASSERT=1
 )
 
-build_avr_library(ak47)
+build_avr_library(cake)

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Debug.cpp
+ *  \file       cake_Debug.cpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,10 +15,10 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "ak47_Debug.h"
+#include "cake_Debug.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 Debug::PrintCallback Debug::mPrintCallback = 0;
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

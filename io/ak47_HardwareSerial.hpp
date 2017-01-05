@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_HardwareSerial.hpp
+ *  \file       cake_HardwareSerial.hpp
  *  \author     Francois Best
  *  \date       16/06/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 // Macros
@@ -346,4 +346,4 @@ inline void Uart<3>::handleTxReady()
 #undef UART_ENABLE_TX_INT
 #undef UART_DISABLE_TX_INT
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

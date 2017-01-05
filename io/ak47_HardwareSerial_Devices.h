@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_HardwareSerial_Devices.h
+ *  \file       cake_HardwareSerial_Devices.h
  *  \author     Francois Best
  *  \date       11/11/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 // Hardware Abstraction
@@ -41,4 +41,4 @@ BEGIN_AK47_NAMESPACE
 #   define NO_UART
 #endif
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

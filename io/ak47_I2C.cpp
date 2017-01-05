@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_I2C.cpp
+ *  \file       cake_I2C.cpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,11 +15,11 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "io/ak47_I2C.h"
+#include "io/cake_I2C.h"
 
 #ifdef TWI_vect
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 byte I2C::sExpected = 0;
 
@@ -30,6 +30,6 @@ ISR(TWI_vect)
     I2C::interruptCallback();
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 #endif

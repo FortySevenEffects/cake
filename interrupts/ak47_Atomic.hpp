@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Atomic.hpp
+ *  \file       cake_Atomic.hpp
  *  \author     Francois Best
  *  \date       29/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 inline ScopedInterruptLock::ScopedInterruptLock()
 {
@@ -41,4 +41,4 @@ inline ScopedInterruptUnlock::~ScopedInterruptUnlock()
     cli();
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

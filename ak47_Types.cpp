@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Types.cpp
+ *  \file       cake_Types.cpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,9 +15,9 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "ak47_Types.h"
+#include "cake_Types.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 void checkTypesBitWidths()
 {
@@ -39,4 +39,4 @@ void checkTypesBitWidths()
     AVR_STATIC_ASSERT(sizeof(unsigned) == 2);
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

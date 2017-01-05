@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_ExternalInterrupt.cpp
+ *  \file       cake_ExternalInterrupt.cpp
  *  \author     Francois Best
  *  \date       16/10/2013
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2013
@@ -18,8 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "interrupts/ak47_ExternalInterrupt.h"
+#include "interrupts/cake_ExternalInterrupt.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

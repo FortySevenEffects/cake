@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_I2C.h
+ *  \file       cake_I2C.h
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,15 +17,15 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
-#include "memory/ak47_RingBuffer.h"
-#include "io/ak47_I2C_Devices.h"
+#include "cake.h"
+#include "cake_Types.h"
+#include "memory/cake_RingBuffer.h"
+#include "io/cake_I2C_Devices.h"
 #include <util/twi.h>
 
 #ifdef TWI_vect
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 class I2cSession;
 
@@ -95,8 +95,8 @@ private:
 
 // -----------------------------------------------------------------------------
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "io/ak47_I2C.hpp"
+#include "io/cake_I2C.hpp"
 
 #endif // TWI_vect

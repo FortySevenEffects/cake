@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47.h
+ *  \file       cake.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,12 +15,12 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "ak47.h"
+#include "cake.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 #ifndef F_CPU
 #   error Please define F_CPU in the compiler flags.
 #endif
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

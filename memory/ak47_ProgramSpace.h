@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_ProgramSpace.h
+ *  \file       cake_ProgramSpace.h
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "memory/ak47_ProgramSpace.hpp"
+#include "memory/cake_ProgramSpace.hpp"

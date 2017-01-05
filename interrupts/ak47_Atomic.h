@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Atomic.h
+ *  \file       cake_Atomic.h
  *  \author     Francois Best
  *  \date       29/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include "ak47.h"
+#include "cake.h"
 #include <util/atomic.h>
 #include <avr/interrupt.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 struct ScopedInterruptLock
 {
@@ -35,6 +35,6 @@ struct ScopedInterruptUnlock
     inline ~ScopedInterruptUnlock();
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "interrupts/ak47_Atomic.hpp"
+#include "interrupts/cake_Atomic.hpp"

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Assert.h
+ *  \file       cake_Assert.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "ak47_Namespace.h"
-#include "ak47_Debug.h"
+#include "cake_Namespace.h"
+#include "cake_Debug.h"
 
 #define AVR__STRINGIFY(s)       #s
 #define AVR_STRINGIFY(s)        AVR__STRINGIFY(s)
@@ -31,7 +31,7 @@
 #endif
 
 #define avr_assertion_str       "Assert:" __FILE__ ":" AVR_STRINGIFY(__LINE__)
-#define avr_log_assertion       AK47_NAMESPACE::Debug::log(avr_assertion_str)
+#define avr_log_assertion       CAKE_NAMESPACE::Debug::log(avr_assertion_str)
 
 #ifdef NDEBUG
 #   define avr_assert(...)      ((void)0)
@@ -48,16 +48,16 @@
 
 // -----------------------------------------------------------------------------
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<bool Predicate> struct StaticAssert;
 template<> struct StaticAssert<true> { static void ok() {} };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 #define AVR_ASSERT(Predicate, ...)      avr_assert(Predicate)
 #define AVR_ASSERT_FALSE(...)           avr_assert(false)
-#define AVR_STATIC_ASSERT(Predicate)    ak47::StaticAssert<Predicate>::ok()
+#define AVR_STATIC_ASSERT(Predicate)    cake::StaticAssert<Predicate>::ok()
 
 #define AVR_IMPLEMENT_ME(...)                                                   \
 {                                                                               \

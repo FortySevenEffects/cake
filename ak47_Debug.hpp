@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Debug.hpp
+ *  \file       cake_Debug.hpp
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 inline void Debug::print(char inChar)
 {
@@ -72,4 +72,4 @@ void Debug::setPrintCallback(PrintCallback inCallback)
     mPrintCallback = inCallback;
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_GeneralPurposeRegisters.cpp
+ *  \file       cake_GeneralPurposeRegisters.cpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -15,10 +15,10 @@
  *  GNU General Public License for more details: http://www.gnu.org/licenses
  */
 
-#include "memory/ak47_GeneralPurposeRegisters.h"
+#include "memory/cake_GeneralPurposeRegisters.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Register.hpp
+ *  \file       cake_Register.hpp
  *  \author     Francois Best
  *  \date       16/11/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -20,7 +20,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template <typename Reg>
 inline void Register<Reg>::set(byte inBit)
@@ -55,4 +55,4 @@ inline Register<Reg>::operator byte() const
     return *Reg::ptr();
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

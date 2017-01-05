@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Eeprom.hpp
+ *  \file       cake_Eeprom.hpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 inline byte Eeprom::read(uint16 inAddress)
 {
@@ -43,4 +43,4 @@ inline void Eeprom::write(uint16 inAddress, const byte* inData, uint16 inSize)
     }
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_PinChangeInterrupts.hpp
+ *  \file       cake_PinChangeInterrupts.hpp
  *  \author     Francois Best
  *  \date       23/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<class Port>
 constexpr inline RegisterAddress8 PinChangeTraits<Port>::getGeneralInterruptRegister()
@@ -96,4 +96,4 @@ inline void PinChangeInterrupt<Pin>::disable()
     *(Traits::getPinChangeMaskRegister()) &= ~(1 << Pin::Bit);
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

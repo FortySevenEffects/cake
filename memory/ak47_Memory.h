@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Memory.h
+ *  \file       cake_Memory.h
  *  \author     Francois Best
  *  \date       22/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
+#include "cake.h"
+#include "cake_Types.h"
 #include <avr/io.h>
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 inline uint16 getFreeMemory();
 inline uint16 getHeapSize();
@@ -30,15 +30,15 @@ inline uint16 getStackSize();
 inline void paintStack();
 inline uint16 getMaxStackUsage();
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
 // -----------------------------------------------------------------------------
 
-#ifndef AK47_DYNAMIC_MEMORY
-#   define AK47_DYNAMIC_MEMORY 1
+#ifndef CAKE_DYNAMIC_MEMORY
+#   define CAKE_DYNAMIC_MEMORY 1
 #endif
 
-#if AK47_DYNAMIC_MEMORY && defined(__cplusplus)
+#if CAKE_DYNAMIC_MEMORY && defined(__cplusplus)
 
 #include <stdlib.h>
 inline void* operator new(size_t);
@@ -50,4 +50,4 @@ inline void operator delete[](void*);
 
 #endif
 
-#include "ak47_Memory.hpp"
+#include "cake_Memory.hpp"

@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_Spi.hpp
+ *  \file       cake_Spi.hpp
  *  \author     Francois Best
  *  \date       27/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,7 +17,7 @@
 
 #pragma once
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template<byte TxSize>
 inline SpiTransmitter<TxSize>::SpiTransmitter()
@@ -133,7 +133,7 @@ inline void SpiReceiver<RxSize>::handleByteReceived(bool inStoreData)
 #if defined(SPDR)
     if (inStoreData)
     {
-        mRxBuffer.push(SPDR);    
+        mRxBuffer.push(SPDR);
     }
 #elif defined(USIBR)
     USISR |= (1 << USIOIF); // Clear interrupt flag
@@ -321,4 +321,4 @@ inline void SpiSlave<RxSize>::setMode(byte inSpiMode)
 #endif
 }
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE

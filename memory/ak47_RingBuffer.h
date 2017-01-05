@@ -1,5 +1,5 @@
 /*!
- *  \file       ak47_RingBuffer.h
+ *  \file       cake_RingBuffer.h
  *  \author     Francois Best
  *  \date       23/10/2012
  *  \license    GPL v3.0 - Copyright Forty Seven Effects 2012
@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "ak47.h"
-#include "ak47_Types.h"
+#include "cake.h"
+#include "cake_Types.h"
 
-BEGIN_AK47_NAMESPACE
+BEGIN_CAKE_NAMESPACE
 
 template <byte BufferSize, typename Type = byte>
 class RingBuffer
@@ -46,6 +46,6 @@ protected:
     Index mWrite;
 };
 
-END_AK47_NAMESPACE
+END_CAKE_NAMESPACE
 
-#include "ak47_RingBuffer.hpp"
+#include "cake_RingBuffer.hpp"
