@@ -117,7 +117,7 @@ public:
     inline ~DummyPin() { }
 
 public:
-    static inline void setInput(bool inWithPullUp = false) { }
+    static inline void setInput(bool /* inWithPullUp */ = false) { }
     static inline void setOutput() { }
 
 public:

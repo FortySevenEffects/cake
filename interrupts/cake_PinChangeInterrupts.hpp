@@ -16,12 +16,12 @@ constexpr inline RegisterAddress8 PinChangeTraits<Port>::getGeneralInterruptRegi
 
 #define AVR_PIN_CHANGE_TRAITS_IMPL(PortName, Id)                                        \
 template<>                                                                              \
-constexpr inline RegisterAddress8 PinChangeTraits<PortName>::getPinChangeMaskRegister() \
+inline RegisterAddress8 PinChangeTraits<PortName>::getPinChangeMaskRegister()           \
 {                                                                                       \
-    return RegisterAddress8(&PCMSK##Id);                                                \
+    return reinterpret_cast<RegisterAddress8>(&PCMSK##Id);                              \
 }                                                                                       \
 template<>                                                                              \
-constexpr inline byte PinChangeTraits<PortName>::getPinChangeEnableMask()               \
+inline byte PinChangeTraits<PortName>::getPinChangeEnableMask()                         \
 {                                                                                       \
     return 1 << (PCIE0 + Id);                                                           \
 }
