@@ -1,9 +1,6 @@
-project(cake CXX)
-
-add_library(cake "")
+target(cake)
 
 target_sources(cake
-PUBLIC
     cake.cpp
     cake.h
     cake_Defs.h
@@ -67,14 +64,9 @@ PUBLIC
     io/cake_Spi.h
 )
 
-target_include_directories(cake
-PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-target_compile_definitions(cake
-PUBLIC
+target_defs(cake
     AVR_CAKE=1
-
-PRIVATE
     AVR_BREAK_ON_ASSERT=1
 )
+
+build_static_library(cake)
