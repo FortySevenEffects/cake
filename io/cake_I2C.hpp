@@ -69,12 +69,12 @@ inline void I2C::sendStop()
 
 // -----------------------------------------------------------------------------
 
-inline void I2C::writeHeader(bool inWriteMode)
+inline void I2C::writeHeader(bool /*inWriteMode*/)
 {
 
 }
 
-inline void I2C::write(byte inData)
+inline void I2C::write(byte /*inData*/)
 {
 }
 

@@ -1,8 +1,6 @@
-
 target(cake)
 
-append(cake_SOURCES
-
+target_sources(cake
     cake.cpp
     cake.h
     cake_Defs.h
@@ -66,9 +64,9 @@ append(cake_SOURCES
     io/cake_Spi.h
 )
 
-append(cake_DEFS
+target_defs(cake
     AVR_CAKE=1
     AVR_BREAK_ON_ASSERT=1
 )
 
-build_avr_library(cake)
+build_static_library(cake)

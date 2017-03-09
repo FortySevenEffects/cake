@@ -20,7 +20,7 @@ inline void Adc::setReference(AnalogReference inReference)
     static const byte shift = 6;
 
     const byte admux = ADMUX & ~mask;
-    ADMUX = admux | (inReference << shift) & mask;
+    ADMUX = admux | ((inReference << shift) & mask);
 }
 
 inline void Adc::setPrescaler(Prescaler inPrescaler)

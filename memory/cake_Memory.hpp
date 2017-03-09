@@ -67,34 +67,34 @@ END_CAKE_NAMESPACE
 
 #if CAKE_DYNAMIC_MEMORY && defined(__cplusplus)
 
-inline void* operator new(size_t size)
+inline void* operator new(size_t inSize)
 {
-    return malloc(size);
+    return malloc(inSize);
 }
 
-inline void* operator new(size_t size_,void *ptr_)
+inline void* operator new(size_t /*inSize*/, void* inPointer)
 {
-    return ptr_;
+    return inPointer;
 }
 
-inline void* operator new[](size_t size)
+inline void* operator new[](size_t inSize)
 {
-    return malloc(size);
+    return malloc(inSize);
 }
 
-void operator delete(void* ptr)
+void operator delete(void* inPointer)
 {
-    if (ptr != 0)
+    if (inPointer != nullptr)
     {
-        free(ptr);
+        free(inPointer);
     }
 }
 
-void operator delete[](void* ptr)
+void operator delete[](void* inPointer)
 {
-    if (ptr != 0)
+    if (inPointer != nullptr)
     {
-        free(ptr);
+        free(inPointer);
     }
 }
 
