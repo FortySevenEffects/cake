@@ -31,19 +31,12 @@
 
 // -----------------------------------------------------------------------------
 
-BEGIN_CAKE_NAMESPACE
-
-template<bool Predicate> struct StaticAssert;
-template<> struct StaticAssert<true> { static void ok() {} };
-
-END_CAKE_NAMESPACE
-
 #define AVR_ASSERT(Predicate, ...)      avr_assert(Predicate)
 #define AVR_ASSERT_FALSE(...)           avr_assert(false)
-#define AVR_STATIC_ASSERT(Predicate)    cake::StaticAssert<Predicate>::ok()
+#define AVR_STATIC_ASSERT(Predicate)    static_assert(Predicate, "")
 
 #define AVR_IMPLEMENT_ME(...)                                                   \
 {                                                                               \
     static const bool ImplementMe = false;                                      \
-    assert(ImplementMe);                                                        \
+    AVR_ASSERT(ImplementMe);                                                    \
 }

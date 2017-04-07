@@ -9,7 +9,7 @@ inline void Debug::print(char inChar)
 
 inline void Debug::print(const char* inString)
 {
-    if (inString != 0 && mPrintCallback != 0)
+    if (inString != nullptr && mPrintCallback != nullptr)
     {
         do
         {

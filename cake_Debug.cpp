@@ -2,6 +2,6 @@
 
 BEGIN_CAKE_NAMESPACE
 
-Debug::PrintCallback Debug::mPrintCallback = 0;
+Debug::PrintCallback Debug::mPrintCallback = nullptr;
 
 END_CAKE_NAMESPACE
