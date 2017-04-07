@@ -246,8 +246,12 @@ AVR_TIMER_TRAITS_IMPL(3, 8 * sizeof(TCNT3))
 #endif
 
 #ifdef TCNT4
-typedef Timer<4, 8 * sizeof(TCNT4)> Timer4;
-AVR_TIMER_TRAITS_IMPL(4, 8 * sizeof(TCNT4))
+    #ifdef __AVR_ATmega32U4__
+        #warning "This target has a 10 bit timer, which is not currently supported."
+    #else
+        typedef Timer<4, 8 * sizeof(TCNT4)> Timer4;
+        AVR_TIMER_TRAITS_IMPL(4, 8 * sizeof(TCNT4))
+    #endif
 #endif
 
 #ifdef TCNT5
